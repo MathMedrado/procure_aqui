@@ -1,0 +1,33 @@
+import 'package:flutter/material.dart';
+
+class inputField extends StatelessWidget {
+  const inputField({ required this.inputText, super.key});
+
+  final String inputText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: double.infinity,
+          margin: EdgeInsets.fromLTRB(33, 0, 0, 5),
+          child: Text(inputText)
+        ),
+        Container(
+          height: 50,
+          width: 350,
+          margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+          child: TextField(
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4)
+              )
+            ),
+          ),
+        )
+
+      ],
+    );
+  }
+}

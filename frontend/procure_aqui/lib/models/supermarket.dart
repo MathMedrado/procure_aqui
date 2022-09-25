@@ -15,5 +15,4 @@ class Supermarket{
     required this.complement
   });
 
-
 }
