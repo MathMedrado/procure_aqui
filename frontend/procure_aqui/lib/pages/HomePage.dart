@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.all(50),
-                child: Text("Seja bem vindo ao aplicativo Compre Aqui, o seu app de ofertas e comparação de preços de supermercados da sua região ",
+                child: Text("Seja bem vindo ao aplicativo Procure Aqui, o seu app de ofertas e comparação de preços de supermercados da sua região ",
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.white

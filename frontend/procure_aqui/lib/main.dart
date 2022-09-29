@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:procure_aqui/components/UserFormPage.dart';
-import 'components/HomePage.dart';
-import 'components/LoginPage.dart';
-import 'components/ForgetPassword.dart';
+import 'package:procure_aqui/pages/UserFormPage.dart';
+import 'package:procure_aqui/route_generator.dart';
+import 'pages/HomePage.dart';
+import 'pages/LoginPage.dart';
+import 'pages/ForgetPasswordPage.dart';
 
 void main() {
   runApp(const ProcureAqui());
@@ -12,9 +13,9 @@ class ProcureAqui extends StatelessWidget {
   const ProcureAqui ({super.key});
 
   static const home = '/';
-  static const LoginPage = 'LoginPage';
-  static const ForgetPassword = 'ForgetPassword';
-  static const userForm = 'UserFormPage';
+  static const LoginPage = '/LoginPage';
+  static const ForgetPassword = '/ForgetPassword';
+  static const userForm = '/UserFormPage';
 
 
 
@@ -22,12 +23,8 @@ class ProcureAqui extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      routes: {
-        home:(context) => HomePage(),
-        LoginPage:(context) => Login(),
-        ForgetPassword:(context) => ForgetPasswordPage(),
-        userForm: (context)=> UserFormPage()
-      },
+      initialRoute: "/",
+      onGenerateRoute: routeGenerator.generateRoute,
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:procure_aqui/components/HomePage.dart';
+import 'package:procure_aqui/pages/HomePage.dart';
 import 'package:procure_aqui/main.dart';
 
 class Login extends StatefulWidget {
@@ -55,7 +55,7 @@ class _LoginState extends State<Login> {
               TextField(
                 controller: emailController,
                 decoration: InputDecoration(
-                  hintText: 'Digite o seu email',
+                  hintText: 'Digite a sua senha',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(4),
                   )
