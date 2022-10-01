@@ -90,7 +90,9 @@ class _LoginState extends State<Login> {
                         fontSize: 20
                       ),
                     ),
-                    onPressed: (){},
+                    onPressed: (){
+                      Navigator.of(context).pushNamed(ProcureAqui.userProfilePage);
+                    },
                     style: ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(Colors.white),
                       foregroundColor: MaterialStatePropertyAll(Colors.black),

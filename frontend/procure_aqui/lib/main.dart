@@ -4,6 +4,7 @@ import 'package:procure_aqui/route_generator.dart';
 import 'pages/HomePage.dart';
 import 'pages/LoginPage.dart';
 import 'pages/ForgetPasswordPage.dart';
+import 'pages/UserProfile.dart';
 
 void main() {
   runApp(const ProcureAqui());
@@ -16,6 +17,7 @@ class ProcureAqui extends StatelessWidget {
   static const LoginPage = '/LoginPage';
   static const ForgetPassword = '/ForgetPassword';
   static const userForm = '/UserFormPage';
+  static const userProfilePage = '/UserProfilePage';
 
 
 

@@ -18,7 +18,9 @@ class smallPurpleButton extends StatelessWidget {
                           fontSize: 18
                         ),
                       ),
-                      onPressed: (){},
+                      onPressed: (){
+                        
+                      },
                       style: ButtonStyle(
                               backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(98, 0, 238, 30.0)),
                               foregroundColor: MaterialStatePropertyAll(Colors.white),          

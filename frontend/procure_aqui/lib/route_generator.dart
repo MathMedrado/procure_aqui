@@ -3,6 +3,7 @@ import 'package:procure_aqui/pages/ForgetPasswordPage.dart';
 import 'package:procure_aqui/pages/HomePage.dart';
 import 'package:procure_aqui/pages/LoginPage.dart';
 import 'package:procure_aqui/pages/UserFormPage.dart';
+import 'package:procure_aqui/pages/UserProfile.dart';
 import 'main.dart';
 
 class routeGenerator{
@@ -18,6 +19,8 @@ class routeGenerator{
         return MaterialPageRoute(builder: (_) => ForgetPasswordPage() );
       case '/UserFormPage':
         return MaterialPageRoute(builder: (_) => UserFormPage() );
+      case '/UserProfilePage':
+        return MaterialPageRoute(builder: (_) => UserProfilePage() );
       default:
         return _errorRoute();
     }
