@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class userPhoto extends StatelessWidget {
   const userPhoto(this.name, {super.key});
 
-  final String name;
+  final String? name;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class userPhoto extends StatelessWidget {
         Container(
           margin: EdgeInsets.only(top: 20),
           child: Text(
-            name,
+            name!,
             style: TextStyle(
               fontSize: 22,
               color: Colors.white

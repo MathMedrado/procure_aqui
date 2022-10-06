@@ -55,7 +55,7 @@ class inputField extends StatelessWidget {
           height: 50,
           width: 350,
           margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
-          child: TextField(
+          child: TextFormField(
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4)

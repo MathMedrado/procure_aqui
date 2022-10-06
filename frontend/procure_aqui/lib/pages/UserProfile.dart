@@ -3,12 +3,14 @@ import 'package:procure_aqui/components/userPhoto.dart';
 import 'package:procure_aqui/components/userInformation.dart';
 import 'package:procure_aqui/components/userInformationInRow.dart';
 import 'package:procure_aqui/components/userInputButton.dart';
+import 'package:procure_aqui/models/user.dart';
 
 class UserProfilePage extends StatelessWidget {
-  const UserProfilePage ( {super.key});
+  const UserProfilePage  (this.user, {super.key});
 
-  final String username = 'Ariana Grande da Silva';
-  final String emailInformation = 'Email: ';
+  final User user;
+  final String? username = user.getEmail;
+  final String? emailInformation = 'Email: ';
   final String email = 'Arianagrande@gmail.com';
   final String dateInformation = 'Data de nascimento: ';
   final String date = '23/06/2001';
@@ -36,7 +38,7 @@ class UserProfilePage extends StatelessWidget {
               color: Color(0xFF3700B3),
               child: Column(
                 children: [
-                  userPhoto(username)   
+                  userPhoto(user.getUsername)   
                 ],
               ),
             ),

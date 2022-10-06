@@ -11,8 +11,16 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
-  //final passwordController = TextEditingController();
+  _submitLogin(){
+    final email = emailController.text;
+    final password = passwordController.text;
+
+    print(email);
+    print(password);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +61,7 @@ class _LoginState extends State<Login> {
             ),
             child: 
               TextField(
-                controller: emailController,
+                controller: passwordController,
                 decoration: InputDecoration(
                   hintText: 'Digite a sua senha',
                   border: OutlineInputBorder(
@@ -91,7 +99,9 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                     onPressed: (){
-                      Navigator.of(context).pushNamed(ProcureAqui.userProfilePage);
+                      // _submitLogin();
+                      // Navigator.of(context).pushNamed(ProcureAqui.userProfilePage);
+                      Navigator.of(context).pushNamed('/newUserForm');
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(Colors.white),

@@ -4,6 +4,8 @@ import 'package:procure_aqui/pages/HomePage.dart';
 import 'package:procure_aqui/pages/LoginPage.dart';
 import 'package:procure_aqui/pages/UserFormPage.dart';
 import 'package:procure_aqui/pages/UserProfile.dart';
+import 'package:procure_aqui/pages/newUserFormPage.dart';
+
 import 'main.dart';
 
 class routeGenerator{
@@ -21,6 +23,8 @@ class routeGenerator{
         return MaterialPageRoute(builder: (_) => UserFormPage() );
       case '/UserProfilePage':
         return MaterialPageRoute(builder: (_) => UserProfilePage() );
+      case '/newUserForm':
+        return MaterialPageRoute(builder: (_) => newUserFormPage() );
       default:
         return _errorRoute();
     }
