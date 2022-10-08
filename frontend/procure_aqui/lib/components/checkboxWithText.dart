@@ -17,7 +17,8 @@ class checkboxWithText extends StatelessWidget {
                     value: checkState, 
                     onChanged: (checkStage){
                       func(checkState);
-                    }
+                    },
+                    
                   ),
                 ),
                 Text(

@@ -5,6 +5,7 @@ import 'package:procure_aqui/pages/LoginPage.dart';
 import 'package:procure_aqui/pages/UserFormPage.dart';
 import 'package:procure_aqui/pages/UserProfile.dart';
 import 'package:procure_aqui/pages/newUserFormPage.dart';
+import 'models/user.dart';
 
 import 'main.dart';
 
@@ -22,7 +23,12 @@ class routeGenerator{
       case '/UserFormPage':
         return MaterialPageRoute(builder: (_) => UserFormPage() );
       case '/UserProfilePage':
-        return MaterialPageRoute(builder: (_) => UserProfilePage() );
+        if(args is User){
+          return MaterialPageRoute(
+            builder: (_) => UserProfilePage(user: args)
+          );
+        }
+        return _errorRoute();
       case '/newUserForm':
         return MaterialPageRoute(builder: (_) => newUserFormPage() );
       default:

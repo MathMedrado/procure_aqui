@@ -25,6 +25,7 @@ class smallDropDown extends StatelessWidget {
           ],
           // value: _sexDropDownValue,
           // onChanged: sexDropDownHandler,
+          validator: (value) => value == null ? 'Campo obrigatório' : null ,
           value: sexVar,
           onChanged: func,
           iconSize: 30,

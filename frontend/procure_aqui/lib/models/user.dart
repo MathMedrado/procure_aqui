@@ -24,8 +24,28 @@ class User{
     return username;
   }
 
-    String? get getEmail{
+  String? get getEmail{
     return email;
+  }
+
+  String? get getPassword{
+    return password;
+  }
+
+  String? get getSex{
+    return sex;
+  }
+
+  String? get getCity{
+    return city;
+  }
+
+  String? get getState{
+    return state;
+  }
+ 
+  DateTime? get getBirthDate{
+    return birthDate;
   }
 
 }

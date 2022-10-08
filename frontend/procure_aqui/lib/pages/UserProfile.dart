@@ -4,13 +4,16 @@ import 'package:procure_aqui/components/userInformation.dart';
 import 'package:procure_aqui/components/userInformationInRow.dart';
 import 'package:procure_aqui/components/userInputButton.dart';
 import 'package:procure_aqui/models/user.dart';
+import 'package:intl/intl.dart';
+
+
 
 class UserProfilePage extends StatelessWidget {
-  const UserProfilePage  (this.user, {super.key});
+  const UserProfilePage  ( { required this.user , super.key});
 
   final User user;
-  final String? username = user.getEmail;
-  final String? emailInformation = 'Email: ';
+  // final String? username = user.getEmail;
+  final String emailInformation = 'Email: ';
   final String email = 'Arianagrande@gmail.com';
   final String dateInformation = 'Data de nascimento: ';
   final String date = '23/06/2001';
@@ -42,13 +45,13 @@ class UserProfilePage extends StatelessWidget {
                 ],
               ),
             ),
-            UserInformation(email, emailInformation),
-            UserInformation(date, dateInformation),
-            UserInformation(sex, sexInformation),
+            UserInformation(user.getEmail, emailInformation),
+            UserInformation(DateFormat('d/MM/y').format(user.getBirthDate as DateTime), dateInformation),
+            UserInformation(user.getSex, sexInformation),
             Row(
               children: [
-                userInformationInRow(cityInformation, city),
-                userInformationInRow(stateInformation, state),
+                userInformationInRow(cityInformation, user.getCity),
+                userInformationInRow(stateInformation, user.getState),
               ],
             ),
             userInputButton(Color(0xFF7B61FF), 'Atualizar Dados'),

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class UserInformation extends StatelessWidget {
   const UserInformation(this.userdata, this.information, {super.key});
 
-  final String userdata;
-  final String information;
+  final String? userdata;
+  final String? information;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class UserInformation extends StatelessWidget {
                 width: double.infinity,
                 margin: EdgeInsets.fromLTRB(20, 20, 0, 0),
                 child: Text(
-                  information,
+                  information!,
                   style: TextStyle(
                     fontSize: 22,
                     color: Color(0xFF402424)
@@ -25,7 +25,7 @@ class UserInformation extends StatelessWidget {
                 width: double.infinity,
                 margin: EdgeInsets.fromLTRB(20, 10, 0, 0),
                 child: Text(
-                  userdata,
+                  userdata!,
                   style: TextStyle(
                     fontSize: 18
                   ),

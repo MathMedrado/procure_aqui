@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class userInformationInRow extends StatelessWidget {
   const userInformationInRow( this.information, this.userdata, {super.key});
 
-  final String information;
-  final String userdata;
+  final String? information;
+  final String? userdata;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class userInformationInRow extends StatelessWidget {
               Container(
                 margin: EdgeInsets.fromLTRB(20, 20, 25, 0),
                 child: Text(
-                  information,
+                  information!,
                   style: TextStyle(
                     fontSize: 22,
                     color: Color(0xFF402424)
@@ -24,7 +24,7 @@ class userInformationInRow extends StatelessWidget {
               Container(
                 margin: EdgeInsets.fromLTRB(20, 10, 25, 0),
                 child: Text(
-                  userdata,
+                  userdata!,
                   style: TextStyle(
                     fontSize: 18
                   ),

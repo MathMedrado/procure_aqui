@@ -28,6 +28,7 @@ class _UserFormPageState extends State<UserFormPage> {
   DateTime? _dateTime;
   bool? _isChecked1 = false;
   bool? _isChecked2 = false;
+  String? password2ConfirmValue;
 
 
 
@@ -59,6 +60,7 @@ class _UserFormPageState extends State<UserFormPage> {
   void createAndShowDataPicker(BuildContext context){
     showDatePicker(
       context: context, 
+
       initialDate: DateTime.now(), 
       firstDate: DateTime(2001), 
       lastDate: DateTime(2099)
@@ -105,6 +107,9 @@ class _UserFormPageState extends State<UserFormPage> {
             validator: (String? value){
               if(value!.isEmpty){
                 return 'Name is Required';
+              }
+              else if( value.length <  4 ){
+                return 'O nome precisa conter pelo menos 3 carcteres';
               }
             },
             onSaved: (String? value){
@@ -165,14 +170,18 @@ class _UserFormPageState extends State<UserFormPage> {
           width: 350,
           margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
           child: TextFormField(
+            obscureText: true,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4)
               )
             ),
             validator: (String? value){
+              password2ConfirmValue = value;
               if(value!.isEmpty){
                 return 'Password is Required';
+              }else if(value.length < 10){
+                return 'A sua Senha precisa conter no minimo 10 caracteres';
               }
             },
             onSaved: (String? value){
@@ -199,6 +208,7 @@ class _UserFormPageState extends State<UserFormPage> {
           width: 350,
           margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
           child: TextFormField(
+            obscureText: true,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4)
@@ -206,7 +216,11 @@ class _UserFormPageState extends State<UserFormPage> {
             ),
             validator: (String? value){
               if(value!.isEmpty){
-                return 'Password is Required';
+                return 'É necessário informar a sua senha novamente';
+              }else if (value.length <10 ){
+                return 'A sua Senha precisa conter no minimo 10 caracteres';
+              }else if (value != password2ConfirmValue){
+                return 'As duas senhas precisam ser iguais!';
               }
             },
             onSaved: (String? value){
@@ -239,6 +253,7 @@ class _UserFormPageState extends State<UserFormPage> {
           ],
           // value: _sexDropDownValue,
           // onChanged: sexDropDownHandler,
+          validator: (value) => value == null ? 'Campo obrigatório' : null ,
           value: _cityValue,
           onChanged: (_cityValue){
             cityDropDownHandler(_cityValue);
@@ -281,6 +296,7 @@ Widget _buildStateField(){
           onChanged: (_stateValue){
             stateDropDownHandler(_stateValue);
           },
+          validator: (value) => value == null ? 'Campo obrigatório' : null ,
           iconSize: 30,
           isExpanded: true,
           decoration: const InputDecoration(
@@ -310,22 +326,22 @@ Widget _buildStateField(){
                     fontSize: 18
                   ),
                 ),
-                onPressed: (){
+                onPressed: _isChecked1 == true && _isChecked2 ==true? (){
                   if(!_formKey.currentState!.validate()){
                   return;
                 }
                   _formKey.currentState!.save();
-                  print(_username );
-                  print(_email );
-                  print(_password1 );
-                  print(_password2 );
+                  // print(_username );
+                  // print(_email );
+                  // print(_password1 );
+                  // print(_password2 );
                   print(_dateTime );
                   print(_sexDropDownValue );
                   print(_city);
                   print(_state);
                   User user1 = User(id: 1, username:  _username, email: _email, password: _password1, city: _city, birthDate: _dateTime, sex: _sexDropDownValue, state: _state);
-                  print(user1.username);
-                },
+                  Navigator.of(context).pushNamed('/UserProfilePage', arguments: user1);
+                } : null,
                 style: ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(98, 0, 238, 30.0)),
                         foregroundColor: MaterialStatePropertyAll(Colors.white),          
@@ -382,12 +398,6 @@ Widget _buildStateField(){
                       onChanged: (_isChecked1){
                         setCheckBox1(_isChecked1);
                       },
-                      // onChanged: (bool? value){
-                      //   setState(() {
-                      //     _isChecked1 = value;
-                      //     print(_isChecked1);
-                      //   });
-                      // }
                     ),
                   ),
                   Text(
