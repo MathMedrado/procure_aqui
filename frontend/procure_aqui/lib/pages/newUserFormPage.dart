@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:procure_aqui/pages/appHome.dart';
+
 
 class newUserFormPage extends StatefulWidget {
   const newUserFormPage({super.key});
@@ -61,9 +63,7 @@ class _newUserFormPageState extends State<newUserFormPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Cadastro'),),
-      body: Container(
+    return Container(
         margin: EdgeInsets.all(24),
         child: Form(
           key: _formKey,
@@ -87,7 +87,6 @@ class _newUserFormPageState extends State<newUserFormPage> {
             ],
           )
         ),
-      ),
-    );
+      );
   }
 }

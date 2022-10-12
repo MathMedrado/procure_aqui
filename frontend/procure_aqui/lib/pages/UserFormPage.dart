@@ -335,10 +335,10 @@ Widget _buildStateField(){
                   // print(_email );
                   // print(_password1 );
                   // print(_password2 );
-                  print(_dateTime );
-                  print(_sexDropDownValue );
-                  print(_city);
-                  print(_state);
+                  // print(_dateTime );
+                  // print(_sexDropDownValue );
+                  // print(_city);
+                  // print(_state);
                   User user1 = User(id: 1, username:  _username, email: _email, password: _password1, city: _city, birthDate: _dateTime, sex: _sexDropDownValue, state: _state);
                   Navigator.of(context).pushNamed('/UserProfilePage', arguments: user1);
                 } : null,

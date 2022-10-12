@@ -62,6 +62,7 @@ class _LoginState extends State<Login> {
             child: 
               TextField(
                 controller: passwordController,
+                obscureText: true,
                 decoration: InputDecoration(
                   hintText: 'Digite a sua senha',
                   border: OutlineInputBorder(
@@ -101,7 +102,7 @@ class _LoginState extends State<Login> {
                     onPressed: (){
                       // _submitLogin();
                       // Navigator.of(context).pushNamed(ProcureAqui.userProfilePage);
-                      Navigator.of(context).pushNamed('/newUserForm');
+                      Navigator.of(context).pushNamed('/AppHome');
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(Colors.white),
