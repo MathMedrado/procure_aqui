@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:procure_aqui/models/user.dart';
+
 
 class userInputButton extends StatelessWidget {
-  const userInputButton(this.buttonColor, this.buttonText, {super.key});
+  const userInputButton(this.buttonColor, this.buttonText, this.func, {super.key});
 
   final Color? buttonColor;
   final String buttonText;
+  final void Function() func;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,7 @@ class userInputButton extends StatelessWidget {
               style: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll(buttonColor),
               ),
-              onPressed: (){},
+              onPressed: func,
             ),
           );
   }

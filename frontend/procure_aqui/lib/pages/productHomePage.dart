@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:procure_aqui/models/supermarket.dart';
 
 class productHomePage extends StatefulWidget {
   const productHomePage({super.key});
@@ -11,6 +12,8 @@ class productHomePage extends StatefulWidget {
 
 class _productHomePageState extends State<productHomePage> {
 
+  String? supermarketValue;
+
   Widget _buildPopUpCard(){
     return Center(
       child: Card(
@@ -18,7 +21,6 @@ class _productHomePageState extends State<productHomePage> {
         child: Container(
           width: 368,
           height: 265,
-          color: Colors.green,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -37,6 +39,60 @@ class _productHomePageState extends State<productHomePage> {
                   'Supermercado*',
                   textAlign: TextAlign.start,
                 ),
+              ),
+              Container(
+                width: 320,
+                height: 40,
+                margin: EdgeInsets.only(left: 22, top: 20),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  border: Border.all(color: Colors.grey)
+                ),
+                child: Container( // COloca a porra de um container no meio dos dropdown items para que eles não bugem.
+                  margin: EdgeInsets.only(left: 10),
+                  child: DropdownButton(
+                    items: [
+                      DropdownMenuItem(child: Text('Mercafrutas'), value: "Mercafrutas"),
+                      DropdownMenuItem(child: Text('Betel'), value: "Betel"),
+                      DropdownMenuItem(child: Text('Comperfrutas'), value: "Comperfrutas"),
+                    ],
+                    isExpanded: true,
+                    elevation: 5,
+                    underline: Container( color: Colors.white),
+                    iconSize: 40,
+                    value: supermarketValue,
+                    onChanged: (supermarket) {
+                      if (supermarket is String){
+                        setState(() {
+                          supermarketValue = supermarket;
+                          print(supermarketValue);
+                        });
+                      }
+                    }
+                  ),
+                ),
+              ),
+              Container(
+                width: 320,
+                height: 40,
+                margin: EdgeInsets.only(left: 22, top: 20),
+                child: 
+                  ElevatedButton(
+                    child:  Text(
+                      'Selecionar',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white
+                      ),
+                    ),
+                    onPressed: (){
+                      Navigator.of(context).pop();
+                    },
+                    style: ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(98, 0, 238, 30.0)),
+                            foregroundColor: MaterialStatePropertyAll(Colors.white),          
+                            ),
+                  ),
               )
             ]
           ),
@@ -46,8 +102,30 @@ class _productHomePageState extends State<productHomePage> {
     );
   }
 
+  Future<void> _dialogBuilder(BuildContext context){
+    return showDialog(
+      context: context, 
+      builder: (BuildContext context) {
+        return _buildPopUpCard();
+      }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return _buildPopUpCard();
+    return ElevatedButton(
+                  child:  Text(
+                    'Selecionar',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white
+                    ),
+                  ),
+                  onPressed: () => _dialogBuilder(context),
+                  style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(98, 0, 238, 30.0)),
+                          foregroundColor: MaterialStatePropertyAll(Colors.white),          
+                          ),
+                );
   }
 }
