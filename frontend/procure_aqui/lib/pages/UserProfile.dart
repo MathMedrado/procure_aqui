@@ -92,8 +92,12 @@ class UserProfilePage extends StatelessWidget {
                 userInformationInRow(stateInformation, user.getState),
               ],
             ),
-            userInputButton(Color(0xFF7B61FF), 'Atualizar Dados', (){}),
-            userInputButton(Color(0xFFadd8e6), 'Sair da conta', (){}),
+            userInputButton(Color(0xFF7B61FF), 'Atualizar Dados', (){
+                            Navigator.of(context).pushNamed('/UserEditProfile');
+            }),
+            userInputButton(Color(0xFFadd8e6), 'Sair da conta', (){
+              Navigator.of(context).pushNamed('/UserEditProfile');
+            }),
             userInputButton(Color(0xFFE70101), 'Exclusão da conta', (){
               Navigator.of(context).pushNamed('/UserProfileExclusion', arguments:  user);
             }),

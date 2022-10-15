@@ -4,9 +4,11 @@ import 'package:procure_aqui/pages/HomePage.dart';
 import 'package:procure_aqui/pages/LoginPage.dart';
 import 'package:procure_aqui/pages/UserFormPage.dart';
 import 'package:procure_aqui/pages/UserProfile.dart';
-import 'package:procure_aqui/pages/UserProfileExlusion.dart';
+import 'package:procure_aqui/pages/UserProfileExclusion.dart';
 import 'package:procure_aqui/pages/newUserFormPage.dart';
+import 'package:procure_aqui/pages/userEditProfile.dart';
 import 'package:procure_aqui/pages/appHome.dart';
+import 'package:procure_aqui/pages/userEditProfile.dart';
 import 'models/user.dart';
 
 import 'main.dart';
@@ -40,6 +42,8 @@ class routeGenerator{
             );
         }
         return _errorRoute();
+      case '/UserEditProfile':
+        return MaterialPageRoute( builder: (_) => UserEditProfile());
       default:
         return _errorRoute();
     }

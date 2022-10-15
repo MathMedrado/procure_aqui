@@ -8,7 +8,7 @@ class smallPurpleButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
             width: 148,
-            height: 40,
+            height: 50,
             margin: EdgeInsets.only(left: 30, top: 20),
             child: 
               ElevatedButton(

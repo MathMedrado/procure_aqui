@@ -114,7 +114,7 @@ class _productHomePageState extends State<productHomePage> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-                  child:  Text(
+                  child: Text(
                     'Selecionar',
                     style: TextStyle(
                       fontSize: 18,
