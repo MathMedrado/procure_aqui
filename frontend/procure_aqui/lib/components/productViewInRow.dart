@@ -75,7 +75,7 @@ class ProductViewInRow extends StatelessWidget {
                           'Ver detalhes'
                         ),
                         onPressed: (){
-                          
+                          Navigator.of(context).pushNamed('/ProductDetailPage');
                         },
                       ),
                     )
@@ -142,7 +142,7 @@ class ProductViewInRow extends StatelessWidget {
                           'Ver detalhes'
                         ),
                         onPressed: (){
-                          
+                          Navigator.of(context).pushNamed('/ProductDetailPage', arguments: product);
                         },
                       ),
                     )
