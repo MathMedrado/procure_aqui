@@ -26,13 +26,13 @@ class _AppHomeState extends State<AppHome> {
 
   final screens = [
     productHomePage(),
-    newUserFormPage(),
     tutorialPage(),
+    newUserFormPage(),
     UserProfilePage(user: User(id: 1, username: 'matheus', email: 'matheus-13-@hotmail.com', birthDate:DateTime.now(),  city: 'Rialma', sex: 'Masculino', password: '1234567891', state: 'Goiás' ))
   ];
 
   final appBar = [
-    AppBar(title: Text('Home'), backgroundColor: Color(0xFF3700B3),),
+    AppBarSearchFeature(),
     AppBarSearchFeature(),
     AppBar(title: Text('Lista de compras'), backgroundColor: Color(0xFF3700B3)),
     AppBar(title: Text('Perfil do Usuario'), backgroundColor: Color(0xFF3700B3)),

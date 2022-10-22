@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:procure_aqui/models/supermarket.dart';
+import 'package:procure_aqui/models/product.dart';
+import 'package:procure_aqui/components/productViewInRow.dart';
 
 class productHomePage extends StatefulWidget {
   const productHomePage({super.key});
@@ -13,6 +15,11 @@ class productHomePage extends StatefulWidget {
 class _productHomePageState extends State<productHomePage> {
 
   String? supermarketValue;
+  Product product = Product(id: 1, nameProduct: 'Ervilha De Campinas', barCode: 5689254895486589, categoryId: 1, imageUrl: 'lib/assets/images/bolo.jpeg', creationDate: DateTime.now(), isVisible: true, actualPrice: 5.0);
+  Product product2 = Product(id: 1, nameProduct: 'Ervilha da Coreia', barCode: 5689254895486589, categoryId: 1, imageUrl: 'lib/assets/images/bolo.jpeg', creationDate: DateTime.now(), isVisible: true, actualPrice: 5.0);
+  Product product3 = Product(id: 1, nameProduct: 'Ervilha do Japão, China, Chile e Uruaia', barCode: 5689254895486589, categoryId: 1, imageUrl: 'lib/assets/images/bolo.jpeg', creationDate: DateTime.now(), isVisible: true, actualPrice: 5.0);
+
+
 
   Widget _buildPopUpCard(){
     return Center(
@@ -113,19 +120,38 @@ class _productHomePageState extends State<productHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-                  child: Text(
-                    'Selecionar',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white
-                    ),
-                  ),
-                  onPressed: () => _dialogBuilder(context),
-                  style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(98, 0, 238, 30.0)),
-                          foregroundColor: MaterialStatePropertyAll(Colors.white),          
-                          ),
-                );
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: 30, left: 25),
+            child: const Text(
+              'Ultimos produtos Cadastrados',
+              style: TextStyle(
+                fontSize: 22,
+              ),
+            ),
+          ),
+          ProductViewInRow(product: product),
+          ProductViewInRow(product: product2),
+          ProductViewInRow(product: product3),
+        ],
+      ),
+    );
   }
 }
+
+// ElevatedButton( Botão que cria o popup
+//                   child: Text(
+//                     'Selecionar',
+//                     style: TextStyle(
+//                       fontSize: 18,
+//                       color: Colors.white
+//                     ),
+//                   ),
+//                   onPressed: () => _dialogBuilder(context),
+//                   style: ButtonStyle(
+//                           backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(98, 0, 238, 30.0)),
+//                           foregroundColor: MaterialStatePropertyAll(Colors.white),          
+//                           ),
+//                 );

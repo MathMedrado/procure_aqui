@@ -18,4 +18,39 @@ class Product{
     required this.isVisible,
     required this.actualPrice
   });
+
+
+  int get getId{
+    return id;
+  }
+
+  String get getNameProduct{
+    return nameProduct;
+  }
+
+  int get getBarCode{
+    return id;
+  }  
+  
+  int get getCategoryId{
+    return id;
+  }
+
+  String get getImageUrl{
+    return imageUrl;
+  }
+
+  DateTime get getCreationDate{
+    return creationDate;
+  }
+
+  bool get getIsVisible{
+    return isVisible;
+  }
+
+  double get getActualPrice{
+    return actualPrice;
+  }
+
+
 }
