@@ -16,10 +16,17 @@ class productComparationPage extends StatelessWidget {
         backgroundColor:  Color(0xFF3700B3),
         title: Text('Lista de produtos'),
       ),
-      body: Column(
-        children: [
-          comparationProductCard(product: product)
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            comparationProductCard(product: product),
+            comparationProductCard(product: product),
+            comparationProductCard(product: product),
+            comparationProductCard(product: product),
+            comparationProductCard(product: product),
+            comparationProductCard(product: product)
+          ],
+        ),
       )
     );
   }

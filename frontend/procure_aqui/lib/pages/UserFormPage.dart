@@ -433,7 +433,7 @@ Widget _buildStateField(){
               Row(
                 children: [
                   _buildButton(),
-                  smallPurpleButton('Cancelar')
+                  smallPurpleButton('Cancelar', func: () {  },)
                 ],
               ),
             ],

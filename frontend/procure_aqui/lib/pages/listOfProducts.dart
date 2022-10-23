@@ -19,11 +19,12 @@ class listOfProducts extends StatelessWidget {
           listOfProductcard(),
           listOfProductcard(),
           listOfProductcard(),
-          userInputButton(Colors.blue, 'Limpar Lista', (){}),
+          userInputButton(Colors.blue, 'Limpar Lista', (){
+            Navigator.of(context).pushNamed('/productEditPage');
+          }),
           userInputButton(Color(0xFF7B61FF), 'Comparar lista', (){
             Navigator.of(context).pushNamed('/productComparationPage');
           })
-
         ],
       ),
     );
