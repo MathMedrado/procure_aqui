@@ -135,6 +135,10 @@ class _productHomePageState extends State<productHomePage> {
           ProductViewInRow(product: product),
           ProductViewInRow(product: product2),
           ProductViewInRow(product: product3),
+
+          Container(
+            margin: EdgeInsets.only(bottom: 20),
+          )
         ],
       ),
     );

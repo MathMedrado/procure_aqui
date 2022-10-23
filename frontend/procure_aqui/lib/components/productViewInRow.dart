@@ -27,22 +27,24 @@ class ProductViewInRow extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: 120),
+                      margin: EdgeInsets.only(left: 140),
                       child: IconButton(
                         icon: Icon(Icons.add) ,
                         onPressed: (){}
                       ),
                     ),
-                    Container(
-                      width: 146,
-                      height: 106,
-                      child: Image.asset(
-                        product.getImageUrl,
-                        //'lib/assets/images/bolo.jpeg'
+                    Center(
+                      child: Container(
+                        width: 146,
+                        height: 106,
+                        child: Image.asset(
+                          product.getImageUrl,
+                          //'lib/assets/images/bolo.jpeg'
+                        ),
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 10, top: 5),
+                      margin: EdgeInsets.only(left: 20, top: 5),
                       child: Text(
                         product.getNameProduct,
                         style: TextStyle(
@@ -51,7 +53,7 @@ class ProductViewInRow extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only( left: 10, top: 5),
+                      margin: EdgeInsets.only( left: 20, top: 5),
                       child: Text(
                         'R\$ ${product.getActualPrice.toString()}',
                         style: TextStyle(
@@ -69,13 +71,13 @@ class ProductViewInRow extends StatelessWidget {
                       ),
                       child: ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(Colors.purple),
+                          backgroundColor: MaterialStatePropertyAll(Color(0xFF3700B3)),
                         ),
                         child: Text(
                           'Ver detalhes'
                         ),
                         onPressed: (){
-                          Navigator.of(context).pushNamed('/ProductDetailPage');
+                          Navigator.of(context).pushNamed('/ProductDetailPage',arguments: product);
                         },
                       ),
                     )
@@ -95,21 +97,23 @@ class ProductViewInRow extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: 120),
+                      margin: EdgeInsets.only(left: 140),
                       child: IconButton(
                         icon: Icon(Icons.add) ,
                         onPressed: (){}
                       ),
                     ),
-                    Container(
-                      width: 146,
-                      height: 106,
-                      child: Image.asset(
-                        product.getImageUrl,
+                    Center(
+                      child: Container(
+                        width: 146,
+                        height: 106,
+                        child: Image.asset(
+                          product.getImageUrl,
+                        ),
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 10, top: 5),
+                      margin: EdgeInsets.only(left: 20, top: 5),
                       child: Text(
                         product.getNameProduct,
                         style: TextStyle(
@@ -118,7 +122,7 @@ class ProductViewInRow extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only( left: 10, top: 5),
+                      margin: EdgeInsets.only( left: 20, top: 5),
                       child: Text(
                         'R\$ ${product.getActualPrice.toString()}',
                         style: TextStyle(
@@ -136,7 +140,7 @@ class ProductViewInRow extends StatelessWidget {
                       ),
                       child: ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(Colors.purple),
+                          backgroundColor: MaterialStatePropertyAll(Color(0xFF3700B3)),
                         ),
                         child: Text(
                           'Ver detalhes'

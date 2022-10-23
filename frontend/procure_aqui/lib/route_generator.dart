@@ -7,6 +7,7 @@ import 'package:procure_aqui/pages/UserFormPage.dart';
 import 'package:procure_aqui/pages/UserProfile.dart';
 import 'package:procure_aqui/pages/UserProfileExclusion.dart';
 import 'package:procure_aqui/pages/newUserFormPage.dart';
+import 'package:procure_aqui/pages/productComparationPage.dart';
 import 'package:procure_aqui/pages/productDetail.dart';
 import 'package:procure_aqui/pages/userEditProfile.dart';
 import 'package:procure_aqui/pages/appHome.dart';
@@ -51,6 +52,8 @@ class routeGenerator{
           return MaterialPageRoute(builder: (_) => ProductDetailPage(product: args));
         }
         return _errorRoute();
+      case '/productComparationPage':
+              return MaterialPageRoute(builder: (_) => productComparationPage() );
       default:
         return _errorRoute();
     }
