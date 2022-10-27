@@ -1,10 +1,37 @@
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:procure_aqui/main.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String? barCode;
+
+  Future <void> _startScan() async {
+    String barcodeScanRes; 
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode("#ff6666", 'Click Me', false, ScanMode.BARCODE);
+      print('Funcionou ${barCode}');
+    } on PlatformException {
+      barcodeScanRes = 'Fail';
+      print('não funcionou');
+
+    }
+    setState(() {
+      barCode = barcodeScanRes;
+      print(barCode);
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +89,7 @@ class HomePage extends StatelessWidget {
               ),
               TextButton(
                 onPressed: (){
+                  _startScan();
                 },
                 child: Text(
                   'Entrar sem cadastro',

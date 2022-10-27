@@ -317,7 +317,7 @@ Widget _buildStateField(){
                 child: Row(
                   children: [
                     _buildButton(),
-                    smallPurpleButton('Cancelar', func: () {  },)
+                    smallPurpleButton('Cancelar', func: () { Navigator.pop(context); },)
                   ],
                 ),
               ),

@@ -95,11 +95,12 @@ class _UserFormPageState extends State<UserFormPage> {
           child: Text('Nome*: ')
         ),
         Container(
-          height: 50,
           width: 350,
           margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
           child: TextFormField(
             decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+              contentPadding: EdgeInsets.only(bottom: 5),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4)
               )
@@ -132,11 +133,12 @@ class _UserFormPageState extends State<UserFormPage> {
           child: Text('Email*: ')
         ),
         Container(
-          height: 50,
           width: 350,
           margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
           child: TextFormField(
             decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+              contentPadding: EdgeInsets.only(bottom: 5),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4)
               )
@@ -166,14 +168,15 @@ class _UserFormPageState extends State<UserFormPage> {
           child: Text('Senha*: ')
         ),
         Container(
-          height: 50,
           width: 350,
           margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
           child: TextFormField(
             obscureText: true,
             decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+              contentPadding: EdgeInsets.only(bottom: 5),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4)
+                borderRadius: BorderRadius.circular(4),
               )
             ),
             validator: (String? value){
@@ -204,15 +207,16 @@ class _UserFormPageState extends State<UserFormPage> {
           child: Text('Confirme a sua senha*: ')
         ),
         Container(
-          height: 50,
           width: 350,
           margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
           child: TextFormField(
             obscureText: true,
             decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+              contentPadding: EdgeInsets.only(bottom: 5),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4)
-              )
+              ),
             ),
             validator: (String? value){
               if(value!.isEmpty){
@@ -244,15 +248,12 @@ class _UserFormPageState extends State<UserFormPage> {
         ),
         Container(
           width: 160,
-          height: 50,
           margin: EdgeInsets.only(left: 30),
           child: DropdownButtonFormField(items: const [
             DropdownMenuItem(child: Text('Rialma'),value: "Rialma"),
             DropdownMenuItem(child: Text('Ceres'),value: "Ceres"),
             DropdownMenuItem(child: Text('Goiania'),value: "Goiania"),
           ],
-          // value: _sexDropDownValue,
-          // onChanged: sexDropDownHandler,
           validator: (value) => value == null ? 'Campo obrigatório' : null ,
           value: _cityValue,
           onChanged: (_cityValue){
@@ -261,6 +262,8 @@ class _UserFormPageState extends State<UserFormPage> {
           iconSize: 30,
           isExpanded: true,
           decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            contentPadding: EdgeInsets.only(bottom: 5, left: 10),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: Colors.grey
@@ -283,7 +286,6 @@ Widget _buildStateField(){
         ),
         Container(
           width: 160,
-          height: 50,
           margin: EdgeInsets.only(left: 30),
           child: DropdownButtonFormField(items: const [
             DropdownMenuItem(child: Text('Goiás'),value: "Goiás"),
@@ -300,6 +302,8 @@ Widget _buildStateField(){
           iconSize: 30,
           isExpanded: true,
           decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            contentPadding: EdgeInsets.only(bottom: 5, left: 10),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: Colors.grey

@@ -65,7 +65,7 @@ class otherMarketCard extends StatelessWidget {
                             ),
                             Container(
                               width: 120,
-                              height: 31,
+                              height: 40,
                               margin: EdgeInsets.only( left: 10, top: 10),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),

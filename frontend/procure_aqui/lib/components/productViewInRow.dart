@@ -17,7 +17,6 @@ class ProductViewInRow extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(left: 10, top: 10 ),
               width: 183,
-              height: 280,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
               ),
@@ -48,7 +47,7 @@ class ProductViewInRow extends StatelessWidget {
                       child: Text(
                         product.getNameProduct,
                         style: TextStyle(
-                          fontSize: 15
+                          fontSize: 14
                         ),
                       ),
                     ),
@@ -64,14 +63,14 @@ class ProductViewInRow extends StatelessWidget {
                     ),
                     Container(
                       width: 148,
-                      height: 24,
+                      height: 30,
                       margin: EdgeInsets.only( left: 10, top: 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(Color(0xFF3700B3)),
+                          backgroundColor: MaterialStatePropertyAll(Color(0xFF7B61FF)),
                         ),
                         child: Text(
                           'Ver detalhes'
@@ -80,7 +79,8 @@ class ProductViewInRow extends StatelessWidget {
                           Navigator.of(context).pushNamed('/ProductDetailPage',arguments: product);
                         },
                       ),
-                    )
+                    ),
+                    Container(padding: EdgeInsets.only(bottom: 15),)
                   ],
                 )
               ),
@@ -88,7 +88,6 @@ class ProductViewInRow extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(left: 10, top: 10 ),
               width: 183,
-              height: 280,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
               ),
@@ -117,7 +116,7 @@ class ProductViewInRow extends StatelessWidget {
                       child: Text(
                         product.getNameProduct,
                         style: TextStyle(
-                          fontSize: 15
+                          fontSize: 14
                         ),
                       ),
                     ),
@@ -133,14 +132,14 @@ class ProductViewInRow extends StatelessWidget {
                     ),
                     Container(
                       width: 148,
-                      height: 24,
+                      height: 30,
                       margin: EdgeInsets.only( left: 10, top: 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(Color(0xFF3700B3)),
+                          backgroundColor: MaterialStatePropertyAll(Color(0xFF7B61FF)),
                         ),
                         child: Text(
                           'Ver detalhes'
@@ -149,7 +148,8 @@ class ProductViewInRow extends StatelessWidget {
                           Navigator.of(context).pushNamed('/ProductDetailPage', arguments: product);
                         },
                       ),
-                    )
+                    ),
+                    Container(padding: EdgeInsets.only(bottom: 15),)
                   ],
                 )
               ),

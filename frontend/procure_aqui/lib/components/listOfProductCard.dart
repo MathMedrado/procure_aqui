@@ -90,7 +90,7 @@ class listOfProductcard extends StatelessWidget {
                             ),
                             child: ElevatedButton(
                               style: ButtonStyle(
-                                backgroundColor: MaterialStatePropertyAll(Color(0xFF3700B3)),
+                                backgroundColor: MaterialStatePropertyAll(Color(0xFF7B61FF)),
                               ),
                               child: Text(
                                 'Ver detalhes',

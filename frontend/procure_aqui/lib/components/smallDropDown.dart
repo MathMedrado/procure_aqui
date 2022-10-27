@@ -17,7 +17,6 @@ class smallDropDown extends StatelessWidget {
         ),
         Container(
           width: 160,
-          height: 50,
           margin: EdgeInsets.only(left: 30),
           child: DropdownButtonFormField(items: const [
             DropdownMenuItem(child: Text('Masculino'),value: "Masculino"),
@@ -31,6 +30,8 @@ class smallDropDown extends StatelessWidget {
           iconSize: 30,
           isExpanded: true,
           decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            contentPadding: EdgeInsets.only(bottom: 5, left: 10),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: Colors.grey
