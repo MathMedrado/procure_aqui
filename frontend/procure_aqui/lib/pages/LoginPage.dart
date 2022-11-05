@@ -20,7 +20,7 @@ class _LoginState extends State<Login> {
   final _passwordController = TextEditingController();
 
   final snackBar = SnackBar(content: Text('Email ou senha incorretos!', textAlign: TextAlign.center), backgroundColor: Colors.red,);
-
+  bool showSnackBar = false;
 
   _submitLogin(){
     final email = _emailController.text;
@@ -88,11 +88,11 @@ class _LoginState extends State<Login> {
                         ),
                         validator: (email){
                           if(email == null || email.isEmpty){
-                            return 'Digite o seu email!';
+                            //return 'Digite o seu email!';
                           }else if (!RegExp(
                             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                            .hasMatch(_emailController.text)) {
-                          return 'Digite um e-mail valido!';
+                          //return 'Digite um e-mail valido!';
                         }
                       }
                       ),
@@ -118,9 +118,10 @@ class _LoginState extends State<Login> {
                         ),
                         validator: (password){
                           if(password == null || password.isEmpty){
-                            return 'Você precisa informar a sua senha.';
+                            //return 'Você precisa informar a sua senha.';
+                            return '';
                           }else if(password.length < 10){
-                            return 'A sua Senha precisa conter no minimo 10 caracteres';
+                            //return 'A sua Senha precisa conter no minimo 10 caracteres';
                           }
                         },
                       )
@@ -162,7 +163,7 @@ class _LoginState extends State<Login> {
                               if(_formkey.currentState!.validate()){
                                 bool callResult = await login();
                                 if(!currenFocus.hasPrimaryFocus){
-                                  //se o teclado estiver aberto ele fecha ele
+                                  //se o teclado estiver aberto ele fecha ele;
                                   currenFocus.unfocus();
                                 }
                                 if(callResult){
@@ -173,6 +174,8 @@ class _LoginState extends State<Login> {
                                   //coloca uma mensagem de erro
                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                 }
+                              }else{
+                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
                               }
                             },
                             style: const ButtonStyle(

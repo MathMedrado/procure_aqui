@@ -16,7 +16,7 @@ class ProcureAqui extends StatelessWidget {
   static const home = '/';
   static const LoginPage = '/LoginPage';
   static const ForgetPassword = '/ForgetPassword';
-  static const userForm = '/UserFormPagaae';
+  static const userForm = '/UserFormPage';
   static const userProfilePage = '/UserProfilePage';
 
 

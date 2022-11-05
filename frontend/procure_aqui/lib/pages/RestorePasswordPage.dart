@@ -37,6 +37,7 @@ class _RestorePasswordState extends State<RestorePasswordPage> {
               ),
             ),
             Form(
+              key: _formkey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -45,27 +46,23 @@ class _RestorePasswordState extends State<RestorePasswordPage> {
                     child: Text('Nova Senha',)
                   ),
                   Container(
-                      height: 61,
                       width: 357,
-                      margin: EdgeInsets.fromLTRB(30, 15, 0, 50),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
-                        color: Colors.white
-                      ),
+                      margin: EdgeInsets.fromLTRB(30, 15, 20, 50),
                       child:Column(
                         children: [
                           TextFormField(
                             controller: _passwordController,
                             obscureText: true,
                             decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4),
-                              )
+                                  borderRadius: BorderRadius.circular(4)
+                              ),
                             ),
-                            validator: (password){
-                              if(password == null || password.isEmpty){
+                            validator: (String? password){
+                              if(password!.isEmpty){
                                 return 'Você precisa informar a sua senha.';
-                              }else if(password.length < 10){
+                              }else if(password!.length < 10){
                                 return 'A sua Senha precisa conter no minimo 10 caracteres';
                               }
                             },
@@ -78,9 +75,8 @@ class _RestorePasswordState extends State<RestorePasswordPage> {
                     child: Text('Token de acesso',)
                   ),
                   Container(
-                      height: 61,
                       width: 357,
-                      margin: EdgeInsets.fromLTRB(30, 15, 0, 50),
+                      margin: EdgeInsets.fromLTRB(30, 15, 20, 50),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(4)),
                         color: Colors.white
@@ -95,9 +91,9 @@ class _RestorePasswordState extends State<RestorePasswordPage> {
                                 borderRadius: BorderRadius.circular(4),
                               )
                             ),
-                            validator: (token){
-                              if(token == null || token.isEmpty){
-                                return 'Informe o toque que você recebeu.';
+                            validator: (String? token){
+                              if(token!.isEmpty){
+                                return 'Informe o token que você recebeu no seu email.';
                               }
                             },
                           )
@@ -105,7 +101,7 @@ class _RestorePasswordState extends State<RestorePasswordPage> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.fromLTRB(100, 80, 0, 10),
+                      margin: EdgeInsets.fromLTRB(100, 60, 0, 10),
                       width: 220,
                       height: 50,
                       child: 
@@ -118,7 +114,7 @@ class _RestorePasswordState extends State<RestorePasswordPage> {
                             ),
                           ),
                           onPressed: (){
-                             if(_formkey.currentState!.validate()){
+                             if(!_formkey.currentState!.validate()){
                               return;
                             }
                           },

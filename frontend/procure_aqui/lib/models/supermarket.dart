@@ -15,7 +15,6 @@ class Supermarket{
     required this.complement
   });
 
-<<<<<<< HEAD
   factory Supermarket.fromJson(Map json){
     return Supermarket(
       id: json['id'], 
@@ -38,6 +37,4 @@ class Supermarket{
     };
   }
 
-=======
->>>>>>> c818a2a6b42cbad1c55616338e5eae1c55594984
 }
