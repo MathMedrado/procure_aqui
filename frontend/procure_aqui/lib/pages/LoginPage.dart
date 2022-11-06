@@ -33,20 +33,30 @@ class _LoginState extends State<Login> {
   Future<bool> login() async{
     //vai setar o nosso token
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var url = Uri.parse('https://slack.com/api/auth.test');
+    var url = Uri.parse('http://10.0.2.2:8000/token/');
     var response = await http.post(url,
     body: {
-      'username' : _emailController.text,
+      'email' : _emailController.text,
       'password' : _passwordController.text
-      },
+      }
     );
+    //try{
+      //var jsonobj = jsonDecode(response.body);
+      //print(jsonobj);
+   // }catch(e){
+      //print(e);
+    //}
+
     if(response.statusCode == 200){
-      await sharedPreferences.setString('token', jsonDecode(response.body)['token']);
-      print(jsonDecode(response.body)['token']);
+      await sharedPreferences.setString('token', jsonDecode(response.body)['access']);
+      print(jsonDecode(response.body)['access']);
       return true;
     }
     else{
-      print(jsonDecode(response.body));
+      print(response.body);
+      print(response.statusCode);
+      //print(jsonDecode(response.body));
+      print('erro');
       return false;
     }
   }
@@ -88,12 +98,13 @@ class _LoginState extends State<Login> {
                         ),
                         validator: (email){
                           if(email == null || email.isEmpty){
-                            //return 'Digite o seu email!';
-                          }else if (!RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                           .hasMatch(_emailController.text)) {
-                          //return 'Digite um e-mail valido!';
-                        }
+                            return 'Digite o seu email!';
+                          }
+                          //else if (!RegExp(
+                            //r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                           //.hasMatch(_emailController.text)) {
+                         // return 'Digite um e-mail valido!';
+                        //}
                       }
                       ),
                   ),
@@ -118,10 +129,10 @@ class _LoginState extends State<Login> {
                         ),
                         validator: (password){
                           if(password == null || password.isEmpty){
-                            //return 'Você precisa informar a sua senha.';
+                            return 'Você precisa informar a sua senha.';
                             return '';
-                          }else if(password.length < 10){
-                            //return 'A sua Senha precisa conter no minimo 10 caracteres';
+                          }else if(password.length < 5){
+                            return 'A sua Senha precisa conter no minimo 10 caracteres';
                           }
                         },
                       )
