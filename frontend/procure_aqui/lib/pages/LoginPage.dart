@@ -49,6 +49,7 @@ class _LoginState extends State<Login> {
 
     if(response.statusCode == 200){
       await sharedPreferences.setString('token', jsonDecode(response.body)['access']);
+      await sharedPreferences.setString('email', _emailController.text);
       print(jsonDecode(response.body)['access']);
       return true;
     }
