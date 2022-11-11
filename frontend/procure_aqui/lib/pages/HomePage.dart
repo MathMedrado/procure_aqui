@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                   ElevatedButton(
                     child: Text('Entrar'),
                     onPressed: (){
-                      Navigator.of(context).pushNamed(ProcureAqui.LoginPage);
+                      Navigator.of(context).popAndPushNamed(ProcureAqui.LoginPage);
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(Colors.white),
@@ -115,7 +115,8 @@ class _HomePageState extends State<HomePage> {
               ),
               TextButton(
                 onPressed: (){
-                  _startScan();
+                  //_startScan();
+                  Navigator.of(context).popAndPushNamed('/AppHome');
                 },
                 child: Text(
                   'Entrar sem cadastro',
