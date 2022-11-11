@@ -40,6 +40,26 @@ class _LoginState extends State<Login> {
       'password' : _passwordController.text
       }
     );
+    var userEmail = _emailController.text;
+    var userUrl = Uri.parse('http://10.0.2.2:8000/users/filter/$userEmail');
+    var responseUser = await http.get(userUrl);
+    print(responseUser.statusCode);
+    print(jsonDecode(responseUser.body)['username']);
+
+/*
+    if(responseUser.statusCode == 200){
+      await sharedPreferences.setString('userEmail', jsonDecode(responseUser.body)['username']);
+      print(jsonDecode(responseUser.body)['username']);
+      return true;
+    }
+    else{
+      print(response.body);
+      print(response.statusCode);
+      //print(jsonDecode(response.body));
+      print('erro');
+      return false;
+    }
+*/
     //try{
       //var jsonobj = jsonDecode(response.body);
       //print(jsonobj);
@@ -49,7 +69,9 @@ class _LoginState extends State<Login> {
 
     if(response.statusCode == 200){
       await sharedPreferences.setString('token', jsonDecode(response.body)['access']);
+      await sharedPreferences.setString('email', _emailController.text);
       print(jsonDecode(response.body)['access']);
+      print(sharedPreferences.getString('email'));
       return true;
     }
     else{

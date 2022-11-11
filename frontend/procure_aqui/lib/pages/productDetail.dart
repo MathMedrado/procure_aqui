@@ -1,16 +1,41 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:procure_aqui/models/product.dart';
 import 'package:procure_aqui/components/appBarSearchFeature.dart';
 import 'package:procure_aqui/components/otherMarketCard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 
-class ProductDetailPage extends StatelessWidget {
+class ProductDetailPage extends StatefulWidget {
   const ProductDetailPage({ required this.product, super.key});
   
   final Product product;
+
+  @override
+  State<ProductDetailPage> createState() => _ProductDetailPageState();
+}
+
+class _ProductDetailPageState extends State<ProductDetailPage> {
   final String category = 'Vegetal';
   final String supermarket = 'Comperfrutas';
   final String address = 'Av. Bernardo Sayão, 646 - Centro, Rialma - GO';
+
+  Future<Product> fetchUserInfo() async {
+    // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    // String? userEmail = sharedPreferences.getString('email');
+    var url = Uri.parse('http://10.0.2.2:8000/products/1');
+    var response = await http.get(url);
+
+    if(response.statusCode == 200){
+      return Product(id: jsonDecode(response.body)['id'], nameProduct: jsonDecode(response.body)['product_name'], barCode: jsonDecode(response.body)['bar_code'], categoryId: jsonDecode(response.body)['category_id'], imageUrl: jsonDecode(response.body)['image_url'], creationDate: jsonDecode(response.body)['creation_date_product'], isVisible: jsonDecode(response.body)['is_visible'], actualPrice: jsonDecode(response.body)['actual_price']);
+    }
+    else{
+      return Product(id: jsonDecode(response.body)['id'], nameProduct: jsonDecode(response.body)['product_name'], barCode: jsonDecode(response.body)['bar_code'], categoryId: jsonDecode(response.body)['category_id'], imageUrl: jsonDecode(response.body)['image_url'], creationDate: jsonDecode(response.body)['creation_date_product'], isVisible: jsonDecode(response.body)['is_visible'], actualPrice: jsonDecode(response.body)['actual_price']);
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +52,7 @@ class ProductDetailPage extends StatelessWidget {
               margin: EdgeInsets.only(top: 30),
               child: Center(
                 child: Text(
-                  product.getNameProduct,
+                  widget.product.getNameProduct,
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold
@@ -42,7 +67,7 @@ class ProductDetailPage extends StatelessWidget {
                 width: 257,
                 height: 200,
                 child: Image.asset(
-                  product.getImageUrl,
+                  widget.product.getImageUrl,
                   //'lib/assets/images/bolo.jpeg'
                 ),
               ),
@@ -68,7 +93,7 @@ class ProductDetailPage extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only( left: 2, top: 7),
                   child: Text(
-                    'R\$ ${product.getActualPrice.toString()}',
+                    'R\$ ${widget.product.getActualPrice.toString()}',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold
@@ -126,10 +151,10 @@ class ProductDetailPage extends StatelessWidget {
                 ),
               ),
             ),
-            otherMarketCard(product: product),
-            otherMarketCard(product: product),
-            otherMarketCard(product: product),
-            otherMarketCard(product: product)
+            otherMarketCard(product: widget.product),
+            otherMarketCard(product: widget.product),
+            otherMarketCard(product: widget.product),
+            otherMarketCard(product: widget.product)
 
 
           ],
