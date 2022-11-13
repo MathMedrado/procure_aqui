@@ -1,45 +1,49 @@
 import 'package:flutter/foundation.dart';
+import 'package:procure_aqui/models/supermarket.dart';
 
 class Product{
   int id;
   String nameProduct;
   int barCode;
-  int categoryId;
+  String category;
   String imageUrl;
   DateTime creationDate;
   bool isVisible;
   double actualPrice;
+  Supermarket supermarket;
 
   Product({
     required this.id,
     required this.nameProduct,
     required this.barCode,
-    required this.categoryId,
+    required this.category,
     required this.imageUrl,
     required this.creationDate,
     required this.isVisible,
-    required this.actualPrice
+    required this.actualPrice,
+    required this.supermarket
   });
 
-  factory Product.fromJson(Map json){
-    return Product(
-      id: json['id'], 
-      nameProduct: json['nameProduct'],
-      barCode: json['barCode'], 
-      categoryId: json['categoryId'], 
-      imageUrl: json['imageUrl'], 
-      creationDate: json['creationDate'],
-      isVisible: json['isVisible'], 
-      actualPrice:json['actualPrice']
-    );
-  }
+  //
+  // factory Product.fromJson(Map json){
+  //   return Product(
+  //     id: json['id'],
+  //     nameProduct: json['nameProduct'],
+  //     barCode: json['barCode'],
+  //     categoryId: json['categoryId'],
+  //     imageUrl: json['imageUrl'],
+  //     creationDate: json['creationDate'],
+  //     isVisible: json['isVisible'],
+  //     actualPrice:json['actualPrice']
+  //   );
+  // }
 
   Map toJson(){
     return {
       'id' : id,
       'nameProduct' : nameProduct,
       'barCode' : barCode,
-      'categoryId' : categoryId,
+      'category' : category,
       'imageUrl': imageUrl,
       'creationDate' : creationDate,
       'isVisible' : isVisible,
@@ -61,8 +65,8 @@ class Product{
     return id;
   }  
   
-  int get getCategoryId{
-    return id;
+  String get getCategory{
+    return category;
   }
 
   String get getImageUrl{

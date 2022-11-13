@@ -43,8 +43,8 @@ class _LoginState extends State<Login> {
     var userEmail = _emailController.text;
     var userUrl = Uri.parse('http://10.0.2.2:8000/users/filter/$userEmail');
     var responseUser = await http.get(userUrl);
-    print(responseUser.statusCode);
-    print(jsonDecode(responseUser.body)['username']);
+    //print(responseUser.statusCode);
+    //print(jsonDecode(responseUser.body)['username']);
 
 /*
     if(responseUser.statusCode == 200){

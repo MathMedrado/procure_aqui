@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:procure_aqui/components/userPhoto.dart';
 import 'package:procure_aqui/components/userInformation.dart';
 import 'package:procure_aqui/components/userInformationInRow.dart';
@@ -60,15 +61,21 @@ class _UserProfilePageState extends State<UserProfilePage> {
   Future<User> fetchUserInfo() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? userEmail = sharedPreferences.getString('email');
-    var userUrl = Uri.parse('http://10.0.2.2:8000/users/filter/$userEmail');
-    var responseUser = await http.get(userUrl);
-    String userData = jsonDecode(responseUser.body)['username'];
+    var userUrl = Uri.parse('http://10.0.2.2:8000/users/?email=$userEmail');
+    Response responseUser = await http.get(userUrl);
+    print(responseUser.body);
+    print(jsonDecode(responseUser.body)[0]['id']);
+    print(jsonDecode(responseUser.body)[0]['birth_date']);
+    print(responseUser.statusCode);
+
+    // String userData = jsonDecode(responseUser.body)['username'];
+    // print(userData);
 
     if(responseUser.statusCode == 200){
-      return User(id: jsonDecode(responseUser.body)['id'], birthDate: DateTime.parse(jsonDecode(responseUser.body)['birth_date']) , city: 'Rialma', email: jsonDecode(responseUser.body)['email'], password: jsonDecode(responseUser.body)['password'], sex: jsonDecode(responseUser.body)['sex'], state: 'Goiás', username: jsonDecode(responseUser.body)['username'] );
+      return User(id: jsonDecode(responseUser.body)[0]['id'], birthDate: DateTime.parse(jsonDecode(responseUser.body)[0]['birth_date']) , city: jsonDecode(responseUser.body)[0]['city']['city_name'], email: jsonDecode(responseUser.body)[0]['email'], password: jsonDecode(responseUser.body)[0]['password'], sex: jsonDecode(responseUser.body)[0]['sex'], state: jsonDecode(responseUser.body)[0]['city']['state'], username: jsonDecode(responseUser.body)[0]['username'] );
     }
     else{
-      return User(id: jsonDecode(responseUser.body)['id'], birthDate: DateTime.parse(jsonDecode(responseUser.body)['birth_date']) , city: 'Rialma', email: jsonDecode(responseUser.body)['email'], password: jsonDecode(responseUser.body)['password'], sex: jsonDecode(responseUser.body)['sex'], state: 'Goiás', username: jsonDecode(responseUser.body)['username'] );
+      return User(id: jsonDecode(responseUser.body)[0]['id'], birthDate: DateTime.parse(jsonDecode(responseUser.body)[0]['birth_date']) , city: jsonDecode(responseUser.body)[0]['city']['city_name'], email: jsonDecode(responseUser.body)[0]['email'], password: jsonDecode(responseUser.body)[0]['password'], sex: jsonDecode(responseUser.body)[0]['sex'], state: jsonDecode(responseUser.body)[0]['city']['state'], username: jsonDecode(responseUser.body)[0]['username'] );
     }
 
   }

@@ -1,7 +1,12 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:procure_aqui/models/supermarket.dart';
 import 'package:procure_aqui/models/product.dart';
 import 'package:procure_aqui/components/productViewInRow.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'package:procure_aqui/token.dart';
 
 class productHomePage extends StatefulWidget {
   const productHomePage({super.key});
@@ -15,11 +20,40 @@ class productHomePage extends StatefulWidget {
 class _productHomePageState extends State<productHomePage> {
 
   String? supermarketValue;
-  Product product = Product(id: 1, nameProduct: 'Ervilha De Campinas', barCode: 5689254895486589, categoryId: 1, imageUrl: 'lib/assets/images/bolo.jpeg', creationDate: DateTime.now(), isVisible: true, actualPrice: 5.0);
-  Product product2 = Product(id: 1, nameProduct: 'Ervilha da Coreia', barCode: 5689254895486589, categoryId: 1, imageUrl: 'lib/assets/images/bolo.jpeg', creationDate: DateTime.now(), isVisible: true, actualPrice: 5.0);
-  Product product3 = Product(id: 1, nameProduct: 'Ervilha do Japão, China, Chile e Uruaia', barCode: 5689254895486589, categoryId: 1, imageUrl: 'lib/assets/images/bolo.jpeg', creationDate: DateTime.now(), isVisible: true, actualPrice: 5.0);
+  Product product = Product(id: 1, nameProduct: 'Ervilha De Campinas', barCode: 5689254895486589,  imageUrl: 'lib/assets/images/bolo.jpeg', creationDate: DateTime.now(), isVisible: true, actualPrice: 5.0,  supermarket: Supermarket(id: 1, nameSupermarket: 'Mercafrutas', city: 'Rialma', street: '68', district: 'Park Industrial', complement: 'Quadra 18'), category: 'queijo');
+  Product product2 = Product(id: 1, nameProduct: 'Ervilha da Coreia', barCode: 5689254895486589,  imageUrl: 'lib/assets/images/bolo.jpeg', creationDate: DateTime.now(), isVisible: true, actualPrice: 5.0,  supermarket: Supermarket(id: 1, nameSupermarket: 'Mercafrutas', city: 'Rialma', street: '68', district: 'Park Industrial', complement: 'Quadra 18' ), category: 'queijo');
+  Product product3 = Product(id: 1, nameProduct: 'Ervilha do Japão, China, Chile e Uruaia', barCode: 5689254895486589,  imageUrl: 'lib/assets/images/bolo.jpeg', creationDate: DateTime.now(), isVisible: true, actualPrice: 5.0,  supermarket: Supermarket(id: 1, nameSupermarket: 'Mercafrutas', city: 'Rialma', street: '68', district: 'Park Industrial', complement: 'Quadra 18'), category: 'queijo');
 
 
+  @override
+  void initState(){
+    super.initState();
+    productData = fetchProductInfo();
+  }
+
+  late Future<List<Product>> productData;
+
+  Future<List<Product>> fetchProductInfo() async {
+    var userUrl = Uri.parse('http://10.0.2.2:8000/products/');
+    Response response = await http.get(userUrl);
+    var  values = jsonDecode(response.body) ;
+    print(values.length);
+    List<Product> listProducts = [];
+
+    if(response.statusCode == 200){
+      if(values.length > 0){
+        for(int i = 0; i < values.length; i++){
+          Product productToList = Product(id: values[i]['id'], nameProduct: values[i]['product_name'], barCode: values[i]['bar_code'], category: values[i]['category'], imageUrl: values[i]['image_url'], creationDate: DateTime.parse(values[i]['creation_date_product']), isVisible: values[i]['is_visible'], actualPrice: values[i]['price'], supermarket: Supermarket(id: values[i]['supermarket']['id'], nameSupermarket: values[i]['supermarket']['supermarket_name'], city: values[i]['supermarket']['city']['city_name'], street: values[i]['supermarket']['street'], district: values[i]['supermarket']['district'], complement: values[i]['supermarket']['complement']));
+          listProducts.add(productToList);
+        }
+        print(listProducts);
+      }
+      return listProducts;
+    }
+    else{
+      return listProducts;
+    }
+  }
 
   Widget _buildPopUpCard(){
     return Center(
@@ -120,28 +154,44 @@ class _productHomePageState extends State<productHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: 30, left: 25),
-            child: const Text(
-              'Ultimos produtos Cadastrados',
-              style: TextStyle(
-                fontSize: 22,
+    return FutureBuilder(
+        future: productData,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 30, left: 25),
+                    child: const Text(
+                      'Ultimos produtos Cadastrados',
+                      style: TextStyle(
+                        fontSize: 22,
+                      ),
+                    ),
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index){
+                      return ProductViewInRow(product: snapshot.data![index]);
+                    },
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 20),
+                  )
+                ],
               ),
-            ),
-          ),
-          ProductViewInRow(product: product),
-          ProductViewInRow(product: product2),
-          ProductViewInRow(product: product2),
-          ProductViewInRow(product: product3),
-          Container(
-            margin: EdgeInsets.only(bottom: 20),
-          )
-        ],
-      ),
-    );
+            );
+          }
+          else {
+            final error = snapshot.error;
+            print(error);
+            return CircularProgressIndicator();
+          }
+        }
+        );
+
   }
 }
 
