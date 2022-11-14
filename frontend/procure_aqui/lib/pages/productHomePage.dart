@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:procure_aqui/token.dart';
 
 class productHomePage extends StatefulWidget {
-  const productHomePage({super.key});
+   productHomePage({super.key});
 
   @override
   State<productHomePage> createState() => _productHomePageState();
@@ -20,9 +20,6 @@ class productHomePage extends StatefulWidget {
 class _productHomePageState extends State<productHomePage> {
 
   String? supermarketValue;
-  Product product = Product(id: 1, nameProduct: 'Ervilha De Campinas', barCode: 5689254895486589,  imageUrl: 'lib/assets/images/bolo.jpeg', creationDate: DateTime.now(), isVisible: true, actualPrice: 5.0,  supermarket: Supermarket(id: 1, nameSupermarket: 'Mercafrutas', city: 'Rialma', street: '68', district: 'Park Industrial', complement: 'Quadra 18'), category: 'queijo');
-  Product product2 = Product(id: 1, nameProduct: 'Ervilha da Coreia', barCode: 5689254895486589,  imageUrl: 'lib/assets/images/bolo.jpeg', creationDate: DateTime.now(), isVisible: true, actualPrice: 5.0,  supermarket: Supermarket(id: 1, nameSupermarket: 'Mercafrutas', city: 'Rialma', street: '68', district: 'Park Industrial', complement: 'Quadra 18' ), category: 'queijo');
-  Product product3 = Product(id: 1, nameProduct: 'Ervilha do Japão, China, Chile e Uruaia', barCode: 5689254895486589,  imageUrl: 'lib/assets/images/bolo.jpeg', creationDate: DateTime.now(), isVisible: true, actualPrice: 5.0,  supermarket: Supermarket(id: 1, nameSupermarket: 'Mercafrutas', city: 'Rialma', street: '68', district: 'Park Industrial', complement: 'Quadra 18'), category: 'queijo');
 
 
   @override
@@ -30,12 +27,13 @@ class _productHomePageState extends State<productHomePage> {
     super.initState();
     productData = fetchProductInfo();
   }
-
   late Future<List<Product>> productData;
 
+
   Future<List<Product>> fetchProductInfo() async {
-    var userUrl = Uri.parse('http://10.0.2.2:8000/products/');
-    Response response = await http.get(userUrl);
+
+    var productUrl = Uri.parse('http://10.0.2.2:8000/products/');
+    Response response = await http.get(productUrl);
     var  values = jsonDecode(response.body) ;
     print(values.length);
     List<Product> listProducts = [];
@@ -67,7 +65,7 @@ class _productHomePageState extends State<productHomePage> {
             children: [
               Container(
                 padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                child: const Text(
                   'Selecione o supermercado onde você está atualmente',
                   style: TextStyle(
                     fontSize: 20,

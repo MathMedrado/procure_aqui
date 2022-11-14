@@ -24,7 +24,7 @@ class otherMarketCard extends StatelessWidget {
                       margin: EdgeInsets.only(left: 10),
                       width: 120,
                       height: 120,
-                      child: Image.asset(
+                      child: Image.network(
                         product.getImageUrl,
                         //'lib/assets/images/bolo.jpeg'
                       ),
@@ -47,7 +47,7 @@ class otherMarketCard extends StatelessWidget {
                         Container(
                           margin: EdgeInsets.only(left: 15, top: 10),
                           child: Text(
-                            supermarket,
+                            product.supermarket.getNameSupermarket,
                             textAlign: TextAlign.start,
                           ),
                         ),
@@ -81,6 +81,7 @@ class otherMarketCard extends StatelessWidget {
                                   ),
                                 ),
                                 onPressed: (){
+                                  Navigator.of(context).pushNamed('/ProductDetailPage',arguments: product);
                                 },
                               ),
                             )

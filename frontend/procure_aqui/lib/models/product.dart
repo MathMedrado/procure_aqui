@@ -62,7 +62,7 @@ class Product{
   }
 
   int get getBarCode{
-    return id;
+    return barCode;
   }  
   
   String get getCategory{

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:procure_aqui/pages/categoryView.dart';
 import 'package:procure_aqui/models/product.dart';
 import 'package:procure_aqui/pages/ForgetPasswordPage.dart';
 import 'package:procure_aqui/pages/RestorePasswordPage.dart';
@@ -11,6 +12,7 @@ import 'package:procure_aqui/pages/productComparationPage.dart';
 import 'package:procure_aqui/pages/productDetail.dart';
 import 'package:procure_aqui/pages/productEditPage.dart';
 import 'package:procure_aqui/pages/productRegistrationPage.dart';
+import 'package:procure_aqui/pages/searchProduct.dart';
 import 'package:procure_aqui/pages/start.dart';
 import 'package:procure_aqui/pages/userEditProfile.dart';
 import 'package:procure_aqui/pages/appHome.dart';
@@ -63,7 +65,21 @@ class routeGenerator{
         return MaterialPageRoute(builder: (_) => productRegistrationPage() );
       case '/productEditPage':
         return MaterialPageRoute(builder: (_) => productEditPage() );
-      default:
+      case '/categoryView':
+        if(args is int){
+          return MaterialPageRoute(
+              builder: (_) => CategoryView(categoryId: args)
+          );
+        }
+        return _errorRoute();
+      case '/searchProduct':
+        if(args is String){
+          return MaterialPageRoute(
+              builder: (_) => SearchProduct(productName: args)
+          );
+        }
+        return _errorRoute();
+        default:
         return _errorRoute();
     }
   }

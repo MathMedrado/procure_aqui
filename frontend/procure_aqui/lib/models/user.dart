@@ -45,6 +45,9 @@ class User{
       'state' : state
     };
   }
+  int get getId{
+    return id;
+  }
 
   String? get getUsername{
     return username;

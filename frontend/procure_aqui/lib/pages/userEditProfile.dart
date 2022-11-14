@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:procure_aqui/components/dataPicker.dart';
 import 'package:procure_aqui/components/smallPurpleButton.dart';
 import '../components/inputText.dart';
@@ -29,6 +31,21 @@ class _UserEditProfileState extends State<UserEditProfile> {
   bool? _isChecked1 = false;
   bool? _isChecked2 = false;
   String? password2ConfirmValue;
+
+  // Future<void> _submitForm(user) async {
+  //   //http method put
+  //   var url = Uri.parse('http://10.0.2.2:8000/users/${user.getId}');
+  //   Response response = await http.put(url, body: {
+  //     {
+  //       "email" : user,
+  //       "username" : "admin",
+  //       "birth_date" : "2001-05-23",
+  //       "password" : "admin",
+  //       "city" : "2"
+  //     }
+  //   } );
+  //
+  // }
 
 
 
@@ -251,22 +268,24 @@ Widget _buildStateField(){
                     fontSize: 18
                   ),
                 ),
-                onPressed: _isChecked1 == true && _isChecked2 ==true? (){
+                onPressed:  () async {
                   if(!_formKey.currentState!.validate()){
                   return;
-                }
+                 }
                   _formKey.currentState!.save();
-                  // print(_username );
-                  // print(_email );
-                  // print(_password1 );
-                  // print(_password2 );
-                  // print(_dateTime );
-                  // print(_sexDropDownValue );
-                  // print(_city);
-                  // print(_state);
-                  User user1 = User(id: 1, username:  _username, email: _email, password: _password1, city: _city, birthDate: _dateTime, sex: _sexDropDownValue, state: _state);
-                  Navigator.of(context).pushNamed('/UserProfilePage', arguments: user1);
-                } : null,
+                  User user = User(id: 1, username:  _username, email: _email, password: _password1, city: _city, birthDate: _dateTime, sex: _sexDropDownValue, state: _state);
+                  var url = Uri.parse('http://10.0.2.2:8000/users/${user.getId}');
+                  Response response = await http.put(url, body: {
+                    {
+                      "email" : user.getEmail,
+                      "username" : user.getUsername,
+                      "birth_date" : user.getBirthDate,
+                      "password" : user.getPassword,
+                      "city" : "2"
+                    }
+                  }
+                  );
+                  },
                 style: ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(98, 0, 238, 30.0)),
                         foregroundColor: MaterialStatePropertyAll(Colors.white),          

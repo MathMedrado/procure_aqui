@@ -121,7 +121,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
                   }),
                   userInputButton(Color(0xFFE70101), 'Exclusão da conta', (){
-                    Navigator.of(context).pushNamed('/UserProfileExclusion', arguments:  widget.user);
+                    Navigator.of(context).pushNamed('/UserProfileExclusion', arguments:  snapshot.data!);
                   }),
 
                 ],

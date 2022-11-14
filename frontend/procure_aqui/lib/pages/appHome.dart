@@ -4,12 +4,10 @@ import 'package:procure_aqui/pages/LoginPage.dart';
 import 'package:procure_aqui/pages/UserProfile.dart';
 import 'package:procure_aqui/models/user.dart';
 import 'package:procure_aqui/pages/listOfProducts.dart';
-import 'package:procure_aqui/pages/newUserFormPage.dart';
 import 'package:procure_aqui/components/appBarSearchFeature.dart';
 import 'package:procure_aqui/components/sideBarMenu.dart';
 import 'package:procure_aqui/pages/productHomePage.dart';
 import 'package:procure_aqui/pages/tutorialPage.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -140,35 +138,7 @@ class _AppHomeState extends State<AppHome> {
     AppBarSearchFeature(),
     AppBarSearchFeature(),
     AppBar(title: Text('Perfil do Usuario'), backgroundColor: Color(0xFF3700B3)),
-
   ];
-
-  // Widget homeAppBar(){
-  //   return AppBar(
-  //        title: Text(appBar[currentIndex]),
-  //        backgroundColor: Color(0xFF3700B3),
-         
-  //      );
-  // }
-
-  // final  List<Map<String,Widget>> screensWithAppBar = [
-  //   {
-  //     'appBarData' : 'Perfil do usuário',
-  //     'widget' :     UserProfilePage(user: User(id: 1, username: 'matheus', email: 'matheus-13-@hotmail.com', birthDate:DateTime.now(),  city: 'Rialma', sex: 'Masculino', password: '1234567891', state: 'Goiás' )),
-  //   },
-  //   {
-  //     'appBarData' : 'Perfil do usuário',
-  //     'widget' : newUserFormPage(),
-  //   },
-  //   {
-  //     'appBarData' :' Perfil do usuário',
-  //     'widget' : newUserFormPage(),
-  //   },
-  //   {
-  //     'appBarData' : 'Perfil do usuário',
-  //     'widget' : UserProfilePage(user: User(id: 1, username: 'matheus', email: 'matheus-13-@hotmail.com', birthDate:DateTime.now(),  city: 'Rialma', sex: 'Masculino', password: '1234567891', state: 'Goiás' )),
-  //   },
-  // ];
 
 
   @override

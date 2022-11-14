@@ -27,7 +27,8 @@ class _AppBarSearchFeatureState extends State<AppBarSearchFeature> {
       },
       onSubmitted: (text) {
          searchText.value = text;
-         print(searchText.value);
+         Navigator.pushNamed(context, '/searchProduct', arguments: searchText.value);
+
       },
       appBarBuilder: (context) {
           return AppBar(

@@ -25,7 +25,6 @@ class SideBarMenu extends StatelessWidget {
                       ),
                       onPressed: (){
                         Navigator.pop(context);
-
                       }
                     ),
                     Container(
@@ -51,7 +50,7 @@ class SideBarMenu extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushNamed(context, '/categoryView', arguments: 3);
               },
             ),
             ListTile(
@@ -63,7 +62,7 @@ class SideBarMenu extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushNamed(context, '/categoryView', arguments: 5);
               },
             ),
             ListTile(
@@ -75,7 +74,7 @@ class SideBarMenu extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushNamed(context, '/categoryView', arguments: 2);
               },
             ),
             ListTile(
@@ -87,7 +86,7 @@ class SideBarMenu extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushNamed(context, '/categoryView', arguments: 1);
               },
             ),
             ListTile(
@@ -99,7 +98,7 @@ class SideBarMenu extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushNamed(context, '/categoryView', arguments: 4);
               },
             ),
           ],

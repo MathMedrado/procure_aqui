@@ -15,6 +15,30 @@ class Supermarket{
     required this.complement
   });
 
+  int get getId{
+    return id;
+  }
+
+  String get getNameSupermarket{
+    return nameSupermarket;
+  }
+
+  String get getCity{
+    return city;
+  }
+
+  String get getStreet{
+    return street;
+  }
+
+  String? get getDistrict{
+    return district;
+  }
+
+  String get getComplement{
+    return complement;
+  }
+
   factory Supermarket.fromJson(Map json){
     return Supermarket(
       id: json['id'], 

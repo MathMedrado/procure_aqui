@@ -133,7 +133,7 @@ class _UserProfileExclusionState extends State<UserProfileExclusion> {
                 color: Color(0xFF3700B3),
                 child: Column(
                   children: [
-                    userPhoto('Matheus Medrado')
+                    userPhoto(widget.user.getUsername)
                   ],
                 ),
               ),
