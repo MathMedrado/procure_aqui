@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:procure_aqui/models/user.dart';
 import 'package:procure_aqui/components/userPhoto.dart';
+import 'package:http/http.dart' as http;
+import 'package:crypto/crypto.dart';
 
 class UserProfileExclusion extends StatefulWidget {
   const UserProfileExclusion( {required this.user, super.key});
@@ -18,6 +22,9 @@ class _UserProfileExclusionState extends State<UserProfileExclusion> {
   final passwordController = TextEditingController();
   String? email;
   String? password;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final snackBar = SnackBar(content: Text('O password informado é inválido!', textAlign: TextAlign.center), backgroundColor: Colors.red,);
+
 
   _submitExclusion(){
     email = emailController.text;
@@ -54,8 +61,8 @@ class _UserProfileExclusionState extends State<UserProfileExclusion> {
                 children: [
                   Container(
                     margin: EdgeInsets.only(left: 30, top: 35),
-                    width: 103,
-                    height: 27,
+                    width: 110,
+                    height: 32,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(5)),
                     ), 
@@ -70,15 +77,20 @@ class _UserProfileExclusionState extends State<UserProfileExclusion> {
                           fontSize: 18
                         ),
                       ),
-                      onPressed: (){
-                        Navigator.of(context).pop();
+                      onPressed: () async {
+                        var url = Uri.parse('http://10.0.2.2:8000/users/${widget.user.getId}/');
+                        var response = await http.delete(url);
+                        print(response.body);
+                        if(response.statusCode == 204){
+                        Navigator.of(context).popAndPushNamed('/');
+                        }
                       },
                     ),                
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 60, top: 35),
-                    width: 103,
-                    height: 27,
+                    width: 110,
+                    height: 32,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(5)),
                       color: Colors.blue
@@ -92,11 +104,10 @@ class _UserProfileExclusionState extends State<UserProfileExclusion> {
                           fontSize: 18
                         ),
                       ),
-                      onPressed: (){
+                      onPressed: () async {
                         Navigator.of(context).pop();
                       }
-                    ), 
-
+                    ),
                   )
                 ],
               )
@@ -137,60 +148,83 @@ class _UserProfileExclusionState extends State<UserProfileExclusion> {
                   ],
                 ),
               ),
-            Container(
-              margin: EdgeInsets.only(left: 20, top: 40),
-              child: Text(
-                'Email*:',
-                style: TextStyle(
-                  fontSize: 15
-                ),
-              )
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 20, top: 5),
-              padding: EdgeInsets.only(left: 5),
-              width: 357,
-              height: 45,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-                border: Border.all(color: Colors.grey)
+              Form(
+                key: _formKey,
+                child: Column(
+                children: [
+                  Container(
+                      margin: EdgeInsets.only(left: 20, top: 40),
+                      child: Text(
+                        'Email*:',
+                        style: TextStyle(
+                            fontSize: 15
+                        ),
+                      )
+                  ),
+                  Container(
+                      margin: EdgeInsets.only(left: 20, top: 5),
+                      padding: EdgeInsets.only(left: 5),
+                      width: 357,
+                      height: 45,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          border: Border.all(color: Colors.grey)
+                      ),
+                      child: TextFormField(
+                        controller: emailController,
+                        validator: (value) {
+                          if(value!.isEmpty){
+                            return 'Você deve informar o seu email para excluir a sua conta.';
+                          }
+                          if(value! != widget.user.getEmail){
+                            return "O email digitado é diferente do email que está logado.";
+                          }
+                        },
+                        onSaved: (value){
+                          email = value;
+                        },
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                      )
+                  ),
+                  Container(
+                      margin: EdgeInsets.only(left: 20, top: 20),
+                      child: Text(
+                        'Senha*:',
+                        style: TextStyle(
+                            fontSize: 15
+                        ),
+            
+                      )
+                  ),
+                  Container(
+                      margin: EdgeInsets.only(left: 20, top: 5),
+                      width: 357,
+                      height: 45,
+                      padding: EdgeInsets.only(left: 5),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          border: Border.all(color: Colors.grey)
+                      ),
+                      child: TextFormField(
+                        controller: passwordController,
+                        validator: (value){
+                          if(value!.isEmpty){
+                            return 'Você deve informar a sua senha para excluir a sua conta.';
+                          }
+                        },
+                        obscureText: true,
+                        style: TextStyle(
+                            fontSize: 18
+                        ),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                      )
+                  ),
+                ],
               ),
-              child: TextField(
-                controller: emailController,
-                 decoration: InputDecoration(
-                  border: InputBorder.none,
-                ),
-              )
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 20, top: 20),
-              child: Text(
-                'Senha*:',
-                style: TextStyle(
-                  fontSize: 15
-                ),
-                
-                )
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 20, top: 5),
-              width: 357,
-              height: 45,
-              padding: EdgeInsets.only(left: 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-                border: Border.all(color: Colors.grey)
-              ),
-               child: TextField(
-                 controller: passwordController,
-                 obscureText: true,
-                 style: TextStyle(
-                  fontSize: 18
-                 ),
-                  decoration: InputDecoration(
-                   border: InputBorder.none,
-                 ),
-               )
             ),
             Container(
               width: 220,
@@ -206,7 +240,20 @@ class _UserProfileExclusionState extends State<UserProfileExclusion> {
                     fontSize: 18
                   ),
                   ),
-                onPressed: () => _dialogBuilder(context)
+                onPressed: () {
+                  if(_formKey.currentState!.validate()) {
+                    print(password);
+                    var passwordInBytes = utf8.encode(password!);
+                    var value = sha256.convert(passwordInBytes);
+                    if(value == widget.user.getPassword){
+                      _dialogBuilder(context);
+                    }
+                    else{
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                  }
+
+                }
               ),
             ),
           ],

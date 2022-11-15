@@ -10,7 +10,9 @@ import '../components/smallDropDown.dart';
 import 'package:procure_aqui/models/user.dart';
 
 class UserEditProfile extends StatefulWidget {
-  const UserEditProfile({super.key});
+   UserEditProfile({required this.user, super.key});
+
+  User user;
 
   @override
   State<UserEditProfile> createState() => _UserEditProfileState();
@@ -20,16 +22,13 @@ class _UserEditProfileState extends State<UserEditProfile> {
 
   String? _username;
   String?  _email;   
-  String? _password1;   
-  String? _password2;   
+  String? _password1;
   String? _sexDropDownValue;
   String? _city;   
   String? _cityValue;
   String? _stateValue;
   String? _state; 
   DateTime? _dateTime;
-  bool? _isChecked1 = false;
-  bool? _isChecked2 = false;
   String? password2ConfirmValue;
 
   // Future<void> _submitForm(user) async {
@@ -88,19 +87,6 @@ class _UserEditProfileState extends State<UserEditProfile> {
     });
   }
 
-  void setCheckBox1(bool? value){
-      setState(() {
-      _isChecked1 = value;
-      // print(_isChecked1);
-    });
-  }
-
-  void setCheckBox2(bool? value){
-      setState(() {
-      _isChecked2 = value;
-      // print(_isChecked2);
-    });
-  }
 
 
   Widget _buildNameField(){
@@ -273,18 +259,24 @@ Widget _buildStateField(){
                   return;
                  }
                   _formKey.currentState!.save();
-                  User user = User(id: 1, username:  _username, email: _email, password: _password1, city: _city, birthDate: _dateTime, sex: _sexDropDownValue, state: _state);
-                  var url = Uri.parse('http://10.0.2.2:8000/users/${user.getId}');
+                  //User user = User(id: 1, username:  _username, email: _email, password: _password1, city: _city, birthDate: _dateTime, sex: _sexDropDownValue, state: _state);
+                  var url = Uri.parse('http://10.0.2.2:8000/users/${widget.user.getId}/');
+                  print(url);
+                  Response responseGet = await http.get(url);
+                  print(responseGet.body);
+
                   Response response = await http.put(url, body: {
-                    {
-                      "email" : user.getEmail,
-                      "username" : user.getUsername,
-                      "birth_date" : user.getBirthDate,
-                      "password" : user.getPassword,
-                      "city" : "2"
-                    }
-                  }
-                  );
+                      "email" : _email,
+                      "username" : _username,
+                      "birth_date" : DateFormat('y-MM-d').format(_dateTime as DateTime),
+                      "password" : widget.user.getPassword,
+                      "city" : "1",
+                      "sex" : _sexDropDownValue
+                      // "city" : _city,
+                      // "state" : _state
+                  });
+                  print(response.body);
+                  Navigator.pop(context);
                   },
                 style: ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(98, 0, 238, 30.0)),

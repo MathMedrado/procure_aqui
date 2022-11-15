@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String? barCode;
+
 
   // @override
   // initState(){
@@ -31,22 +31,7 @@ class _HomePageState extends State<HomePage> {
 
   // }
 
-  Future <void> _startScan() async {
-    String barcodeScanRes; 
-    try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode("#ff6666", 'Click Me', false, ScanMode.BARCODE);
-      print('Funcionou ${barCode}');
-    } on PlatformException {
-      barcodeScanRes = 'Fail';
-      print('não funcionou');
 
-    }
-    setState(() {
-      barCode = barcodeScanRes;
-      print(barCode);
-    });
-
-  }
 
   // Future<bool> verifyToken() async {
   //   //vai conferir se temos um token dentro do aplicativo

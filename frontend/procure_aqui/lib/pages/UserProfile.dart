@@ -111,7 +111,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     ],
                   ),
                   userInputButton(Color(0xFF7B61FF), 'Atualizar Dados', (){
-                    Navigator.of(context).pushNamed('/UserEditProfile');
+                    Navigator.of(context).pushNamed('/UserEditProfile', arguments: snapshot.data!);
                   }),
                   userInputButton(Color(0xFFadd8e6), 'Sair da conta', () async {
                     bool leave = await logout();

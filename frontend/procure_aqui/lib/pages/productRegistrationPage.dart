@@ -1,10 +1,13 @@
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:procure_aqui/components/smallPurpleButton.dart';
 
 
 class productRegistrationPage extends StatefulWidget {
-  const productRegistrationPage({super.key});
+   productRegistrationPage({required this.barCode, super.key});
+
+   String barCode;
 
   @override
   State<productRegistrationPage> createState() => _productRegistrationPageState();
@@ -16,6 +19,7 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
   String? _productName;
   double? _productPrice;
   String? _category;
+
 
     Widget _buildProductNameField(){
     return Column(
@@ -93,18 +97,18 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
         Container(
           margin: EdgeInsets.only(left: 28),
           width: 350,
-          child: Text('Sexo*')
+          child: Text('Categoria: *')
         ),
         Container(
           margin: EdgeInsets.only(left: 28),
           width: 350,
           height: 50,
           child: DropdownButtonFormField(items: const [
-            DropdownMenuItem(child: Text('Hortifruti'),value: "hortifruti"),
-            DropdownMenuItem(child: Text('Limpeza'),value: "limpeza"),
-            DropdownMenuItem(child: Text('Açougue'),value: "acougue"),
-            DropdownMenuItem(child: Text('Bebidas'),value: "bebidas"),
-            DropdownMenuItem(child: Text('Produtos Gerais'),value: "produtos gerais"),
+            DropdownMenuItem(child: Text('Hortifruti'),value: "1"),
+            DropdownMenuItem(child: Text('Limpeza'),value: "2"),
+            DropdownMenuItem(child: Text('Açougue'),value: "3"),
+            DropdownMenuItem(child: Text('Bebidas'),value: "4"),
+            DropdownMenuItem(child: Text('Produtos Gerais'),value: "5"),
           ],
           // value: _sexDropDownValue,
           // onChanged: sexDropDownHandler,
@@ -151,7 +155,7 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
               Container(margin: EdgeInsets.only(bottom: 250),),
               Row(
                 children: [
-                  smallPurpleButton('Cadastrar',  func: () { 
+                  smallPurpleButton('Cadastrar',  func: () async {
                       if(!_formKey.currentState!.validate()){
                         return;              
                       }
@@ -159,9 +163,23 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
                       print(_productName);
                       print(_productPrice);
                       print(_category);
-                    },
+                      var url = Uri.parse('http://10.0.2.2:8000/products/');
+                      var response = await http.post(url, body: {
+                        "product_name" : _productName,
+                        "bar_code" : widget.barCode,
+                        "price" : _productPrice?.toString(),
+                        "category": _category,
+                        "supermarket" : "1"
+                      });
+                      print(response.body);
+                      print(response.statusCode);
+                      Navigator.of(context).pushReplacementNamed('/AppHome');
+
+                  },
                   ),
-                  smallPurpleButton('Cancelar', func: () {  },),
+                  smallPurpleButton('Cancelar', func: () {
+                    Navigator.of(context).pushReplacementNamed('/AppHome');
+                  },),
                 ],
               )
             ],

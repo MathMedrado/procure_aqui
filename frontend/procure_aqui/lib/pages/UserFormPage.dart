@@ -1,11 +1,11 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:procure_aqui/components/dataPicker.dart';
 import 'package:procure_aqui/components/smallPurpleButton.dart';
-import '../components/inputText.dart';
-import 'package:intl/intl.dart';
 import '../components/smallDropDown.dart';
-import 'package:procure_aqui/models/user.dart';
+import 'package:http/http.dart' as http;
+
 
 class UserFormPage extends StatefulWidget {
   const UserFormPage({super.key});
@@ -330,7 +330,7 @@ Widget _buildStateField(){
                     fontSize: 18
                   ),
                 ),
-                onPressed: _isChecked1 == true && _isChecked2 ==true? (){
+                onPressed: _isChecked1 == true && _isChecked2 ==true? () async {
                   if(!_formKey.currentState!.validate()){
                   return;
                 }
@@ -343,8 +343,20 @@ Widget _buildStateField(){
                   // print(_sexDropDownValue );
                   // print(_city);
                   // print(_state);
-                  User user1 = User(id: 1, username:  _username, email: _email, password: _password1, city: _city, birthDate: _dateTime, sex: _sexDropDownValue, state: _state);
-                  Navigator.of(context).pushNamed('/UserProfilePage', arguments: user1);
+                  var url = Uri.parse('http://10.0.2.2:8000/users/');
+                  var response = await http.post(url, body: {
+                    "username" : _username,
+                    "email": _email,
+                    "password": _password1,
+                    "sex" : _sexDropDownValue,
+                    "birth_date": DateFormat('y-MM-d').format(_dateTime as DateTime),
+                    "city" : 1.toString()
+                  });
+                  print(DateFormat('y-MM-d').format(_dateTime as DateTime));
+                  if(response.statusCode == 201){
+                    Navigator.of(context).popAndPushNamed('/');
+                  }
+
                 } : null,
                 style: ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(98, 0, 238, 30.0)),

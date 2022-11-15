@@ -53,7 +53,14 @@ class routeGenerator{
         }
         return _errorRoute();
       case '/UserEditProfile':
-        return MaterialPageRoute( builder: (_) => UserEditProfile());
+        if (args is User){
+          return  MaterialPageRoute(
+              builder: (_) => UserEditProfile(user: args)
+          );
+        }
+        return _errorRoute();
+      // case '/UserEditProfile':
+      //   return MaterialPageRoute( builder: (_) => UserEditProfile());
       case '/ProductDetailPage':
         if(args is Product){
           return MaterialPageRoute(builder: (_) => ProductDetailPage(product: args));
@@ -62,7 +69,10 @@ class routeGenerator{
       case '/productComparationPage':
               return MaterialPageRoute(builder: (_) => productComparationPage() );
       case '/productRegistrationPage':
-        return MaterialPageRoute(builder: (_) => productRegistrationPage() );
+        if(args is String){
+          return MaterialPageRoute(builder: (_) => productRegistrationPage(barCode: args));
+        }
+        return _errorRoute();
       case '/productEditPage':
         return MaterialPageRoute(builder: (_) => productEditPage() );
       case '/categoryView':

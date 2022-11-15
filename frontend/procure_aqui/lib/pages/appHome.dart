@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:procure_aqui/pages/HomePage.dart';
 import 'package:procure_aqui/pages/LoginPage.dart';
 import 'package:procure_aqui/pages/UserProfile.dart';
@@ -22,6 +24,7 @@ class AppHome extends StatefulWidget  {
 class _AppHomeState extends State<AppHome> {
 
   int currentIndex = 0;
+  String? barCode;
 
   Future<bool> verifyToken() async {
     //vai conferir se temos um token dentro do aplicativo
@@ -33,6 +36,32 @@ class _AppHomeState extends State<AppHome> {
       return false;
     }
   }
+
+  Future <void> _startScan() async {
+    String barcodeScanRes;
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode("#ff6666", 'Sair', false, ScanMode.BARCODE);
+      print('Funcionou ${barCode}');
+    } on PlatformException {
+      if(barCode == -1){
+        print('não funcionou');
+        Navigator.pushNamed(context, '/');
+      }
+      barcodeScanRes = 'Fail';
+
+    }
+    setState(() {
+      barCode = barcodeScanRes;
+      print(barCode);
+    });
+    if(barCode == -1){
+      print('não funcionou');
+      Navigator.pushNamed(context, '/AppHome');
+    }else{
+      Navigator.pushNamed(context, '/productRegistrationPage', arguments: '7896212919888');
+    }
+  }
+
   Future<void> _dialogBuilder(BuildContext context){
     return showDialog(
         context: context,
@@ -128,7 +157,8 @@ class _AppHomeState extends State<AppHome> {
 
   final screens = [
     productHomePage(),
-    tutorialPage(),
+    Container(),
+    //tutorialPage(),
     listOfProducts(),
     UserProfilePage(user: User(id: 1, username: 'matheus', email: 'matheus-13-@hotmail.com', birthDate:DateTime.now(),  city: 'Rialma', sex: 'Masculino', password: '1234567891', state: 'Goiás' ))
   ];
@@ -157,6 +187,10 @@ class _AppHomeState extends State<AppHome> {
        bottomNavigationBar: BottomNavigationBar(
           currentIndex: currentIndex,
           onTap: (index) {
+            if(index == 1 ){
+              _startScan();
+              print('aqui');
+            }
             if(index == 1||  index == 2 || index == 3){
               verifyToken().then((value) {
                 if(value ==false ){
@@ -167,7 +201,7 @@ class _AppHomeState extends State<AppHome> {
                 }
               });
             }else{
-              setState(() { currentIndex = index;});
+                setState(() { currentIndex = index;});
             }
           },
           items:const <BottomNavigationBarItem>[
