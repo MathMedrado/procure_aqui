@@ -4,6 +4,7 @@ import 'package:http/http.dart';
 import 'package:procure_aqui/models/supermarket.dart';
 import 'package:procure_aqui/models/product.dart';
 import 'package:procure_aqui/components/productViewInRow.dart';
+import 'package:procure_aqui/pages/listOfProducts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:procure_aqui/token.dart';
@@ -51,6 +52,75 @@ class _productHomePageState extends State<productHomePage> {
     else{
       return listProducts;
     }
+  }
+
+  Future<List<int>>  fetchUserListOfProducts() async {
+    SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
+    String? userEmail = sharedPreferences.getString('email');
+    var userUrl = Uri.parse('http://10.0.2.2:8000/users/?email=$userEmail');
+    Response responseUser = await http.get(userUrl);
+    //print(responseUser.body);
+    //print('id: 2 ${jsonDecode(responseUser.body)[0]['id']}');
+    int userid = jsonDecode(responseUser.body)[0]['id'];
+    await sharedPreferences.setInt('userId', userid);
+
+
+    var url = Uri.parse('http://10.0.2.2:8000/listOfProducts/?user=$userid');
+    Response response = await http.get(url);
+    print(response.body);
+    var  values = jsonDecode(response.body) ;
+    if(values.length == 0){
+      print('Não tem produtos na lista');
+      //Continua daqui amanhã, adiciona o metodo post nessa bosta
+    }
+    List<int> list = [];
+    print('Quantidade de produtos: ${values[0]}');
+    for(int x = 0; x < values[0]['products'].length; x++){
+      //print(values[0]['products'][x]['id']);
+      list.add(values[0]['products'][x]['id']);
+    }
+    //print(list);
+
+    return list;
+  }
+
+  callFunction(int userId)  {
+    List<int> listOfProductsId = [];
+    fetchUserListOfProducts().then((List<int>value)  {
+      //print('Erro $value');
+      listOfProductsId = value;
+      callFunction2(listOfProductsId, userId);
+    } );
+
+  }
+
+  callFunction2(List<int> listOfProductsId, int productId) async {
+
+    if(listOfProductsId.contains(productId)){
+      print('Já está na lista');
+
+
+    }else{
+      print('Não está na lista');
+      //print(listOfProductsId);
+      //print(productId);
+      SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
+      int? userId = sharedPreferences.getInt('userId');
+      print(toJson(userId!, listOfProductsId));
+      var url = Uri.parse('http://10.0.2.2:8000/listOfProducts/1/');
+      print(json.encode(toJson(userId!, listOfProductsId)));
+      Response response = await http.put(url, body: toJson(userId!, listOfProductsId)
+      );
+      print(response.statusCode);
+      print(response.body);
+    }
+  }
+
+  Map toJson(int userId, List<int> listOfProductsId){
+    return {
+      "user" : userId.toString(),
+      "products" : jsonEncode(listOfProductsId)
+    };
   }
 
   Widget _buildPopUpCard(){
@@ -172,7 +242,7 @@ class _productHomePageState extends State<productHomePage> {
                     shrinkWrap: true,
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index){
-                      return ProductViewInRow(product: snapshot.data![index]);
+                      return ProductViewInRow(product: snapshot.data![index], func: callFunction,);
                     },
                   ),
                   Container(

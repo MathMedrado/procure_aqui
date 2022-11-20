@@ -4,13 +4,8 @@ import 'package:procure_aqui/models/product.dart';
 import '../models/supermarket.dart';
 
 class listOfProductcard extends StatelessWidget {
-   listOfProductcard ({ super.key});
-
-  final Product product = Product(id: 1, nameProduct: 'Ervilha De Campinas', barCode: 5689254895486589, imageUrl: 'lib/assets/images/bolo.jpeg', creationDate: DateTime.now(), isVisible: true, actualPrice: 5.0,  supermarket: Supermarket(id: 1, nameSupermarket: 'Mercafrutas', city: 'Rialma', street: '68', district: 'Park Industrial', complement: 'Quadra 18'), category: 'queijo');
-  final Product product2 = Product(id: 1, nameProduct: 'Ervilha da Coreia', barCode: 5689254895486589,imageUrl: 'lib/assets/images/bolo.jpeg', creationDate: DateTime.now(), isVisible: true, actualPrice: 5.0,  supermarket: Supermarket(id: 1, nameSupermarket: 'Mercafrutas', city: 'Rialma', street: '68', district: 'Park Industrial', complement: 'Quadra 18'), category: 'queijo');
-  final Product product3 = Product(id: 1, nameProduct: 'Ervilha do Japão, China, Chile e Uruaia', barCode: 5689254895486589, imageUrl: 'lib/assets/images/bolo.jpeg', creationDate: DateTime.now(), isVisible: true, actualPrice: 5.0,  supermarket: Supermarket(id: 1, nameSupermarket: 'Mercafrutas', city: 'Rialma', street: '68', district: 'Park Industrial', complement: 'Quadra 18'), category: 'queijo');
-
-  final String supermarket = 'Comperfrutas';
+   listOfProductcard ({required this.product, super.key});
+   Product product;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +26,8 @@ class listOfProductcard extends StatelessWidget {
                         margin: EdgeInsets.only(left: 10),
                         width: 120,
                         height: 150,
-                        child: Image.asset(
+                        child: Image.network(
                           product.getImageUrl,
-                          //'lib/assets/images/bolo.jpeg'
                         ),
                       ),
                       Column(

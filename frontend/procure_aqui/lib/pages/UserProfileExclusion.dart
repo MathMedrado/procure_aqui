@@ -82,7 +82,7 @@ class _UserProfileExclusionState extends State<UserProfileExclusion> {
                         var response = await http.delete(url);
                         print(response.body);
                         if(response.statusCode == 204){
-                        Navigator.of(context).popAndPushNamed('/');
+                          Navigator.of(context).popAndPushNamed('/');
                         }
                       },
                     ),                
@@ -151,6 +151,7 @@ class _UserProfileExclusionState extends State<UserProfileExclusion> {
               Form(
                 key: _formKey,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                       margin: EdgeInsets.only(left: 20, top: 40),
@@ -242,9 +243,11 @@ class _UserProfileExclusionState extends State<UserProfileExclusion> {
                   ),
                 onPressed: () {
                   if(_formKey.currentState!.validate()) {
-                    print(password);
-                    var passwordInBytes = utf8.encode(password!);
+                    print(passwordController.text);
+                    print(widget.user.getPassword);
+                    var passwordInBytes = utf8.encode(passwordController.text!);
                     var value = sha256.convert(passwordInBytes);
+                    print(value.toString());
                     if(value == widget.user.getPassword){
                       _dialogBuilder(context);
                     }

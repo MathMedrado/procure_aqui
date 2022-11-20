@@ -153,6 +153,10 @@ class _SearchProductState extends State<SearchProduct> {
     );
   }
 
+  callFunction(int userId){
+    print(userId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -181,7 +185,7 @@ class _SearchProductState extends State<SearchProduct> {
                       shrinkWrap: true,
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index){
-                        return ProductViewInRow(product: snapshot.data![index]);
+                        return ProductViewInRow(product: snapshot.data![index], func: callFunction);
                       },
                     ),
                     Container(

@@ -5,9 +5,10 @@ import 'package:procure_aqui/models/product.dart';
 
 
 class ProductViewInRow extends StatelessWidget {
-  ProductViewInRow({required this.product, super.key});
+  ProductViewInRow({required this.product, required this.func, super.key});
 
   final Product product;
+  final void Function(int) func;
 
 
   @override
@@ -29,7 +30,7 @@ class ProductViewInRow extends StatelessWidget {
                   margin: EdgeInsets.only(left: 140),
                   child: IconButton(
                     icon: Icon(Icons.add) ,
-                    onPressed: (){}
+                    onPressed: () => func(product.getId)
                   ),
                 ),
                 Center(

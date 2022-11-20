@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:procure_aqui/components/sideBarMenu.dart';
+import 'package:procure_aqui/components/smallPurpleButton.dart';
 import 'package:procure_aqui/models/supermarket.dart';
 import 'package:procure_aqui/models/product.dart';
 import 'package:procure_aqui/components/productViewInRow.dart';
@@ -153,6 +154,10 @@ class _CategoryViewState extends State<CategoryView> {
     );
   }
 
+  callFunction(int userId){
+    print(userId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -181,7 +186,7 @@ class _CategoryViewState extends State<CategoryView> {
                       shrinkWrap: true,
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index){
-                        return  ProductViewInRow(product: snapshot.data![index]);
+                        return  ProductViewInRow(product: snapshot.data![index], func: callFunction,);
                       },
                     ) ,
                     Container(
@@ -189,7 +194,23 @@ class _CategoryViewState extends State<CategoryView> {
                     )
                   ],
                 ),
-              ) : Container();
+              ) : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    child:  Text(
+                      'Nenhum produto encontrado nessa categoria',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20
+                      ),
+                    ),
+                  ),
+                  smallPurpleButton('Voltar', func: (){
+                    Navigator.of(context).popAndPushNamed('/AppHome');
+                  })
+                ],
+              );
             }
             else {
               final error = snapshot.error;

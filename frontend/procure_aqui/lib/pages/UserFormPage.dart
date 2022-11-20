@@ -353,6 +353,7 @@ Widget _buildStateField(){
                     "city" : 1.toString()
                   });
                   print(DateFormat('y-MM-d').format(_dateTime as DateTime));
+                  print(response.body);
                   if(response.statusCode == 201){
                     Navigator.of(context).popAndPushNamed('/');
                   }
