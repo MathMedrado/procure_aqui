@@ -335,14 +335,9 @@ Widget _buildStateField(){
                   return;
                 }
                   _formKey.currentState!.save();
-                  // print(_username );
-                  // print(_email );
-                  // print(_password1 );
-                  // print(_password2 );
-                  // print(_dateTime );
-                  // print(_sexDropDownValue );
-                  // print(_city);
-                  // print(_state);
+                  if(_dateTime == null){
+                    _dateTime = DateTime.now();
+                  }
                   var url = Uri.parse('http://10.0.2.2:8000/users/');
                   var response = await http.post(url, body: {
                     "username" : _username,

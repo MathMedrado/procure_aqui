@@ -1,7 +1,11 @@
+import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:procure_aqui/components/smallPurpleButton.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 
 class productRegistrationPage extends StatefulWidget {
@@ -20,6 +24,75 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
   double? _productPrice;
   String? _category;
 
+  @override
+  void initState(){
+    super.initState();
+    // bool check = false;
+    // isProductRegistred(widget.barCode).then((bool value) {
+    //   print('antes $value');
+    //   isProductCreated = value;
+    //   print('depois $isProductCreated');
+    // } );
+    setState(() {
+          isProductCreated = isProductRegistred(widget.barCode);
+
+    });
+    setState(() {
+          productName = getProductNameIfExist(widget.barCode);
+
+    });
+
+    // print('O produto foi criado? $check');
+    // isProductCreated = isProductRegistred(widget.barCode) as bool;
+    // print(isProductCreated);
+    // if(check == true){
+    //   getProductNameIfExist(widget.barCode).then((String value) => productName = value);
+    //   print(productName);
+    // }
+    // else{
+    //   productName = 'Produto não encontrado';
+    //   print(productName);
+    // }
+
+  }
+
+  // _initData() async{
+
+  // }
+  
+
+  late Future<bool> isProductCreated; 
+  late Future<String> productName;
+
+  Future <bool> isProductRegistred(String barCode) async {
+    var url = Uri.parse('http://10.0.2.2:8000/products/?bar_code=${barCode}');
+    var response = await http.get(url);
+    var values = jsonDecode(response.body);
+    print('tem produtos? $values');
+    if(values != []){
+      return false;
+    }
+    else{
+      return true;
+    }
+
+  }
+
+  Future <String> getProductNameIfExist(String barCode) async {
+    var url = Uri.parse('http://10.0.2.2:8000/products/?bar_code=${barCode}');
+    var response = await http.get(url);
+    var values = jsonDecode(response.body);
+    print(values);
+    if(values == []){
+      String productName = values[0]['product_name'];
+      print('nome do produto $productName');
+    }else {
+      String productName = '';  
+    }
+
+    return productName;
+
+  }
 
     Widget _buildProductNameField(){
     return Column(
@@ -133,10 +206,7 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
     );
   }
 
-
-  
-  @override
-  Widget build(BuildContext context) {
+  Widget _newProduct(){
     return Scaffold(
       appBar: AppBar(
         backgroundColor:  Color(0xFF3700B3),
@@ -163,13 +233,17 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
                       print(_productName);
                       print(_productPrice);
                       print(_category);
+                      SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
+                      String? supermarket = await sharedPreferences.getString('supermarket');
+
+
                       var url = Uri.parse('http://10.0.2.2:8000/products/');
                       var response = await http.post(url, body: {
                         "product_name" : _productName,
                         "bar_code" : widget.barCode,
                         "price" : _productPrice?.toString(),
                         "category": _category,
-                        "supermarket" : "1"
+                        "supermarket" : supermarket
                       });
                       print(response.body);
                       print(response.statusCode);
@@ -188,5 +262,110 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
         )
       ),
     );
+  }
+
+
+  Widget _productAlredyExist(productName){
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor:  Color(0xFF3700B3),
+        title: Text('Cadastro de produtos'),
+      ),
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container( margin:  EdgeInsets.only(bottom: 50),),
+              Center(
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 30),
+                  child: Text(
+                    productName,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ),
+              ),
+              _buildProductPriceField(),
+              _buildCategoryDropdown(),
+              Container(margin: EdgeInsets.only(bottom: 250),),
+              Row(
+                children: [
+                  smallPurpleButton('Cadastrar',  func: () async {
+                      if(!_formKey.currentState!.validate()){
+                        return;              
+                      }
+                      _formKey.currentState!.save();
+                      print(_productName);
+                      print(_productPrice);
+                      print(_category);
+                      SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
+                      String? supermarket = await sharedPreferences.getString('supermarket');
+
+
+                      var url = Uri.parse('http://10.0.2.2:8000/products/');
+                      var response = await http.post(url, body: {
+                        "product_name" : productName,
+                        "bar_code" : widget.barCode,
+                        "price" : _productPrice?.toString(),
+                        "category": _category,
+                        "supermarket" : supermarket
+                      });
+                      print(response.body);
+                      print(response.statusCode);
+                      Navigator.of(context).pushReplacementNamed('/AppHome');
+
+                  },
+                  ),
+                  smallPurpleButton('Cancelar', func: () {
+                    Navigator.of(context).pushReplacementNamed('/AppHome');
+                  },),
+                ],
+              )
+            ],
+          
+          ),
+        )
+      ),
+    );
+  }
+
+
+  
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: Future.wait([isProductCreated, productName]),
+      builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+      if (snapshot.hasData) {
+        if(snapshot.data![0] == false){
+          return GestureDetector(
+            onTap: (){
+              FocusScope.of(context).unfocus();
+            }, 
+            child: _newProduct()
+            );
+        } else {
+            return GestureDetector(
+            onTap: (){
+              FocusScope.of(context).unfocus();
+            }, 
+            child: _productAlredyExist(snapshot.data![1])
+            );
+        }
+      }
+      else {
+        final error = snapshot.error;
+        print('Ocorreu umerror');
+        return CircularProgressIndicator();
+      }
+    }
+    );
+
+
   }
 }

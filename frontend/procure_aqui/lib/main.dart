@@ -27,6 +27,7 @@ class ProcureAqui extends StatelessWidget {
     return MaterialApp(
       initialRoute: "/Start",
       onGenerateRoute: routeGenerator.generateRoute,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

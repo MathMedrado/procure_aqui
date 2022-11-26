@@ -25,6 +25,8 @@ class _AppHomeState extends State<AppHome> {
 
   int currentIndex = 0;
   String? barCode;
+  String? supermarketValue;
+  bool start_scan = false;
 
   Future<bool> verifyToken() async {
     //vai conferir se temos um token dentro do aplicativo
@@ -58,7 +60,7 @@ class _AppHomeState extends State<AppHome> {
       print('não funcionou');
       Navigator.pushNamed(context, '/AppHome');
     }else{
-      Navigator.pushNamed(context, '/productRegistrationPage', arguments: '7896212919888');
+      Navigator.pushNamed(context, '/productRegistrationPage', arguments: '147521455624');
     }
   }
 
@@ -154,6 +156,114 @@ class _AppHomeState extends State<AppHome> {
   }
 
 
+  Widget _buildPopUpCardSupermaket(){
+    return Center(
+      child: Card(
+        elevation: 5,
+        child: Container(
+          width: 368,
+          height: 265,
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                    padding: EdgeInsets.only(top: 10, left: 20),
+                    child: const Text(
+                      'Selecione o supermercado onde você está atualmente',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    )
+                ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(20, 15, 0, 0),
+                  child: Text(
+                    'Supermercado*',
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+                Container(
+                  width: 320,
+                  height: 40,
+                  margin: EdgeInsets.only(left: 22, top: 20),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      border: Border.all(color: Colors.grey)
+                  ),
+                  child: Container( // COloca a porra de um container no meio dos dropdown items para que eles não bugem.
+                    margin: EdgeInsets.only(left: 10),
+                    child: DropdownButton(
+                        items: [
+                          DropdownMenuItem(child: Text('Mercafrutas'), value: "1"),
+                          DropdownMenuItem(child: Text('Betel'), value: "2"),
+                          DropdownMenuItem(child: Text('Comperfrutas'), value: "3"),
+                        ],
+                        isExpanded: true,
+                        elevation: 5,
+                        underline: Container( color: Colors.white),
+                        iconSize: 40,
+                        value: supermarketValue,
+                        onChanged: (supermarket) {
+                          if (supermarket is String){
+                            setState(() {
+                              supermarketValue = supermarket;
+                              print(supermarketValue);
+                            });
+                          }
+                        }
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 320,
+                  height: 40,
+                  margin: EdgeInsets.only(left: 22, top: 20),
+                  child:
+                  ElevatedButton(
+                    child:  Text(
+                      'Selecionar',
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white
+                      ),
+                    ),
+                    onPressed: () async {
+                      SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
+                      await sharedPreferences.setString('supermarket', supermarketValue!);
+                      Navigator.of(context).pop();
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(98, 0, 238, 30.0)),
+                      foregroundColor: MaterialStatePropertyAll(Colors.white),
+                    ),
+                  ),
+                )
+              ]
+          ),
+        ),
+
+      ),
+    );
+  }
+
+  Future<void> _dialogBuilderSupermarket(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return _buildPopUpCardSupermaket();
+        }
+    );
+  }
+
+  Future<bool> verifySupermarket() async {
+    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
+    if(sharedPreference.getString('supermarket') != null){
+      return true;
+    }
+    else{
+      return false;
+    }
+}
 
   final screens = [
     productHomePage(),
@@ -169,6 +279,7 @@ class _AppHomeState extends State<AppHome> {
     AppBarSearchFeature(),
     AppBar(title: Text('Perfil do Usuario'), backgroundColor: Color(0xFF3700B3)),
   ];
+
 
 
   @override
@@ -188,8 +299,19 @@ class _AppHomeState extends State<AppHome> {
           currentIndex: currentIndex,
           onTap: (index) {
             if(index == 1 ){
-              _startScan();
-              print('aqui');
+              verifySupermarket().then((value) async {
+                start_scan = value;
+                if(start_scan  == true){
+                  _startScan();
+                  print('erro 1');
+                }
+                else{
+                  print('erro 2');
+                  await _dialogBuilderSupermarket(context);
+                      _startScan();
+                }
+              });
+
             }
             if(index == 1||  index == 2 || index == 3){
               verifyToken().then((value) {

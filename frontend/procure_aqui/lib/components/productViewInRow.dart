@@ -21,69 +21,72 @@ class ProductViewInRow extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
           ),
-          child: Card(
-            elevation: 2,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(left: 140),
-                  child: IconButton(
-                    icon: Icon(Icons.add) ,
-                    onPressed: () => func(product.getId)
-                  ),
-                ),
-                Center(
-                  child: Container(
-                    width: 146,
-                    height: 106,
-                    child: Image.network(
-                      product.getImageUrl,
-                        fit: BoxFit.cover
+          child: Container(
+            width: 200,
+            child: Card(
+              elevation: 5,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 140),
+                    child: IconButton(
+                      icon: Icon(Icons.add) ,
+                      onPressed: () => func(product.getId)
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 20, top: 5),
-                  child: Text(
-                    product.getNameProduct,
-                    style: TextStyle(
-                      fontSize: 14
+                  Center(
+                    child: Container(
+                      width: 130,
+                      height: 100,
+                      child: Image.network(
+                        product.getImageUrl,
+                          fit: BoxFit.cover
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only( left: 20, top: 5),
-                  child: Text(
-                    'R\$ ${product.getActualPrice.toString()}',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 148,
-                  height: 30,
-                  margin: EdgeInsets.only( left: 10, top: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Color(0xFF7B61FF)),
-                    ),
+                  Container(
+                    margin: EdgeInsets.only(left: 20, top: 5),
                     child: Text(
-                      'Ver detalhes'
+                      product.getNameProduct,
+                      style: TextStyle(
+                        fontSize: 14
+                      ),
                     ),
-                    onPressed: (){
-                      Navigator.of(context).pushNamed('/ProductDetailPage',arguments: product);
-                    },
                   ),
-                ),
-                Container(padding: EdgeInsets.only(bottom: 15),)
-              ],
-            )
+                  Container(
+                    margin: EdgeInsets.only( left: 20, top: 5),
+                    child: Text(
+                      'R\$ ${product.getActualPrice.toString()}',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 148,
+                    height: 30,
+                    margin: EdgeInsets.only( left: 10, top: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(Color(0xFF7B61FF)),
+                      ),
+                      child: Text(
+                        'Ver detalhes'
+                      ),
+                      onPressed: (){
+                        Navigator.of(context).pushNamed('/ProductDetailPage',arguments: product);
+                      },
+                    ),
+                  ),
+                  Container(padding: EdgeInsets.only(bottom: 15),)
+                ],
+              )
+            ),
           ),
         ),
       ],

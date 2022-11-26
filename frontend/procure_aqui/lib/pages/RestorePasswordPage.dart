@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
 
 class RestorePasswordPage extends StatefulWidget {
   const RestorePasswordPage({super.key});
@@ -113,10 +115,20 @@ class _RestorePasswordState extends State<RestorePasswordPage> {
                               fontSize: 18
                             ),
                           ),
-                          onPressed: (){
+                          onPressed: () async {
                              if(!_formkey.currentState!.validate()){
                               return;
                             }
+                             print(_passwordController.text);
+                             print(_tokenController.text);
+                             var url = Uri.parse('http://10.0.2.2:8000/api/password_reset/confirm/?token=${_tokenController.text}');
+                             var response = await http.post(url, body: {
+                                "password" : _passwordController.text,
+                                "token" : _tokenController.text
+                              });
+                             print(response.body);
+                             Navigator.of(context).pushNamed('/LoginPage');
+
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(98, 0, 238, 30.0)),

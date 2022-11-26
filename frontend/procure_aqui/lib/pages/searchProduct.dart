@@ -181,11 +181,15 @@ class _SearchProductState extends State<SearchProduct> {
                         ),
                       ),
                     ),
-                    ListView.builder(
+                    GridView.builder(
                       shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: (150.0 / 210.0),
+                          crossAxisCount: 2
+                      ),
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index){
-                        return ProductViewInRow(product: snapshot.data![index], func: callFunction);
+                        return ProductViewInRow(product: snapshot.data![index], func: callFunction,);
                       },
                     ),
                     Container(

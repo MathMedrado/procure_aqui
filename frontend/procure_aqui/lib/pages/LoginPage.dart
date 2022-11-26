@@ -86,145 +86,150 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false, //Conversar sobre com o Luis e Mateus
-      backgroundColor: Color(0xFF6200EE),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.fromLTRB(50, 250, 50, 50),
-              child: Image.asset('lib/assets/images/logo2.png')
-            ),
-            Form(
-              key: _formkey,
-              child: Column(
-                children: [
-                  Container(
-                    height: 50,
-                    width: 330,
-                    margin: EdgeInsets.fromLTRB(0, 15, 0, 15),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                      color: Colors.white
-                    ),
-                    child: 
-                      TextFormField(
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          hintText: 'Digite o seu email',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(4),
-                          )
-                        ),
-                        validator: (email){
-                          if(email == null || email.isEmpty){
-                            return 'Digite o seu email!';
-                          }
-                          //else if (!RegExp(
-                            //r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                           //.hasMatch(_emailController.text)) {
-                         // return 'Digite um e-mail valido!';
-                        //}
-                      }
+    return GestureDetector(
+      onTap: (){
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false, //Conversar sobre com o Luis e Mateus
+        backgroundColor: Color(0xFF6200EE),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.fromLTRB(50, 250, 50, 50),
+                child: Image.asset('lib/assets/images/logo2.png')
+              ),
+              Form(
+                key: _formkey,
+                child: Column(
+                  children: [
+                    Container(
+                      height: 50,
+                      width: 330,
+                      margin: EdgeInsets.fromLTRB(0, 15, 0, 15),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                        color: Colors.white
                       ),
-                  ),
-                  Container(
-                    height: 50,
-                    width: 330,
-                    margin: EdgeInsets.fromLTRB(0, 10, 0, 5),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                      color: Colors.white
-                    ),
-                    child: 
-                      TextFormField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          hintText: 'Digite a sua senha',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(4),
-                          )
-                        ),
-                        validator: (password){
-                          if(password == null || password.isEmpty){
-                            return 'Você precisa informar a sua senha.';
-                            return '';
-                          }else if(password.length < 5){
-                            return 'A sua Senha precisa conter no minimo 10 caracteres';
-                          }
-                        },
-                      )
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(200, 0, 0, 0),
-                    child: TextButton(
-                      onPressed: (){
-                        Navigator.of(context).pushNamed(ProcureAqui.ForgetPassword);
-                      }, 
-                      child: const Text(
-                          'Esqueceu a senha?',
-                          style: TextStyle(
-                            color: Colors.white,
-                            decoration: TextDecoration.underline
+                      child: 
+                        TextFormField(
+                          controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            hintText: 'Digite o seu email',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            )
                           ),
-                        )
+                          validator: (email){
+                            if(email == null || email.isEmpty){
+                              return 'Digite o seu email!';
+                            }
+                            //else if (!RegExp(
+                              //r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            //.hasMatch(_emailController.text)) {
+                          // return 'Digite um e-mail valido!';
+                          //}
+                        }
+                        ),
+                    ),
+                    Container(
+                      height: 50,
+                      width: 330,
+                      margin: EdgeInsets.fromLTRB(0, 10, 0, 5),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                        color: Colors.white
                       ),
-                  ),
-                  Container(
-                        margin: EdgeInsets.fromLTRB(0, 30, 0, 10),
-                        width: 220,
-                        height: 50,
-                        child: 
-                          ElevatedButton(
-                            child: const Text(
-                              'Entrar',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20
-                              ),
+                      child: 
+                        TextFormField(
+                          controller: _passwordController,
+                          obscureText: true,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            hintText: 'Digite a sua senha',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            )
+                          ),
+                          validator: (password){
+                            if(password == null || password.isEmpty){
+                              return 'Você precisa informar a sua senha.';
+                              return '';
+                            }else if(password.length < 5){
+                              return 'A sua Senha precisa conter no minimo 10 caracteres';
+                            }
+                          },
+                        )
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(200, 0, 0, 0),
+                      child: TextButton(
+                        onPressed: (){
+                          Navigator.of(context).pushNamed(ProcureAqui.ForgetPassword);
+                        }, 
+                        child: const Text(
+                            'Esqueceu a senha?',
+                            style: TextStyle(
+                              color: Colors.white,
+                              decoration: TextDecoration.underline
                             ),
-                            onPressed: () async {
-                              // _submitLogin();
-                              // Navigator.of(context).pushNamed(ProcureAqui.userProfilePage);
-                              // Navigator.of(context).pushNamed('/AppHome');
-                              //pega a referencia do  teclado
-                              FocusScopeNode currenFocus = FocusScope.of(context);
-                              if(_formkey.currentState!.validate()){
-                                bool callResult = await login();
-                                if(!currenFocus.hasPrimaryFocus){
-                                  //se o teclado estiver aberto ele fecha ele;
-                                  currenFocus.unfocus();
-                                }
-                                if(callResult){
-                                  Navigator.pushReplacementNamed(context, '/AppHome');
-                                  // Navigator.of(context).pushReplacementNamed('/AppHome');
-                                } else{
-                                  _passwordController.clear();
-                                  //coloca uma mensagem de erro
+                          )
+                        ),
+                    ),
+                    Container(
+                          margin: EdgeInsets.fromLTRB(0, 30, 0, 10),
+                          width: 220,
+                          height: 50,
+                          child: 
+                            ElevatedButton(
+                              child: const Text(
+                                'Entrar',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20
+                                ),
+                              ),
+                              onPressed: () async {
+                                // _submitLogin();
+                                // Navigator.of(context).pushNamed(ProcureAqui.userProfilePage);
+                                // Navigator.of(context).pushNamed('/AppHome');
+                                //pega a referencia do  teclado
+                                FocusScopeNode currenFocus = FocusScope.of(context);
+                                if(_formkey.currentState!.validate()){
+                                  bool callResult = await login();
+                                  if(!currenFocus.hasPrimaryFocus){
+                                    //se o teclado estiver aberto ele fecha ele;
+                                    currenFocus.unfocus();
+                                  }
+                                  if(callResult){
+                                    Navigator.pushReplacementNamed(context, '/AppHome');
+                                    // Navigator.of(context).pushReplacementNamed('/AppHome');
+                                  } else{
+                                    _passwordController.clear();
+                                    //coloca uma mensagem de erro
+                                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                  }
+                                }else{
                                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                 }
-                              }else{
-                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                              }
-                            },
-                            style: const ButtonStyle(
-                              backgroundColor: MaterialStatePropertyAll(Colors.white),
-                              foregroundColor: MaterialStatePropertyAll(Colors.black),
-                            ),
+                              },
+                              style: const ButtonStyle(
+                                backgroundColor: MaterialStatePropertyAll(Colors.white),
+                                foregroundColor: MaterialStatePropertyAll(Colors.black),
+                              ),
+                          ),
                         ),
-                      ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            
-            
-          ],      
+              
+              
+            ],      
+          ),
         ),
-      ),
+      )
     );
   }
 }

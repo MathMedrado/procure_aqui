@@ -27,8 +27,10 @@ class _productHomePageState extends State<productHomePage> {
   void initState(){
     super.initState();
     productData = fetchProductInfo();
+
   }
   late Future<List<Product>> productData;
+  bool loading = true;
 
 
   Future<List<Product>> fetchProductInfo() async {
@@ -57,11 +59,12 @@ class _productHomePageState extends State<productHomePage> {
   Future<List<int>>  fetchUserListOfProducts() async {
     SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
     String? userEmail = sharedPreferences.getString('email');
-    var userUrl = Uri.parse('http://10.0.2.2:8000/users/?email=$userEmail');
+    var userUrl = Uri.parse('http://10.0.2.2:8000/users/?search=$userEmail');
     Response responseUser = await http.get(userUrl);
     //print(responseUser.body);
     //print('id: 2 ${jsonDecode(responseUser.body)[0]['id']}');
     int userid = jsonDecode(responseUser.body)[0]['id'];
+    print(jsonDecode(responseUser.body)[0]['id']);
     await sharedPreferences.setInt('userId', userid);
 
 
@@ -69,32 +72,39 @@ class _productHomePageState extends State<productHomePage> {
     Response response = await http.get(url);
     print(response.body);
     var  values = jsonDecode(response.body) ;
+    List<int> list = [];
+
     if(values.length == 0){
       print('Não tem produtos na lista');
-      //Continua daqui amanhã, adiciona o metodo post nessa bosta
+    }else{
+      print('Quantidade de produtos: ${values[0]}');
+      for(int x = 0; x < values[0]['products'].length; x++){
+        //print(values[0]['products'][x]['id']);
+        list.add(values[0]['products'][x]['id']);
+      }
+      print(list);
     }
-    List<int> list = [];
-    print('Quantidade de produtos: ${values[0]}');
-    for(int x = 0; x < values[0]['products'].length; x++){
-      //print(values[0]['products'][x]['id']);
-      list.add(values[0]['products'][x]['id']);
-    }
-    //print(list);
+
 
     return list;
   }
 
-  callFunction(int userId)  {
+  callFunction(int productId)  {
     List<int> listOfProductsId = [];
     fetchUserListOfProducts().then((List<int>value)  {
       //print('Erro $value');
       listOfProductsId = value;
-      callFunction2(listOfProductsId, userId);
-    } );
+      if(listOfProductsId.isNotEmpty){
+        callFunctionPut(listOfProductsId, productId);
+      }else{
+        callFunctionPost(productId);
+      }
+    }
+    );
 
   }
 
-  callFunction2(List<int> listOfProductsId, int productId) async {
+  callFunctionPut(List<int> listOfProductsId, int productId) async {
 
     if(listOfProductsId.contains(productId)){
       print('Já está na lista');
@@ -105,123 +115,60 @@ class _productHomePageState extends State<productHomePage> {
       //print(listOfProductsId);
       //print(productId);
       SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
-      int? userId = sharedPreferences.getInt('userId');
+      String? userEmail = sharedPreferences.getString('email');
+      var userUrl = Uri.parse('http://10.0.2.2:8000/users/?search=$userEmail');
+      Response responseUser = await http.get(userUrl);
+      print(responseUser.body);
+      int userId = jsonDecode(responseUser.body)[0]['id'];
+      //print(responseUser.body);
+      //print('id: 2 ${jsonDecode(responseUser.body)[0]['id']}');
+      // int userid = jsonDecode(responseUser.body)[0]['id'];
+      print('usuario $userId');
       print(toJson(userId!, listOfProductsId));
       var url = Uri.parse('http://10.0.2.2:8000/listOfProducts/1/');
       print(json.encode(toJson(userId!, listOfProductsId)));
-      Response response = await http.put(url, body: toJson(userId!, listOfProductsId)
-      );
+      print(listOfProductsId.toString());
+      final sendbody = {
+        "user": "$userId", "products" : listOfProductsId
+      };
+      Response response = await http.put(url, body: jsonEncode(sendbody), headers: {
+        'Content-Type' : 'application/json',
+
+      });
       print(response.statusCode);
       print(response.body);
+      
+
     }
+  }
+  callFunctionPost(int productId) async {
+    print('funcao post chamada');
+    List<int> listOfOneProduct = [];
+    listOfOneProduct.add(productId);
+    SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
+    int? userId = sharedPreferences.getInt('userId');
+    print(userId);
+    print(listOfOneProduct);
+    var url = Uri.parse('http://10.0.2.2:8000/listOfProducts/');
+    Response response = await http.post(url, body: {
+      "user" : userId,
+      "products" : listOfOneProduct
+    });
+    print(response.statusCode);
+    print(response.body);
+
   }
 
   Map toJson(int userId, List<int> listOfProductsId){
     return {
       "user" : userId.toString(),
-      "products" : jsonEncode(listOfProductsId)
+      "products" : listOfProductsId.toString()
     };
   }
 
-  Widget _buildPopUpCard(){
-    return Center(
-      child: Card(
-        elevation: 5,
-        child: Container(
-          width: 368,
-          height: 265,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: const Text(
-                  'Selecione o supermercado onde você está atualmente',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                )
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(20, 15, 0, 0),
-                child: Text(
-                  'Supermercado*',
-                  textAlign: TextAlign.start,
-                ),
-              ),
-              Container(
-                width: 320,
-                height: 40,
-                margin: EdgeInsets.only(left: 22, top: 20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  border: Border.all(color: Colors.grey)
-                ),
-                child: Container( // COloca a porra de um container no meio dos dropdown items para que eles não bugem.
-                  margin: EdgeInsets.only(left: 10),
-                  child: DropdownButton(
-                    items: [
-                      DropdownMenuItem(child: Text('Mercafrutas'), value: "Mercafrutas"),
-                      DropdownMenuItem(child: Text('Betel'), value: "Betel"),
-                      DropdownMenuItem(child: Text('Comperfrutas'), value: "Comperfrutas"),
-                    ],
-                    isExpanded: true,
-                    elevation: 5,
-                    underline: Container( color: Colors.white),
-                    iconSize: 40,
-                    value: supermarketValue,
-                    onChanged: (supermarket) {
-                      if (supermarket is String){
-                        setState(() {
-                          supermarketValue = supermarket;
-                          print(supermarketValue);
-                        });
-                      }
-                    }
-                  ),
-                ),
-              ),
-              Container(
-                width: 320,
-                height: 40,
-                margin: EdgeInsets.only(left: 22, top: 20),
-                child: 
-                  ElevatedButton(
-                    child:  Text(
-                      'Selecionar',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white
-                      ),
-                    ),
-                    onPressed: (){
-                      Navigator.of(context).pop();
-                    },
-                    style: ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(98, 0, 238, 30.0)),
-                            foregroundColor: MaterialStatePropertyAll(Colors.white),          
-                            ),
-                  ),
-              )
-            ]
-          ),
-        ),
 
-      ),
-    );
-  }
 
-  Future<void> _dialogBuilder(BuildContext context){
-    return showDialog(
-      context: context, 
-      builder: (BuildContext context) {
-        return _buildPopUpCard();
-      }
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget renderScreen(){
     return FutureBuilder(
         future: productData,
         builder: (context, snapshot) {
@@ -232,14 +179,18 @@ class _productHomePageState extends State<productHomePage> {
                   Container(
                     margin: EdgeInsets.only(top: 30, left: 25),
                     child: const Text(
-                      'Ultimos produtos Cadastrados',
+                      'Últimos produtos cadastrados',
                       style: TextStyle(
                         fontSize: 22,
                       ),
                     ),
                   ),
-                  ListView.builder(
+                  GridView.builder(
                     shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: (150.0 / 210.0),
+                        crossAxisCount: 2
+                    ),
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index){
                       return ProductViewInRow(product: snapshot.data![index], func: callFunction,);
@@ -258,7 +209,14 @@ class _productHomePageState extends State<productHomePage> {
             return CircularProgressIndicator();
           }
         }
-        );
+    );
+  }
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return renderScreen();
 
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class ForgetPasswordPage extends StatefulWidget {
   const ForgetPasswordPage({super.key});
@@ -83,7 +84,13 @@ class _ForgetPasswordState extends State<ForgetPasswordPage> {
                       fontSize: 18
                     ),
                   ),
-                  onPressed: (){
+                  onPressed: () async {
+                    var url = Uri.parse('http://10.0.2.2:8000/api/password_reset/');
+                    print(url);
+                    var response = await http.post(url, body: {
+                      "email" : forgetEmailController.text
+                    });
+                    print(response.body);
                     Navigator.of(context).pushNamed('/RestorePassword');
                   },
                   style: ButtonStyle(
