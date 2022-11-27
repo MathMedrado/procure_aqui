@@ -36,7 +36,7 @@ class _CategoryViewState extends State<CategoryView> {
 
   Future<List<Product>> fetchProductInfo() async {
 
-    var productUrl = Uri.parse('http://10.0.2.2:8000/products/?category=${widget.categoryId}');
+    var productUrl = Uri.parse('http://18.208.163.221/products/?category=${widget.categoryId}');
     Response response = await http.get(productUrl);
     var  values = jsonDecode(response.body) ;
     print(values.length);

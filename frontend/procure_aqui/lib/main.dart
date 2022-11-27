@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:procure_aqui/pages/UserFormPage.dart';
 import 'package:procure_aqui/route_generator.dart';
 import 'pages/HomePage.dart';
@@ -24,10 +25,11 @@ class ProcureAqui extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       initialRoute: "/Start",
       onGenerateRoute: routeGenerator.generateRoute,
       debugShowCheckedModeBanner: false,
+      title: 'Procure Aqui',
     );
   }
 }

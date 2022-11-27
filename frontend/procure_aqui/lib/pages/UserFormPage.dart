@@ -338,7 +338,7 @@ Widget _buildStateField(){
                   if(_dateTime == null){
                     _dateTime = DateTime.now();
                   }
-                  var url = Uri.parse('http://10.0.2.2:8000/users/');
+                  var url = Uri.parse('http://18.208.163.221/users/');
                   var response = await http.post(url, body: {
                     "username" : _username,
                     "email": _email,

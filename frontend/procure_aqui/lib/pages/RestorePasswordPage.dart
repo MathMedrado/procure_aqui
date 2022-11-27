@@ -121,7 +121,7 @@ class _RestorePasswordState extends State<RestorePasswordPage> {
                             }
                              print(_passwordController.text);
                              print(_tokenController.text);
-                             var url = Uri.parse('http://10.0.2.2:8000/api/password_reset/confirm/?token=${_tokenController.text}');
+                             var url = Uri.parse('http://18.208.163.221/api/password_reset/confirm/?token=${_tokenController.text}');
                              var response = await http.post(url, body: {
                                 "password" : _passwordController.text,
                                 "token" : _tokenController.text

@@ -30,14 +30,14 @@ class _listOfProductsState extends State<listOfProducts> {
   Future<List<Product>> fetchProductInfo() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? userEmail = sharedPreferences.getString('email');
-    var userUrl = Uri.parse('http://10.0.2.2:8000/users/?email=$userEmail');
+    var userUrl = Uri.parse('http://18.208.163.221/users/?email=$userEmail');
     Response responseUser = await http.get(userUrl);
     print(responseUser.body);
     print('id ${jsonDecode(responseUser.body)[0]['id']}');
     int userid = jsonDecode(responseUser.body)[0]['id'];
 
 
-    var url = Uri.parse('http://10.0.2.2:8000/listOfProducts/?user=$userid');
+    var url = Uri.parse('http://18.208.163.221/listOfProducts/?user=$userid');
     Response response = await http.get(url);
     var  values = jsonDecode(response.body) ;
     List<Product> listProducts = [];

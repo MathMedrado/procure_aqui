@@ -31,7 +31,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   late Future<List<Product>> productData;
 
   Future<List<Product>> fetchProductInfo() async {
-    var url = Uri.parse('http://10.0.2.2:8000/products/?bar_code=${widget.product.getBarCode}');
+    var url = Uri.parse('http://18.208.163.221/products/?bar_code=${widget.product.getBarCode}');
     Response response = await http.get(url);
     var  values = jsonDecode(response.body) ;
     List<Product> listProducts = [];

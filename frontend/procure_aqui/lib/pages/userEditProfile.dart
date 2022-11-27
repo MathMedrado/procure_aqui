@@ -33,7 +33,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
 
   // Future<void> _submitForm(user) async {
   //   //http method put
-  //   var url = Uri.parse('http://10.0.2.2:8000/users/${user.getId}');
+  //   var url = Uri.parse('http://18.208.163.221/users/${user.getId}');
   //   Response response = await http.put(url, body: {
   //     {
   //       "email" : user,
@@ -173,7 +173,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
         Container(
           width: 160,
           height: 50,
-          margin: EdgeInsets.only(left: 30),
+          margin: EdgeInsets.only(left: 22),
           child: DropdownButtonFormField(items: const [
             DropdownMenuItem(child: Text('Rialma'),value: "Rialma"),
             DropdownMenuItem(child: Text('Ceres'),value: "Ceres"),
@@ -189,6 +189,8 @@ class _UserEditProfileState extends State<UserEditProfile> {
           iconSize: 30,
           isExpanded: true,
           decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            contentPadding: EdgeInsets.only(bottom: 5, left: 10),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: Colors.grey
@@ -228,6 +230,8 @@ Widget _buildStateField(){
           iconSize: 30,
           isExpanded: true,
           decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            contentPadding: EdgeInsets.only(bottom: 5, left: 10),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: Colors.grey
@@ -260,7 +264,7 @@ Widget _buildStateField(){
                  }
                   _formKey.currentState!.save();
                   //User user = User(id: 1, username:  _username, email: _email, password: _password1, city: _city, birthDate: _dateTime, sex: _sexDropDownValue, state: _state);
-                  var url = Uri.parse('http://10.0.2.2:8000/users/${widget.user.getId}/');
+                  var url = Uri.parse('http://18.208.163.221/users/${widget.user.getId}/');
                   print(url);
                   Response responseGet = await http.get(url);
                   print(responseGet.body);

@@ -56,11 +56,13 @@ class _AppHomeState extends State<AppHome> {
       barCode = barcodeScanRes;
       print(barCode);
     });
-    if(barCode == -1){
+    if(barCode != "-1"){
       print('não funcionou');
-      Navigator.pushNamed(context, '/AppHome');
+      Navigator.pushNamed(context, '/productRegistrationPage', arguments: barCode);
+
     }else{
-      Navigator.pushNamed(context, '/productRegistrationPage', arguments: '147521455624');
+      Navigator.pushNamed(context, '/AppHome');
+
     }
   }
 

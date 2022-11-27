@@ -35,7 +35,7 @@ class _productHomePageState extends State<productHomePage> {
 
   Future<List<Product>> fetchProductInfo() async {
 
-    var productUrl = Uri.parse('http://10.0.2.2:8000/products/');
+    var productUrl = Uri.parse('http://18.208.163.221/products/');
     Response response = await http.get(productUrl);
     var  values = jsonDecode(response.body) ;
     print(values.length);
@@ -59,7 +59,7 @@ class _productHomePageState extends State<productHomePage> {
   Future<List<int>>  fetchUserListOfProducts() async {
     SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
     String? userEmail = sharedPreferences.getString('email');
-    var userUrl = Uri.parse('http://10.0.2.2:8000/users/?search=$userEmail');
+    var userUrl = Uri.parse('http://18.208.163.221/users/?search=$userEmail');
     Response responseUser = await http.get(userUrl);
     //print(responseUser.body);
     //print('id: 2 ${jsonDecode(responseUser.body)[0]['id']}');
@@ -68,7 +68,7 @@ class _productHomePageState extends State<productHomePage> {
     await sharedPreferences.setInt('userId', userid);
 
 
-    var url = Uri.parse('http://10.0.2.2:8000/listOfProducts/?user=$userid');
+    var url = Uri.parse('http://18.208.163.221/listOfProducts/?user=$userid');
     Response response = await http.get(url);
     print(response.body);
     var  values = jsonDecode(response.body) ;
@@ -116,7 +116,7 @@ class _productHomePageState extends State<productHomePage> {
       //print(productId);
       SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
       String? userEmail = sharedPreferences.getString('email');
-      var userUrl = Uri.parse('http://10.0.2.2:8000/users/?search=$userEmail');
+      var userUrl = Uri.parse('http://18.208.163.221/users/?search=$userEmail');
       Response responseUser = await http.get(userUrl);
       print(responseUser.body);
       int userId = jsonDecode(responseUser.body)[0]['id'];
@@ -125,7 +125,7 @@ class _productHomePageState extends State<productHomePage> {
       // int userid = jsonDecode(responseUser.body)[0]['id'];
       print('usuario $userId');
       print(toJson(userId!, listOfProductsId));
-      var url = Uri.parse('http://10.0.2.2:8000/listOfProducts/1/');
+      var url = Uri.parse('http://18.208.163.221/listOfProducts/1/');
       print(json.encode(toJson(userId!, listOfProductsId)));
       print(listOfProductsId.toString());
       final sendbody = {
@@ -149,7 +149,7 @@ class _productHomePageState extends State<productHomePage> {
     int? userId = sharedPreferences.getInt('userId');
     print(userId);
     print(listOfOneProduct);
-    var url = Uri.parse('http://10.0.2.2:8000/listOfProducts/');
+    var url = Uri.parse('http://18.208.163.221/listOfProducts/');
     Response response = await http.post(url, body: {
       "user" : userId,
       "products" : listOfOneProduct

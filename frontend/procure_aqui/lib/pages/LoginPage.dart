@@ -33,7 +33,7 @@ class _LoginState extends State<Login> {
   Future<bool> login() async{
     //vai setar o nosso token
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var url = Uri.parse('http://10.0.2.2:8000/token/');
+    var url = Uri.parse('http://18.208.163.221/token/');
     var response = await http.post(url,
     body: {
       'email' : _emailController.text,
@@ -41,7 +41,7 @@ class _LoginState extends State<Login> {
       }
     );
     var userEmail = _emailController.text;
-    var userUrl = Uri.parse('http://10.0.2.2:8000/users/filter/$userEmail');
+    var userUrl = Uri.parse('http://18.208.163.221/users/filter/$userEmail');
     var responseUser = await http.get(userUrl);
     //print(responseUser.statusCode);
     //print(jsonDecode(responseUser.body)['username']);

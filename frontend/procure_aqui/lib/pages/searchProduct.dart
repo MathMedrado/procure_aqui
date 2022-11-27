@@ -35,7 +35,7 @@ class _SearchProductState extends State<SearchProduct> {
 
   Future<List<Product>> fetchProductInfo() async {
 
-    var productUrl = Uri.parse('http://10.0.2.2:8000/products/?product_name=${widget.productName}');
+    var productUrl = Uri.parse('http://18.208.163.221/products/?product_name=${widget.productName}');
     Response response = await http.get(productUrl);
     var  values = jsonDecode(response.body) ;
     print(values.length);

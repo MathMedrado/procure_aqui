@@ -23,53 +23,76 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
   String? _productName;
   double? _productPrice;
   String? _category;
-
+  late bool isProductCreated;
+  late String productName;
+  bool _isLoading = true;
+  late String img;
+ 
   @override
   void initState(){
     super.initState();
-    // bool check = false;
-    // isProductRegistred(widget.barCode).then((bool value) {
-    //   print('antes $value');
-    //   isProductCreated = value;
-    //   print('depois $isProductCreated');
-    // } );
-    setState(() {
-          isProductCreated = isProductRegistred(widget.barCode);
-
-    });
-    setState(() {
-          productName = getProductNameIfExist(widget.barCode);
-
-    });
-
-    // print('O produto foi criado? $check');
-    // isProductCreated = isProductRegistred(widget.barCode) as bool;
-    // print(isProductCreated);
-    // if(check == true){
-    //   getProductNameIfExist(widget.barCode).then((String value) => productName = value);
-    //   print(productName);
-    // }
-    // else{
-    //   productName = 'Produto não encontrado';
-    //   print(productName);
-    // }
+    _initValues();
+    _delay();
 
   }
+
+  // @override
+  // void initState(){
+  //   super.initState();
+  //   // bool check = false;
+
+  //   setState(() {
+  //         //isProductCreated = isProductRegistred(widget.barCode);
+  //     isProductRegistred(widget.barCode).then((bool value) {
+  //       print('antes $value');
+  //       isProductCreated = value;
+  //       print('depois $isProductCreated');
+  //     } );
+  //     print('olha aqui $isProductCreated');
+
+  //   });
+  //   setState(() {
+  //         //productName = getProductNameIfExist(widget.barCode);
+  //     print('O produto foi criado? $isProductCreated');
+  //     if(isProductCreated == true){
+  //       getProductNameIfExist(widget.barCode).then((String value) => productName = value);
+  //       print(productName);
+  //     }
+  //     else{
+  //       productName = 'Produto não encontrado';
+  //       print(productName);
+  //     }
+  //   });
+
+  //   // print('O produto foi criado? $check');
+  //   // isProductCreated = isProductRegistred(widget.barCode) as bool;
+  //   // print(isProductCreated);
+  //   // if(check == true){
+  //   //   getProductNameIfExist(widget.barCode).then((String value) => productName = value);
+  //   //   print(productName);
+  //   // }
+  //   // else{
+  //   //   productName = 'Produto não encontrado';
+  //   //   print(productName);
+  //   // }
+
+  // }
 
   // _initData() async{
 
   // }
   
 
-  late Future<bool> isProductCreated; 
-  late Future<String> productName;
+  // late bool isProductCreated; 
+  // late String productName;
 
   Future <bool> isProductRegistred(String barCode) async {
-    var url = Uri.parse('http://10.0.2.2:8000/products/?bar_code=${barCode}');
+    var url = Uri.parse('http://18.208.163.221/products/?bar_code=${barCode}');
     var response = await http.get(url);
     var values = jsonDecode(response.body);
     print('tem produtos? $values');
-    if(values != []){
+    print(values.length);
+    if(values.length == 0){
       return false;
     }
     else{
@@ -79,19 +102,33 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
   }
 
   Future <String> getProductNameIfExist(String barCode) async {
-    var url = Uri.parse('http://10.0.2.2:8000/products/?bar_code=${barCode}');
+    var url = Uri.parse('http://18.208.163.221/products/?bar_code=${barCode}');
     var response = await http.get(url);
     var values = jsonDecode(response.body);
+    String productName = 'Produto Não Encontrado';
     print(values);
-    if(values == []){
-      String productName = values[0]['product_name'];
+    if(values != []){
+      productName = values[0]['product_name'];
       print('nome do produto $productName');
+      return productName;
     }else {
-      String productName = '';  
+      return productName = 'Produto não encontrado';  
     }
+  }
 
-    return productName;
-
+  Future <String> getProductImgIfExist(String barCode) async {
+    var url = Uri.parse('http://18.208.163.221/products/?bar_code=${barCode}');
+    var response = await http.get(url);
+    var values = jsonDecode(response.body);
+    String img =  "http://18.208.163.221/media/fotos/default/%C3%ADndice.png";
+    print(values);
+    if(values != []){
+      img = values[0]['image_url'];
+      print('url da imagem: $img');
+      return img;
+    }else {
+      return img = "http://18.208.163.221/media/fotos/default/%C3%ADndice.png";  
+    }
   }
 
     Widget _buildProductNameField(){
@@ -168,12 +205,12 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.only(left: 28),
+          margin: EdgeInsets.fromLTRB(33, 0, 0, 5),
           width: 350,
           child: Text('Categoria: *')
         ),
         Container(
-          margin: EdgeInsets.only(left: 28),
+          margin: EdgeInsets.fromLTRB(6, 0, 0, 20),
           width: 350,
           height: 50,
           child: DropdownButtonFormField(items: const [
@@ -194,6 +231,8 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
           iconSize: 30,
           isExpanded: true,
           decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            contentPadding: EdgeInsets.only(bottom: 5, left: 10),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: Colors.grey
@@ -237,7 +276,7 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
                       String? supermarket = await sharedPreferences.getString('supermarket');
 
 
-                      var url = Uri.parse('http://10.0.2.2:8000/products/');
+                      var url = Uri.parse('http://18.208.163.221/products/');
                       var response = await http.post(url, body: {
                         "product_name" : _productName,
                         "bar_code" : widget.barCode,
@@ -265,7 +304,7 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
   }
 
 
-  Widget _productAlredyExist(productName){
+  Widget _productAlredyExist(){
     return Scaffold(
       appBar: AppBar(
         backgroundColor:  Color(0xFF3700B3),
@@ -290,9 +329,19 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
                   ),
                 ),
               ),
+              Center(
+                child: Container(
+                  margin: EdgeInsets.only(left: 10, bottom: 25),
+                  width: 200,
+                  height: 200,
+                  child: Image.network(
+                    img,
+                    //'lib/assets/images/bolo.jpeg'
+                  ),
+                ),
+              ),
               _buildProductPriceField(),
-              _buildCategoryDropdown(),
-              Container(margin: EdgeInsets.only(bottom: 250),),
+              Container(margin: EdgeInsets.only(bottom: 180),),
               Row(
                 children: [
                   smallPurpleButton('Cadastrar',  func: () async {
@@ -300,19 +349,42 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
                         return;              
                       }
                       _formKey.currentState!.save();
-                      print(_productName);
+                      //print(_productName);
                       print(_productPrice);
-                      print(_category);
                       SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
                       String? supermarket = await sharedPreferences.getString('supermarket');
+                      var getUrl = Uri.parse('http://18.208.163.221/products/?product_name=$productName');
+                      print(getUrl);
+                      var getResponse = await http.get(getUrl);
+                      var getValues = jsonDecode(getResponse.body);
+                      print(getValues);
+                      String categoryId = getValues[0]['category'];
+                      print('Parou aqui');
+                      switch (categoryId){
+                        case 'Bebidas':
+                          categoryId = '1';
+                          break;
+                        case 'Açougue':
+                          categoryId = '2';
+                          break;
+                        case 'Hortifruti':
+                          categoryId = '3';
+                          break;
+                        case 'Produtos gerais':
+                          categoryId = '4';
+                          break;
+                        case 'Limpeza':
+                          categoryId = '5';
+                          break;
+                      }
+                      print('Parou aqui');
 
-
-                      var url = Uri.parse('http://10.0.2.2:8000/products/');
+                      var url = Uri.parse('http://18.208.163.221/products/');
                       var response = await http.post(url, body: {
                         "product_name" : productName,
                         "bar_code" : widget.barCode,
                         "price" : _productPrice?.toString(),
-                        "category": _category,
+                        "category": categoryId,
                         "supermarket" : supermarket
                       });
                       print(response.body);
@@ -325,7 +397,7 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
                     Navigator.of(context).pushReplacementNamed('/AppHome');
                   },),
                 ],
-              )
+              ),
             ],
           
           ),
@@ -334,15 +406,42 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
     );
   }
 
+_initValues() {
+    isProductRegistred(widget.barCode).then((value) {
+      setState(() {
+        isProductCreated = value;
+        print(isProductCreated);
+      });
+    },);
+    productName = 'aqui';
+    getProductNameIfExist(widget.barCode).then((value) {
+      setState(() {
+        productName = value;
+        print(productName);
+      });
+    });
+    getProductImgIfExist(widget.barCode).then((value) {
+      setState(() {
+        img = value;
+        print(value);
+      });
+    });
+}
 
+_delay(){
+    Future.delayed(Duration(seconds: 1), () { // <-- Delay here
+    setState(() {
+        _isLoading = false; // <-- Code run after delay
+      });
+    });
+}
   
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Future.wait([isProductCreated, productName]),
-      builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-      if (snapshot.hasData) {
-        if(snapshot.data![0] == false){
+      if(_isLoading){
+        return  const CircularProgressIndicator();
+      } else{
+        if( isProductCreated == false){
           return GestureDetector(
             onTap: (){
               FocusScope.of(context).unfocus();
@@ -354,18 +453,9 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
             onTap: (){
               FocusScope.of(context).unfocus();
             }, 
-            child: _productAlredyExist(snapshot.data![1])
+            child: _productAlredyExist()
             );
         }
       }
-      else {
-        final error = snapshot.error;
-        print('Ocorreu umerror');
-        return CircularProgressIndicator();
       }
-    }
-    );
-
-
-  }
 }

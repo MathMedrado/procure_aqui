@@ -85,7 +85,7 @@ class _ForgetPasswordState extends State<ForgetPasswordPage> {
                     ),
                   ),
                   onPressed: () async {
-                    var url = Uri.parse('http://10.0.2.2:8000/api/password_reset/');
+                    var url = Uri.parse('http://18.208.163.221/api/password_reset/');
                     print(url);
                     var response = await http.post(url, body: {
                       "email" : forgetEmailController.text

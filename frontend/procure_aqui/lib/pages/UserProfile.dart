@@ -62,7 +62,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? userEmail = sharedPreferences.getString('email');
     print(userEmail);
-    var userUrl = Uri.parse('http://10.0.2.2:8000/users/?search=$userEmail');
+    var userUrl = Uri.parse('http://18.208.163.221/users/?search=$userEmail');
     Response responseUser = await http.get(userUrl);
     print(responseUser.body);
     print(jsonDecode(responseUser.body)[0]['id']);
