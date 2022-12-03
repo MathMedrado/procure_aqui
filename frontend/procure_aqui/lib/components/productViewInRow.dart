@@ -83,7 +83,7 @@ class ProductViewInRow extends StatelessWidget {
                       },
                     ),
                   ),
-                  Container(padding: EdgeInsets.only(bottom: 15),)
+                  //Container(padding: EdgeInsets.only(bottom: 15),)
                 ],
               )
             ),

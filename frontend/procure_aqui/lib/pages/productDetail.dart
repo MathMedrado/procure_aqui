@@ -51,6 +51,113 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     }
   }
 
+  Future<List<int>>  fetchUserListOfProducts() async {
+    SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
+    String? userEmail = sharedPreferences.getString('email');
+    var userUrl = Uri.parse('http://18.208.163.221/users/?search=$userEmail');
+    Response responseUser = await http.get(userUrl);
+    //print(responseUser.body);
+    //print('id:  ${jsonDecode(responseUser.body)[0]['id']}');
+    int userid = jsonDecode(responseUser.body)[0]['id'];
+    print(jsonDecode(responseUser.body)[0]['id']);
+    await sharedPreferences.setInt('userId', userid);
+
+
+    var url = Uri.parse('http://18.208.163.221/listOfProducts/?user=$userid');
+    Response response = await http.get(url);
+    print(response.body);
+    var  values = jsonDecode(response.body) ;
+    List<int> list = [];
+
+    if(values.length == 0){
+      print('Não tem produtos na lista');
+    }else{
+      print('Quantidade de produtos: ${values[0]}');
+      for(int x = 0; x < values[0]['products'].length; x++){
+        //print(values[0]['products'][x]['id']);
+        print(values[0]['products'][x]['id']);
+        list.add(values[0]['products'][x]['id']);
+      }
+      print(list);
+    }
+    
+    return list;
+  }
+
+  callFunction(int productId)  {
+    List<int> listOfProductsId = [];
+    fetchUserListOfProducts().then((List<int>value)  {
+      print('Erro $value');
+      listOfProductsId = value;
+      if(listOfProductsId.isNotEmpty){
+        print('o product id e $productId');
+        callFunctionPut(listOfProductsId, productId);
+      }else{
+        callFunctionPost(productId);
+      }
+    }
+    );
+
+  }
+
+
+  callFunctionPut(List<int> listOfProductsId, int productId) async {
+
+    if(listOfProductsId.contains(productId)){
+      print('Já está na lista');
+
+
+    }else{
+      print('Não está na lista');
+      print(listOfProductsId);
+      print(productId);
+      listOfProductsId.add(productId);
+      print(listOfProductsId);
+      SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
+      String? userEmail = sharedPreferences.getString('email');
+      var userUrl = Uri.parse('http://18.208.163.221/users/?search=$userEmail');
+      Response responseUser = await http.get(userUrl);
+      print(responseUser.body);
+      int userId = jsonDecode(responseUser.body)[0]['id'];
+      var urlList = Uri.parse('http://18.208.163.221/listOfProducts/?user=$userId');
+      Response responseList = await http.get(urlList);
+      print(responseList.body);
+      var  values = jsonDecode(responseList.body) ;
+      int listId = values[0]['id'];
+      //print(responseUser.body);
+      //print('id: 2 ${jsonDecode(responseUser.body)[0]['id']}');
+      // int userid = jsonDecode(responseUser.body)[0]['id'];
+      print('usuario $userId');
+      var url = Uri.parse('http://18.208.163.221/update_list_products/list/$listId/user/$userId/products/$listOfProductsId');
+      print(url);
+      print(listOfProductsId);
+      // final sendbody = {
+      //   "user": "$userId", "products" : listOfProductsId
+      // };
+      Response response = await http.put(url);
+      print(response.statusCode);
+      print(response.body);
+    }
+  }
+
+  callFunctionPost(int productId) async {
+    print('funcao post chamada');
+    List<int> listOfOneProduct = [];
+    listOfOneProduct.add(productId);
+    SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
+    int? userId = sharedPreferences.getInt('userId');
+    print(userId);
+    print(listOfOneProduct);
+    var url = Uri.parse('http://18.208.163.221/listOfProducts/');
+    Response response = await http.post(url, body: {
+      "user" : userId,
+      "products" : listOfOneProduct
+    });
+    print(response.statusCode);
+    print(response.body);
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +255,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               0xFF3700B3))
                       ),
                       child: Text('Adicionar a lista'),
-                      onPressed: () {},
+                      onPressed: () {
+                        callFunction(widget.product.getId);
+                      },
                     ),
                   ),
 

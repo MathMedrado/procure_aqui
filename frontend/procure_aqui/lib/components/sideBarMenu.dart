@@ -50,7 +50,7 @@ class SideBarMenu extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.pushNamed(context, '/categoryView', arguments: 3);
+                Navigator.pushNamed(context, '/categoryView', arguments: 1);
               },
             ),
             ListTile(
@@ -62,7 +62,7 @@ class SideBarMenu extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.pushNamed(context, '/categoryView', arguments: 5);
+                Navigator.pushNamed(context, '/categoryView', arguments: 2);
               },
             ),
             ListTile(
@@ -74,7 +74,7 @@ class SideBarMenu extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.pushNamed(context, '/categoryView', arguments: 2);
+                Navigator.pushNamed(context, '/categoryView', arguments: 3);
               },
             ),
             ListTile(
@@ -86,7 +86,7 @@ class SideBarMenu extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.pushNamed(context, '/categoryView', arguments: 1);
+                Navigator.pushNamed(context, '/categoryView', arguments: 4);
               },
             ),
             ListTile(
@@ -98,7 +98,7 @@ class SideBarMenu extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.pushNamed(context, '/categoryView', arguments: 4);
+                Navigator.pushNamed(context, '/categoryView', arguments: 5);
               },
             ),
           ],

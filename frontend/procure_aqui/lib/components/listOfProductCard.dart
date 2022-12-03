@@ -4,8 +4,10 @@ import 'package:procure_aqui/models/product.dart';
 import '../models/supermarket.dart';
 
 class listOfProductcard extends StatelessWidget {
-   listOfProductcard ({required this.product, super.key});
+   listOfProductcard ({required this.product, required this.func, super.key});
    Product product;
+   final void Function(int) func;
+
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,6 @@ class listOfProductcard extends StatelessWidget {
       child: Container(
                 margin: EdgeInsets.only( bottom: 12),
                 width: 379,
-                height: 153,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: Colors.grey[100]
@@ -80,7 +81,7 @@ class listOfProductcard extends StatelessWidget {
                           Container(
                             width: 120,
                             height: 31,
-                            margin: EdgeInsets.only( left: 10, top: 10),
+                            margin: EdgeInsets.only( left: 10, top: 10, bottom: 15),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -105,9 +106,7 @@ class listOfProductcard extends StatelessWidget {
                         width: 30,
                         height: 30,
                         child: IconButton(
-                          onPressed: (){
-                            print('working');
-                          }, 
+                          onPressed: ()  => func(product.getId), 
                           icon: Icon(
                             Icons.delete_outline_rounded,
                             size: 25,

@@ -62,7 +62,7 @@ class _productHomePageState extends State<productHomePage> {
     var userUrl = Uri.parse('http://18.208.163.221/users/?search=$userEmail');
     Response responseUser = await http.get(userUrl);
     //print(responseUser.body);
-    //print('id: 2 ${jsonDecode(responseUser.body)[0]['id']}');
+    //print('id:  ${jsonDecode(responseUser.body)[0]['id']}');
     int userid = jsonDecode(responseUser.body)[0]['id'];
     print(jsonDecode(responseUser.body)[0]['id']);
     await sharedPreferences.setInt('userId', userid);
@@ -80,21 +80,31 @@ class _productHomePageState extends State<productHomePage> {
       print('Quantidade de produtos: ${values[0]}');
       for(int x = 0; x < values[0]['products'].length; x++){
         //print(values[0]['products'][x]['id']);
+        print(values[0]['products'][x]['id']);
         list.add(values[0]['products'][x]['id']);
       }
       print(list);
     }
-
-
+    
     return list;
+  }
+
+  returnListId(int userid) async {
+    var urlList = Uri.parse('http://18.208.163.221/listOfProducts/?user=$userid');
+    Response response = await http.get(urlList);
+    print(response.body);
+    var  values = jsonDecode(response.body) ;
+    int listId = values[0]['id'];
+    return listId;
   }
 
   callFunction(int productId)  {
     List<int> listOfProductsId = [];
     fetchUserListOfProducts().then((List<int>value)  {
-      //print('Erro $value');
+      print('Erro $value');
       listOfProductsId = value;
       if(listOfProductsId.isNotEmpty){
+        print('o product id e $productId');
         callFunctionPut(listOfProductsId, productId);
       }else{
         callFunctionPost(productId);
@@ -112,29 +122,34 @@ class _productHomePageState extends State<productHomePage> {
 
     }else{
       print('Não está na lista');
-      //print(listOfProductsId);
-      //print(productId);
+      print(listOfProductsId);
+      print(productId);
+      listOfProductsId.add(productId);
+      print(listOfProductsId);
       SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
       String? userEmail = sharedPreferences.getString('email');
       var userUrl = Uri.parse('http://18.208.163.221/users/?search=$userEmail');
       Response responseUser = await http.get(userUrl);
       print(responseUser.body);
       int userId = jsonDecode(responseUser.body)[0]['id'];
+      var urlList = Uri.parse('http://18.208.163.221/listOfProducts/?user=$userId');
+      Response responseList = await http.get(urlList);
+      print(responseList.body);
+      var  values = jsonDecode(responseList.body) ;
+      int listId = values[0]['id'];
       //print(responseUser.body);
       //print('id: 2 ${jsonDecode(responseUser.body)[0]['id']}');
       // int userid = jsonDecode(responseUser.body)[0]['id'];
       print('usuario $userId');
       print(toJson(userId!, listOfProductsId));
-      var url = Uri.parse('http://18.208.163.221/listOfProducts/1/');
+      var url = Uri.parse('http://18.208.163.221/update_list_products/list/$listId/user/$userId/products/$listOfProductsId');
+      print(url);
       print(json.encode(toJson(userId!, listOfProductsId)));
-      print(listOfProductsId.toString());
-      final sendbody = {
-        "user": "$userId", "products" : listOfProductsId
-      };
-      Response response = await http.put(url, body: jsonEncode(sendbody), headers: {
-        'Content-Type' : 'application/json',
-
-      });
+      print(listOfProductsId);
+      // final sendbody = {
+      //   "user": "$userId", "products" : listOfProductsId
+      // };
+      Response response = await http.put(url);
       print(response.statusCode);
       print(response.body);
       
@@ -185,16 +200,21 @@ class _productHomePageState extends State<productHomePage> {
                       ),
                     ),
                   ),
-                  GridView.builder(
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        childAspectRatio: (150.0 / 210.0),
-                        crossAxisCount: 2
-                    ),
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index){
-                      return ProductViewInRow(product: snapshot.data![index], func: callFunction,);
-                    },
+                  Column(
+                    children: [
+                      GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(), 
+                        shrinkWrap: true,
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: (150.0 / 210.0),
+                            crossAxisCount: 2
+                        ),
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index){
+                          return ProductViewInRow(product: snapshot.data![index], func: callFunction,);
+                        },
+                      ),
+                    ],
                   ),
                   Container(
                     margin: EdgeInsets.only(bottom: 20),

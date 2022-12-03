@@ -183,8 +183,9 @@ class _CategoryViewState extends State<CategoryView> {
                       ),
                     ),
                     GridView.builder(
+                      physics: const NeverScrollableScrollPhysics(), 
                       shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           childAspectRatio: (150.0 / 210.0),
                           crossAxisCount: 2
                       ),

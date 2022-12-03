@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:procure_aqui/main.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -16,21 +17,77 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
 
+
   // @override
   // initState(){
   //   super.initState();
-  //   verifyToken().then((value){
-  //     if(value){
-  //       //Passa para outra pagina e exclui a pagina anterior
-  //       Navigator.pushReplacementNamed(context, '/AppHome');
-  //     }
-  //     else{
-  //       Navigator.pushReplacementNamed(context, '/LoginPage');
-  //     }
-  //   });
-
   // }
 
+  bool connect = true;
+  Future<bool> testConnect() async {
+    try {
+      final result = await InternetAddress.lookup('example.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+        return true;
+      }
+    } on SocketException catch (_) {
+      print('not connected');
+      return false;
+    }
+    return false;
+    
+  }
+
+  Future<void> _dialogBuilder(BuildContext context){
+    return showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return _buildPopUpCard();
+        }
+    );
+  }
+
+
+  Widget _buildPopUpCard(){
+    return Center(
+      child: Card(
+        child:  Container(
+          padding: EdgeInsets.all(20),
+          width: 375,
+          height: 170,
+          decoration: BoxDecoration(
+            // borderRadius: BorderRadius.all(Radius.circular(20)),
+            color: Color(0xFF3700B3),
+          ),
+          child: Column(
+            children: [
+              Container(
+                width: 320,
+                child: Text(
+                  'Você precisa de uma conexão a internet para acessar o sistema.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 15),
+                child: ElevatedButton(
+                  child: Text('Tentar novamente'),
+                  onPressed: (){
+                    Navigator.of(context).pushReplacementNamed('/Start');
+                  }, 
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
 
   // Future<bool> verifyToken() async {
@@ -74,7 +131,12 @@ class _HomePageState extends State<HomePage> {
                   ElevatedButton(
                     child: Text('Entrar'),
                     onPressed: (){
-                      Navigator.of(context).popAndPushNamed(ProcureAqui.LoginPage);
+                      // testConnect().then((value) => connect = value);
+                      // if(connect == true){
+                        Navigator.of(context).popAndPushNamed(ProcureAqui.LoginPage);
+                      // }else{
+                      //   _dialogBuilder(context);
+                      // }
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(Colors.white),
@@ -90,7 +152,12 @@ class _HomePageState extends State<HomePage> {
                   ElevatedButton(
                     child: Text("Cadastrar-se"),
                     onPressed: (){
-                      Navigator.of(context).pushNamed(ProcureAqui.userForm);// olhar o push replacement
+                      // testConnect().then((bool value) => connect = value);
+                      // if(connect == true){
+                        Navigator.of(context).pushNamed(ProcureAqui.userForm);
+                      // }else{
+                      //   _dialogBuilder(context);
+                      // }
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(Colors.white),
@@ -100,8 +167,13 @@ class _HomePageState extends State<HomePage> {
               ),
               TextButton(
                 onPressed: (){
-                  //_startScan();
-                  Navigator.of(context).popAndPushNamed('/AppHome');
+                  // testConnect().then((bool value) => connect = value);
+                  // print(connect);
+                  // if(connect == true){
+                    Navigator.of(context).popAndPushNamed('/AppHome');
+                  // }else{
+                  //   _dialogBuilder(context);
+                  // }
                 },
                 child: Text(
                   'Entrar sem cadastro',

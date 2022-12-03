@@ -126,11 +126,11 @@ class _LoginState extends State<Login> {
                             if(email == null || email.isEmpty){
                               return 'Digite o seu email!';
                             }
-                            //else if (!RegExp(
-                              //r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                            //.hasMatch(_emailController.text)) {
-                          // return 'Digite um e-mail valido!';
-                          //}
+                            else if (!RegExp(
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(_emailController.text)) {
+                          return 'Digite um e-mail valido!';
+                          }
                         }
                         ),
                     ),

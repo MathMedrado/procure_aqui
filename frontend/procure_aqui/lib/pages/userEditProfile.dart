@@ -30,6 +30,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
   String? _state; 
   DateTime? _dateTime;
   String? password2ConfirmValue;
+  int restartPage = 0;
 
   // Future<void> _submitForm(user) async {
   //   //http method put
@@ -173,7 +174,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
         Container(
           width: 160,
           height: 50,
-          margin: EdgeInsets.only(left: 22),
+          margin: EdgeInsets.only(left: 30),
           child: DropdownButtonFormField(items: const [
             DropdownMenuItem(child: Text('Rialma'),value: "Rialma"),
             DropdownMenuItem(child: Text('Ceres'),value: "Ceres"),
@@ -273,7 +274,7 @@ Widget _buildStateField(){
                       "email" : _email,
                       "username" : _username,
                       "birth_date" : DateFormat('y-MM-d').format(_dateTime as DateTime),
-                      "password" : widget.user.getPassword,
+                      // "password" : widget.user.getPassword,
                       "city" : "1",
                       "sex" : _sexDropDownValue
                       // "city" : _city,
@@ -281,6 +282,8 @@ Widget _buildStateField(){
                   });
                   print(response.body);
                   Navigator.pop(context);
+                  //resetar page?
+
                   },
                 style: ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(98, 0, 238, 30.0)),

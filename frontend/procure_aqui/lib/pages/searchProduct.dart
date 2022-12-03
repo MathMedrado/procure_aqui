@@ -182,6 +182,7 @@ class _SearchProductState extends State<SearchProduct> {
                       ),
                     ),
                     GridView.builder(
+                      physics: const NeverScrollableScrollPhysics(), 
                       shrinkWrap: true,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           childAspectRatio: (150.0 / 210.0),

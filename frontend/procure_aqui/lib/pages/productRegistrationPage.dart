@@ -210,7 +210,7 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
           child: Text('Categoria: *')
         ),
         Container(
-          margin: EdgeInsets.fromLTRB(6, 0, 0, 20),
+          margin: EdgeInsets.fromLTRB(25, 0, 0, 20),
           width: 350,
           height: 50,
           child: DropdownButtonFormField(items: const [
@@ -362,19 +362,19 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
                       print('Parou aqui');
                       switch (categoryId){
                         case 'Bebidas':
-                          categoryId = '1';
-                          break;
-                        case 'Açougue':
-                          categoryId = '2';
-                          break;
-                        case 'Hortifruti':
-                          categoryId = '3';
-                          break;
-                        case 'Produtos gerais':
                           categoryId = '4';
                           break;
-                        case 'Limpeza':
+                        case 'Açougue':
+                          categoryId = '3';
+                          break;
+                        case 'Hortifruti':
+                          categoryId = '1';
+                          break;
+                        case 'Produtos gerais':
                           categoryId = '5';
+                          break;
+                        case 'Limpeza':
+                          categoryId = '2';
                           break;
                       }
                       print('Parou aqui');

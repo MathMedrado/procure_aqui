@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -100,7 +101,7 @@ class _UserFormPageState extends State<UserFormPage> {
           child: TextFormField(
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-              contentPadding: EdgeInsets.only(bottom: 5),
+              contentPadding: EdgeInsets.only(bottom: 10, left: 10),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4)
               )
@@ -138,14 +139,17 @@ class _UserFormPageState extends State<UserFormPage> {
           child: TextFormField(
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-              contentPadding: EdgeInsets.only(bottom: 5),
+              contentPadding: EdgeInsets.only(bottom: 5, left: 10),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4)
               )
             ),
             validator: (String? value){
               if(value!.isEmpty){
-                return 'Email is Required';
+                return 'É necessário informar um email para se cadastrar';
+              }
+              if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)){
+                return 'Digite um email válido';
               }
             },
             onSaved: (String? value){
@@ -174,7 +178,7 @@ class _UserFormPageState extends State<UserFormPage> {
             obscureText: true,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-              contentPadding: EdgeInsets.only(bottom: 5),
+              contentPadding: EdgeInsets.only(bottom: 10, left: 10),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4),
               )
@@ -213,7 +217,7 @@ class _UserFormPageState extends State<UserFormPage> {
             obscureText: true,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-              contentPadding: EdgeInsets.only(bottom: 5),
+              contentPadding: EdgeInsets.only(bottom: 10, left: 10),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4)
               ),
@@ -338,6 +342,11 @@ Widget _buildStateField(){
                   if(_dateTime == null){
                     _dateTime = DateTime.now();
                   }
+                  print(_sexDropDownValue);
+                  print(_email);
+                  print(_dateTime);
+                  print(_password1);
+                  print(_username);
                   var url = Uri.parse('http://18.208.163.221/users/');
                   var response = await http.post(url, body: {
                     "username" : _username,
@@ -345,13 +354,24 @@ Widget _buildStateField(){
                     "password": _password1,
                     "sex" : _sexDropDownValue,
                     "birth_date": DateFormat('y-MM-d').format(_dateTime as DateTime),
-                    "city" : 1.toString()
+                    "city" : 2.toString()
                   });
-                  print(DateFormat('y-MM-d').format(_dateTime as DateTime));
-                  print(response.body);
-                  if(response.statusCode == 201){
-                    Navigator.of(context).popAndPushNamed('/');
-                  }
+                  print(response.statusCode);
+                  //print(DateFormat('y-MM-d').format(_dateTime as DateTime));
+                  //print(jsonDecode(response.body));
+                  //var values = jsonDecode(response.body);
+                    //print(values);
+
+                  // if(response.statusCode == 201){
+                  //   Navigator.of(context).popAndPushNamed('/');
+                  // }
+                  // if(response.statusCode == 400){
+                  //   print(values["email"]);
+                  //   final snackBar = SnackBar(content: Text('Esse email já está cadastrado na nossa base de dados.', textAlign: TextAlign.center), backgroundColor: Colors.red,);
+                  //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+                  // }
+                  
 
                 } : null,
                 style: ButtonStyle(
@@ -374,7 +394,11 @@ Widget _buildStateField(){
         backgroundColor: Color(0xFF3700B3),
 
       ),
-      body: SingleChildScrollView(
+      body: GestureDetector(
+      onTap: (){
+        FocusScope.of(context).unfocus();
+      },
+      child: SingleChildScrollView(
         child: Form(
           key: _formKey,
           child: Column(
@@ -452,6 +476,7 @@ Widget _buildStateField(){
           ),
         ),
       ),
+    )
     );
   }
 }

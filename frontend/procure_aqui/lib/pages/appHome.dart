@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -82,7 +84,7 @@ class _AppHomeState extends State<AppHome> {
         child:  Container(
           padding: EdgeInsets.all(20),
           width: 375,
-          height: 170,
+          height: 200,
           decoration: BoxDecoration(
             // borderRadius: BorderRadius.all(Radius.circular(20)),
             color: Color(0xFF3700B3),
@@ -103,9 +105,9 @@ class _AppHomeState extends State<AppHome> {
               Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(left: 30, top: 35),
-                    width: 110,
-                    height: 27,
+                    margin: EdgeInsets.only(left: 25, top: 35),
+                    width: 130,
+                    height: 32,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(5)),
                     ),
@@ -126,9 +128,9 @@ class _AppHomeState extends State<AppHome> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: 60, top: 35),
-                    width: 110,
-                    height: 27,
+                    margin: EdgeInsets.only(left: 30, top: 35),
+                    width: 130,
+                    height: 32,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(5)),
                         color: Colors.blue
@@ -300,22 +302,7 @@ class _AppHomeState extends State<AppHome> {
        bottomNavigationBar: BottomNavigationBar(
           currentIndex: currentIndex,
           onTap: (index) {
-            if(index == 1 ){
-              verifySupermarket().then((value) async {
-                start_scan = value;
-                if(start_scan  == true){
-                  _startScan();
-                  print('erro 1');
-                }
-                else{
-                  print('erro 2');
-                  await _dialogBuilderSupermarket(context);
-                      _startScan();
-                }
-              });
-
-            }
-            if(index == 1||  index == 2 || index == 3){
+            if( index == 1 || index == 2 || index == 3){
               verifyToken().then((value) {
                 if(value ==false ){
                   print(value);
@@ -324,9 +311,31 @@ class _AppHomeState extends State<AppHome> {
                   setState(() { currentIndex = index;});
                 }
               });
-            }else{
-                setState(() { currentIndex = index;});
             }
+              if(index == 1 ){
+                verifyToken().then((value) {
+                if(value == false ){
+                  print(value);
+                  _dialogBuilder(context);
+                }else {
+                  verifySupermarket().then((value) async {
+                    start_scan = value;
+                    if(start_scan  == true){
+                      _startScan();
+                      print('erro 1');
+                    }
+                    else{
+                      print('erro 2');
+                      await _dialogBuilderSupermarket(context);
+                      _startScan();
+                    }
+                  });
+                }});
+             }
+             if(index == 0){
+              setState(() { currentIndex = index;});
+             }
+
           },
           items:const <BottomNavigationBarItem>[
               BottomNavigationBarItem(

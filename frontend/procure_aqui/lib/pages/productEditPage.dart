@@ -87,7 +87,9 @@ class _productEditPageState extends State<productEditPage> {
               Row(
                 children: [
                   smallPurpleButton('Cadastrar', func: _submitAlterValue),
-                  smallPurpleButton('Cancelar', func: () {  },),
+                  smallPurpleButton('Cancelar', func: () { 
+                    Navigator.of(context).pop();
+                   },),
                 ],
               )
 
