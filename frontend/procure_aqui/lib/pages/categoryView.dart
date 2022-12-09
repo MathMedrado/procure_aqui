@@ -96,7 +96,7 @@ class _CategoryViewState extends State<CategoryView> {
                     child: DropdownButton(
                         items: [
                           DropdownMenuItem(child: Text('Mercafrutas'), value: "Mercafrutas"),
-                          DropdownMenuItem(child: Text('Betel'), value: "Betel"),
+                          DropdownMenuItem(child: Text('Gauchos'), value: "Gauchos"),
                           DropdownMenuItem(child: Text('Comperfrutas'), value: "Comperfrutas"),
                         ],
                         isExpanded: true,

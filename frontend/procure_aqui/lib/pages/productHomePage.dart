@@ -44,7 +44,19 @@ class _productHomePageState extends State<productHomePage> {
     if(response.statusCode == 200){
       if(values.length > 0){
         for(int i = 0; i < values.length; i++){
-          Product productToList = Product(id: values[i]['id'], nameProduct: values[i]['product_name'], barCode: values[i]['bar_code'], category: values[i]['category'], imageUrl: values[i]['image_url'], creationDate: DateTime.parse(values[i]['creation_date_product']), isVisible: values[i]['is_visible'], actualPrice: values[i]['price'], supermarket: Supermarket(id: values[i]['supermarket']['id'], nameSupermarket: values[i]['supermarket']['supermarket_name'], city: values[i]['supermarket']['city']['city_name'], street: values[i]['supermarket']['street'], district: values[i]['supermarket']['district'], complement: values[i]['supermarket']['complement']));
+          String utf8convert(String text) {
+            List<int> bytes = text.toString().codeUnits;
+            return utf8.decode(bytes);
+          }
+          String productNameConverted = utf8convert(values[i]['product_name']);
+          String categoryNameConverted = utf8convert(values[i]['category']);
+          String supermarketNameConverted = utf8convert(values[i]['supermarket']['supermarket_name']);
+          String supermarketStreet = utf8convert(values[i]['supermarket']['street']);
+          String supermarketDistrict = utf8convert(values[i]['supermarket']['district']);
+          String supermarketCity= utf8convert(values[i]['supermarket']['city']['city_name']);
+          String supermarketComplement = utf8convert(values[i]['supermarket']['complement']);
+          Product productToList = Product(id: values[i]['id'], nameProduct: productNameConverted, barCode: values[i]['bar_code'], category: categoryNameConverted, imageUrl: values[i]['image_url'], creationDate: DateTime.parse(values[i]['creation_date_product']), isVisible: values[i]['is_visible'], actualPrice: values[i]['price'], supermarket: Supermarket(id: values[i]['supermarket']['id'], nameSupermarket: supermarketNameConverted, city: supermarketCity, street: supermarketStreet, district: supermarketDistrict, complement: supermarketComplement));
+          
           listProducts.add(productToList);
         }
         print(listProducts);
@@ -142,9 +154,9 @@ class _productHomePageState extends State<productHomePage> {
       // int userid = jsonDecode(responseUser.body)[0]['id'];
       print('usuario $userId');
       print(toJson(userId!, listOfProductsId));
-      var url = Uri.parse('http://18.208.163.221/update_list_products/list/$listId/user/$userId/products/$listOfProductsId');
+      var url = Uri.parse('http://18.208.163.221/update_list_products/list/$listId/products/$listOfProductsId');
       print(url);
-      print(json.encode(toJson(userId!, listOfProductsId)));
+      //(json.encode(toJson(userId!, listOfProductsId)));
       print(listOfProductsId);
       // final sendbody = {
       //   "user": "$userId", "products" : listOfProductsId
@@ -152,7 +164,6 @@ class _productHomePageState extends State<productHomePage> {
       Response response = await http.put(url);
       print(response.statusCode);
       print(response.body);
-      
 
     }
   }
@@ -166,8 +177,8 @@ class _productHomePageState extends State<productHomePage> {
     print(listOfOneProduct);
     var url = Uri.parse('http://18.208.163.221/listOfProducts/');
     Response response = await http.post(url, body: {
-      "user" : userId,
-      "products" : listOfOneProduct
+      "user" : userId.toString(),
+      "products" : "$listOfOneProduct"
     });
     print(response.statusCode);
     print(response.body);

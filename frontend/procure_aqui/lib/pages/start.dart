@@ -17,11 +17,23 @@ class _StartPageState extends State<StartPage> {
     verifyToken().then((value){
       if(value){
         //Passa para outra pagina e exclui a pagina anterior
-        Navigator.pushReplacementNamed(context, '/AppHome');
+        //Navigator.pushReplacementNamed(context, '/AppHome');
+        //Navigator.popAndPushNamed(context, '/AppHome');
+        Navigator.of(context).pushNamedAndRemoveUntil(
+             '/AppHome',
+              (Route<dynamic> route) => false
+            );
       }
       else{
         // Navigator.pushReplacementNamed(context, '/LoginPage');
-        Navigator.pushReplacementNamed(context, '/');
+        //Navigator.pushReplacementNamed(context, '/');
+        //Navigator.popAndPushNamed(context, '/');
+        Navigator.of(context).pushNamedAndRemoveUntil(
+             '/',
+              (Route<dynamic> route) => false
+            );
+
+
       }
     });
 

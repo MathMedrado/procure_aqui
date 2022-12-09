@@ -252,7 +252,7 @@ class _UserFormPageState extends State<UserFormPage> {
         ),
         Container(
           width: 160,
-          margin: EdgeInsets.only(left: 30),
+          margin: EdgeInsets.only(left: 28),
           child: DropdownButtonFormField(items: const [
             DropdownMenuItem(child: Text('Rialma'),value: "Rialma"),
             DropdownMenuItem(child: Text('Ceres'),value: "Ceres"),
@@ -285,12 +285,12 @@ Widget _buildStateField(){
       children: [
         Container(
           width: 150,
-          margin: EdgeInsets.only(top: 20, left: 28, bottom: 5),
+          margin: EdgeInsets.only(top: 20, left: 22, bottom: 5),
           child: Text('Estado*')
         ),
         Container(
           width: 160,
-          margin: EdgeInsets.only(left: 30),
+          margin: EdgeInsets.only(left: 22),
           child: DropdownButtonFormField(items: const [
             DropdownMenuItem(child: Text('Goiás'),value: "Goiás"),
             DropdownMenuItem(child: Text('São Paulo'),value: "São Paulo"),
@@ -357,20 +357,20 @@ Widget _buildStateField(){
                     "city" : 2.toString()
                   });
                   print(response.statusCode);
-                  //print(DateFormat('y-MM-d').format(_dateTime as DateTime));
-                  //print(jsonDecode(response.body));
-                  //var values = jsonDecode(response.body);
-                    //print(values);
+                  print(DateFormat('y-MM-d').format(_dateTime as DateTime));
+                  print(jsonDecode(response.body));
+                  var values = jsonDecode(response.body);
+                    print(values);
 
-                  // if(response.statusCode == 201){
-                  //   Navigator.of(context).popAndPushNamed('/');
-                  // }
-                  // if(response.statusCode == 400){
-                  //   print(values["email"]);
-                  //   final snackBar = SnackBar(content: Text('Esse email já está cadastrado na nossa base de dados.', textAlign: TextAlign.center), backgroundColor: Colors.red,);
-                  //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  if(response.statusCode == 201){
+                    Navigator.of(context).popAndPushNamed('/');
+                  }
+                  if(response.statusCode == 400){
+                    print(values["email"]);
+                    final snackBar = SnackBar(content: Text('Esse email já está cadastrado na nossa base de dados.', textAlign: TextAlign.center), backgroundColor: Colors.red,);
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-                  // }
+                  }
                   
 
                 } : null,
@@ -405,7 +405,7 @@ Widget _buildStateField(){
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
                 child: Text('')
               ),
               // inputField(inputText: 'Nome do usuário*', func: setUsername, userData: _username),
@@ -428,7 +428,7 @@ Widget _buildStateField(){
               Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(left: 15),
+                    margin: EdgeInsets.only(left: 7),
                     child: Checkbox(
                       value: _isChecked1, 
                       onChanged: (_isChecked1){
@@ -447,7 +447,7 @@ Widget _buildStateField(){
               Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(left: 15),
+                    margin: EdgeInsets.only(left: 8),
                     child: Checkbox(
                       value: _isChecked2, 
                       onChanged: (_isChecked2){
@@ -456,7 +456,7 @@ Widget _buildStateField(){
                     ),
                   ),
                   const SizedBox(
-                    width: 320,
+                    width: 300,
                     child: Text(
                       'Eu autorizo o uso de meus dados e aceito os termos e condições de uso',
                       style: TextStyle(
@@ -469,7 +469,28 @@ Widget _buildStateField(){
               Row(
                 children: [
                   _buildButton(),
-                  smallPurpleButton('Cancelar', func: () {  },)
+                  Container(
+                    width: 148,
+                    height: 40,
+                    margin: EdgeInsets.only(left: 30, top: 20),
+                    child: 
+                      ElevatedButton(
+                        child:  Text(
+                          'Cancelar',
+                          style: TextStyle(
+                            fontSize: 18
+                          ),
+                        ),
+                        onPressed: (){
+                          Navigator.of(context).pop();
+                        },
+                        style: ButtonStyle(
+                                backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(98, 0, 238, 30.0)),
+                                foregroundColor: MaterialStatePropertyAll(Colors.white),          
+                              ),
+                      )
+                  ),
+                  Container(height: 100,)
                 ],
               ),
             ],

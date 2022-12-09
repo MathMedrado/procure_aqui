@@ -15,9 +15,10 @@ class ProductViewInRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
+        Expanded(
+          child: Container(
           margin: EdgeInsets.only(left: 10, top: 10 ),
-          width: 183,
+          //width: 183,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
           ),
@@ -29,7 +30,7 @@ class ProductViewInRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(left: 140),
+                    margin: EdgeInsets.only(left: 120),
                     child: IconButton(
                       icon: Icon(Icons.add) ,
                       onPressed: () => func(product.getId)
@@ -67,6 +68,7 @@ class ProductViewInRow extends StatelessWidget {
                   Container(
                     width: 148,
                     height: 30,
+                    padding: EdgeInsets.only(bottom: 10),
                     margin: EdgeInsets.only( left: 10, top: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
@@ -89,6 +91,8 @@ class ProductViewInRow extends StatelessWidget {
             ),
           ),
         ),
+        )
+        
       ],
     );
   }

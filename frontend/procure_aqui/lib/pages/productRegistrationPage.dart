@@ -3,6 +3,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:procure_aqui/components/listOfProductCard.dart';
 import 'package:procure_aqui/components/smallPurpleButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,8 +26,13 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
   String? _category;
   late bool isProductCreated;
   late String productName;
+  late double ProductActualPrice;
   bool _isLoading = true;
   late String img;
+  late bool newSupermarket;
+  late String productId;
+  late List<String> supermarketNameList;
+  late String supermarketSettedName;
  
   @override
   void initState(){
@@ -116,6 +122,22 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
     }
   }
 
+  Future <double> getProductPriceIfExist(String barCode) async {
+    var url = Uri.parse('http://18.208.163.221/products/?bar_code=${barCode}');
+    var response = await http.get(url);
+    var values = jsonDecode(response.body);
+    String productName = 'Produto Não Encontrado';
+    print(values);
+    if(values != []){
+      ProductActualPrice = values[0]['price'];
+      print('Preço do produto $ProductActualPrice');
+      return ProductActualPrice;
+    }else {
+      return ProductActualPrice = 0 as double;  
+    }
+  }
+
+
   Future <String> getProductImgIfExist(String barCode) async {
     var url = Uri.parse('http://18.208.163.221/products/?bar_code=${barCode}');
     var response = await http.get(url);
@@ -131,18 +153,88 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
     }
   }
 
+    Future <bool> getSupermarketIfExist(String barCode) async {
+    var url = Uri.parse('http://18.208.163.221/products/?bar_code=${barCode}');
+    var response = await http.get(url);
+    var values = jsonDecode(response.body);
+    print(values);
+    String supermarketName = values[0]['supermarket']['id'].toString();
+    print('erro aqui $supermarketName');
+    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
+    String? getSupermarketName = sharedPreference.getString('supermarket');
+    print('produto $supermarketName, salvo $getSupermarketName');
+    if(values != []){
+      if(supermarketName == getSupermarketName){
+        newSupermarket = true;
+        return newSupermarket;
+      }else{
+        newSupermarket = false;
+        return newSupermarket;
+      }
+    }else {
+      newSupermarket = false;
+      return newSupermarket;  
+    }
+  }
+
+  Future <String?> getSupermarkedSettedIfExist(String barCode) async {
+    SharedPreferences sharedPreference = await SharedPreferences.getInstance();
+    String? getSupermarketName = sharedPreference.getString('supermarket');
+    var url = Uri.parse('http://18.208.163.221/supermarkets/$getSupermarketName');
+    var response = await http.get(url);
+    var values = jsonDecode(response.body);
+    print(values);
+    String supermakerName = values['supermarket_name'];
+    return supermakerName;
+  }
+
+
+  Future <String> getProductIdIfExist(String barCode) async {
+    var url = Uri.parse('http://18.208.163.221/products/?bar_code=${barCode}');
+    var response = await http.get(url);
+    var values = jsonDecode(response.body);
+    print(values);
+    if(values != []){
+      productId = values[0]['id'].toString();
+      print('O id do produto  é $productId');
+      return productId;
+    }else {
+      return productId;  
+    }
+  }
+
+  Future <List<String>> getListOfSupermarketIfExist(String barCode) async {
+    var url = Uri.parse('http://18.208.163.221/products/?bar_code=${barCode}');
+    var response = await http.get(url);
+    var values = jsonDecode(response.body);
+    supermarketNameList = [];
+    print(values);
+    if(values != []){
+      for(int x = 0; x < values.length; x++ ){
+        String supermakerName = values[x]['supermarket']['supermarket_name'];
+        supermarketNameList.add(supermakerName);
+      }
+      print(supermarketNameList);
+      return supermarketNameList;
+    }else {
+      supermarketNameList = [];
+      return supermarketNameList;  
+    }
+  }
+
     Widget _buildProductNameField(){
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           width: double.infinity,
-          margin: EdgeInsets.fromLTRB(33, 0, 0, 5),
+          margin: EdgeInsets.fromLTRB(15, 0, 0, 5),
           child: Text('Nome do produto*: ')
         ),
         Container(
           height: 50,
           width: 350,
-          margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+          margin: EdgeInsets.fromLTRB(15, 0, 0, 20),
           child: TextFormField(
             decoration: InputDecoration(
               border: OutlineInputBorder(
@@ -168,18 +260,19 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
     );
   }
 
-  Widget _buildProductPriceField(){
+  Widget _buildProductPriceField(String textPassed){
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           width: double.infinity,
-          margin: EdgeInsets.fromLTRB(33, 0, 0, 5),
-          child: Text('Preço do produto*: ')
+          margin: EdgeInsets.fromLTRB(15, 0, 0, 5),
+          child: Text(textPassed)
         ),
         Container(
           height: 50,
           width: 350,
-          margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+          margin: EdgeInsets.fromLTRB(15, 0, 0, 20),
           child: TextFormField(
             keyboardType: TextInputType.numberWithOptions(decimal: true),
             decoration: InputDecoration(
@@ -187,7 +280,7 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
                 borderRadius: BorderRadius.circular(4)
               )
             ),
-            // validator: (Double? value){
+            // validator: (double? value){
             //   return;
             // },
             onSaved: (String? value){
@@ -205,12 +298,12 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.fromLTRB(33, 0, 0, 5),
+          margin: EdgeInsets.fromLTRB(15, 0, 0, 5),
           width: 350,
           child: Text('Categoria: *')
         ),
         Container(
-          margin: EdgeInsets.fromLTRB(25, 0, 0, 20),
+          margin: EdgeInsets.fromLTRB(15, 0, 0, 20),
           width: 350,
           height: 50,
           child: DropdownButtonFormField(items: const [
@@ -259,7 +352,7 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
             children: [
               Container( margin:  EdgeInsets.only(bottom: 50),),
               _buildProductNameField(),
-              _buildProductPriceField(),
+              _buildProductPriceField('Preço do produto: '),
               _buildCategoryDropdown(),
               Container(margin: EdgeInsets.only(bottom: 250),),
               Row(
@@ -304,11 +397,11 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
   }
 
 
-  Widget _productAlredyExist(){
+  Widget _productAlredyExist(String title, String textForm, bool showPrice){
     return Scaffold(
       appBar: AppBar(
         backgroundColor:  Color(0xFF3700B3),
-        title: Text('Cadastro de produtos'),
+        title: Text(title),
       ),
       body: Form(
         key: _formKey,
@@ -340,11 +433,23 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
                   ),
                 ),
               ),
-              _buildProductPriceField(),
+              Center(
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 30),
+                  child: showPrice? Text(
+                    'Preço atual: R\$ ${ProductActualPrice.toStringAsFixed(2)}',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ) : Container(),
+                ),
+              ),
+              _buildProductPriceField(textForm),
               Container(margin: EdgeInsets.only(bottom: 180),),
               Row(
                 children: [
-                  smallPurpleButton('Cadastrar',  func: () async {
+                  smallPurpleButton('Salvar',  func: () async {
                       if(!_formKey.currentState!.validate()){
                         return;              
                       }
@@ -359,38 +464,54 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
                       var getValues = jsonDecode(getResponse.body);
                       print(getValues);
                       String categoryId = getValues[0]['category'];
-                      print('Parou aqui');
+                      print(categoryId);
+                      int categoryIdValue = 1;
+                      //print('Parou aqui');
                       switch (categoryId){
                         case 'Bebidas':
-                          categoryId = '4';
+                          categoryIdValue = 4;
                           break;
-                        case 'Açougue':
-                          categoryId = '3';
+                        case 'AÃ§ougue':
+                          categoryIdValue = 3;
                           break;
                         case 'Hortifruti':
-                          categoryId = '1';
+                          categoryIdValue = 1;
                           break;
-                        case 'Produtos gerais':
-                          categoryId = '5';
+                        case 'Produtos Gerais':
+                          categoryIdValue = 5;
                           break;
                         case 'Limpeza':
-                          categoryId = '2';
+                          categoryIdValue = 2;
                           break;
                       }
-                      print('Parou aqui');
+                      //print('Parou aqui');
+                      print(categoryIdValue.toString());
 
-                      var url = Uri.parse('http://18.208.163.221/products/');
-                      var response = await http.post(url, body: {
-                        "product_name" : productName,
-                        "bar_code" : widget.barCode,
-                        "price" : _productPrice?.toString(),
-                        "category": categoryId,
-                        "supermarket" : supermarket
-                      });
-                      print(response.body);
-                      print(response.statusCode);
+                      if(newSupermarket == false){
+                          var url = Uri.parse('http://18.208.163.221/products/');
+                          var response = await http.post(url, body: {
+                          "product_name" : productName,
+                          "bar_code" : widget.barCode,
+                          "price" : _productPrice?.toString(),
+                          "category": categoryIdValue.toString(),
+                          "supermarket" : supermarket
+                        });
+                        print(response.body);
+                        print(response.statusCode);
+                      }else{
+                        var url = Uri.parse('http://18.208.163.221/products/$productId/');
+                        print(url);
+                        var response = await http.put(url, body: {
+                          "product_name" : productName,
+                          "bar_code" : widget.barCode,
+                          "price" : _productPrice?.toString(),
+                          "category": categoryIdValue.toString(),
+                          "supermarket" : supermarket
+                        });
+                        print(response.body);
+                        print(response.statusCode);
+                      }
                       Navigator.of(context).pushReplacementNamed('/AppHome');
-
                   },
                   ),
                   smallPurpleButton('Cancelar', func: () {
@@ -426,10 +547,42 @@ _initValues() {
         print(value);
       });
     });
+    getProductPriceIfExist(widget.barCode).then((value) => {
+      setState(() {
+        ProductActualPrice = value;
+        print(value);
+      })
+    });
+    getSupermarketIfExist(widget.barCode).then((value) => {
+      setState(() {
+        newSupermarket = value;
+        print(newSupermarket);
+      })
+    });
+    getProductIdIfExist(widget.barCode).then((value) => {
+      setState(() {
+        productId = value;
+        print("Possivel erro aqui $productId");
+      })
+    });
+    getListOfSupermarketIfExist(widget.barCode).then((value) => {
+      setState(() {
+        supermarketNameList = value;
+        print("Lista de supermercados: ttgg $supermarketNameList");
+      })
+    });
+    getSupermarkedSettedIfExist(widget.barCode).then((value)  {
+      print(value);
+      setState(() {
+        supermarketSettedName = value!;
+        print("O nome do supermercado setado no shared: $supermarketSettedName");
+      });
+    });
+    
 }
 
 _delay(){
-    Future.delayed(Duration(seconds: 1), () { // <-- Delay here
+    Future.delayed(Duration(seconds: 2), () { // <-- Delay here
     setState(() {
         _isLoading = false; // <-- Code run after delay
       });
@@ -449,12 +602,32 @@ _delay(){
             child: _newProduct()
             );
         } else {
-            return GestureDetector(
-            onTap: (){
-              FocusScope.of(context).unfocus();
-            }, 
-            child: _productAlredyExist()
-            );
+            if(newSupermarket == true){
+              if(supermarketNameList.contains(supermarketSettedName)){
+              return GestureDetector(
+              onTap: (){
+                FocusScope.of(context).unfocus();
+              }, 
+                child: _productAlredyExist('Alteração de preço', 'Novo preço: ', true)
+              );
+              }else{
+              return GestureDetector(
+                onTap: (){
+                  FocusScope.of(context).unfocus();
+                }, 
+                  child: _productAlredyExist('Cadastro de produto', 'Preço do produto: ', false)
+                );
+              }
+
+            }else{
+              return GestureDetector(
+                onTap: (){
+                  FocusScope.of(context).unfocus();
+                }, 
+                  child: _productAlredyExist('Cadastro de produto', 'Preço do produto: ', false)
+                );
+            }
+
         }
       }
       }

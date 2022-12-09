@@ -35,7 +35,7 @@ class _SearchProductState extends State<SearchProduct> {
 
   Future<List<Product>> fetchProductInfo() async {
 
-    var productUrl = Uri.parse('http://18.208.163.221/products/?product_name=${widget.productName}');
+    var productUrl = Uri.parse('http://18.208.163.221/products/?search=${widget.productName}');
     Response response = await http.get(productUrl);
     var  values = jsonDecode(response.body) ;
     print(values.length);
@@ -95,7 +95,7 @@ class _SearchProductState extends State<SearchProduct> {
                     child: DropdownButton(
                         items: [
                           DropdownMenuItem(child: Text('Mercafrutas'), value: "Mercafrutas"),
-                          DropdownMenuItem(child: Text('Betel'), value: "Betel"),
+                          DropdownMenuItem(child: Text('Gauchos'), value: "Gauchos"),
                           DropdownMenuItem(child: Text('Comperfrutas'), value: "Comperfrutas"),
                         ],
                         isExpanded: true,

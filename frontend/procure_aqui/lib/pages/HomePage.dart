@@ -105,87 +105,91 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return  Scaffold(
       backgroundColor: Color(0xFF6200EE),
-      body: Column(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                margin: EdgeInsets.fromLTRB(50, 100, 50, 50),
-                child: Image.asset('lib/assets/images/logo2.png')
-              ),
-              Container(
-                margin: EdgeInsets.all(50),
-                child: Text("Seja bem vindo ao aplicativo Procure Aqui, o seu app de ofertas e comparação de preços de supermercados da sua região ",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  margin: EdgeInsets.fromLTRB(50, 100, 50, 0),
+                  //child: Image.asset('lib/assets/images/logo2.png')
+                  child: Image.asset('lib/assets/images/novologo.png')
+      
                 ),
-                )
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                width: 220,
-                height: 50,
-                child: 
-                  ElevatedButton(
-                    child: Text('Entrar'),
-                    onPressed: (){
-                      // testConnect().then((value) => connect = value);
-                      // if(connect == true){
-                        Navigator.of(context).popAndPushNamed(ProcureAqui.LoginPage);
-                      // }else{
-                      //   _dialogBuilder(context);
-                      // }
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Colors.white),
-                      foregroundColor: MaterialStatePropertyAll(Colors.black)
-                    ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                width: 220,
-                height: 50,
-                child: 
-                  ElevatedButton(
-                    child: Text("Cadastrar-se"),
-                    onPressed: (){
-                      // testConnect().then((bool value) => connect = value);
-                      // if(connect == true){
-                        Navigator.of(context).pushNamed(ProcureAqui.userForm);
-                      // }else{
-                      //   _dialogBuilder(context);
-                      // }
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Colors.white),
-                      foregroundColor: MaterialStatePropertyAll(Colors.black)
-                    ),
-                  ) 
-              ),
-              TextButton(
-                onPressed: (){
-                  // testConnect().then((bool value) => connect = value);
-                  // print(connect);
-                  // if(connect == true){
-                    Navigator.of(context).popAndPushNamed('/AppHome');
-                  // }else{
-                  //   _dialogBuilder(context);
-                  // }
-                },
-                child: Text(
-                  'Entrar sem cadastro',
+                Container(
+                  margin: EdgeInsets.all(50),
+                  child: Text("Seja bem vindo ao aplicativo Procure Aqui, o seu app de ofertas e comparação de preços de supermercados da sua região ",
                   style: TextStyle(
-                    color: Colors.white,
-                    decoration: TextDecoration.underline
+                    fontSize: 20,
+                    color: Colors.white
+                  ),
+                  )
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  width: 220,
+                  height: 50,
+                  child: 
+                    ElevatedButton(
+                      child: Text('Entrar'),
+                      onPressed: (){
+                        // testConnect().then((value) => connect = value);
+                        // if(connect == true){
+                          Navigator.of(context).popAndPushNamed(ProcureAqui.LoginPage);
+                        // }else{
+                        //   _dialogBuilder(context);
+                        // }
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(Colors.white),
+                        foregroundColor: MaterialStatePropertyAll(Colors.black)
+                      ),
                   ),
                 ),
-              )
-            ],
-          ),
-        ],
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  width: 220,
+                  height: 50,
+                  child: 
+                    ElevatedButton(
+                      child: Text("Cadastrar-se"),
+                      onPressed: (){
+                        // testConnect().then((bool value) => connect = value);
+                        // if(connect == true){
+                          Navigator.of(context).pushNamed(ProcureAqui.userForm);
+                        // }else{
+                        //   _dialogBuilder(context);
+                        // }
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(Colors.white),
+                        foregroundColor: MaterialStatePropertyAll(Colors.black)
+                      ),
+                    ) 
+                ),
+                TextButton(
+                  onPressed: (){
+                    // testConnect().then((bool value) => connect = value);
+                    // print(connect);
+                    // if(connect == true){
+                      Navigator.of(context).popAndPushNamed('/AppHome');
+                    // }else{
+                    //   _dialogBuilder(context);
+                    // }
+                  },
+                  child: Text(
+                    'Entrar sem cadastro',
+                    style: TextStyle(
+                      color: Colors.white,
+                      decoration: TextDecoration.underline
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

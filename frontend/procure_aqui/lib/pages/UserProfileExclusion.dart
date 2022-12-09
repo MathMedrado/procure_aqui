@@ -150,6 +150,7 @@ class _UserProfileExclusionState extends State<UserProfileExclusion> {
               Form(
                 key: _formKey,
                 child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                       margin: EdgeInsets.only(left: 20, top: 40),
@@ -163,7 +164,7 @@ class _UserProfileExclusionState extends State<UserProfileExclusion> {
                   Container(
                       margin: EdgeInsets.only(left: 20, top: 5),
                       padding: EdgeInsets.only(left: 5),
-                      width: 357,
+                      width: 340,
                       height: 45,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -199,7 +200,7 @@ class _UserProfileExclusionState extends State<UserProfileExclusion> {
                   ),
                   Container(
                       margin: EdgeInsets.only(left: 20, top: 5),
-                      width: 357,
+                      width: 340,
                       height: 45,
                       padding: EdgeInsets.only(left: 5),
                       decoration: BoxDecoration(
@@ -239,12 +240,14 @@ class _UserProfileExclusionState extends State<UserProfileExclusion> {
                     fontSize: 18
                   ),
                   ),
-                onPressed: () {
+                onPressed: () async {
                   if(_formKey.currentState!.validate()) {
-                    print(password);
-                    var passwordInBytes = utf8.encode(password!);
-                    var value = sha256.convert(passwordInBytes);
-                    if(value == widget.user.getPassword){
+                      var url = Uri.parse('http://18.208.163.221/validateUser/${widget.user.getId}/email/${emailController.text}/password/${passwordController.text}');
+                      var response = await http.get(url);
+                      var values = jsonDecode(response.body);
+                      print(url);
+                      print(values['is_product']);
+                    if(values['is_product']){
                       _dialogBuilder(context);
                     }
                     else{

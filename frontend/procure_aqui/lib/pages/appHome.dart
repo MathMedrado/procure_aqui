@@ -128,7 +128,7 @@ class _AppHomeState extends State<AppHome> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: 30, top: 35),
+                    margin: EdgeInsets.only(left: 20, top: 35),
                     width: 130,
                     height: 32,
                     decoration: BoxDecoration(
@@ -190,21 +190,25 @@ class _AppHomeState extends State<AppHome> {
                   width: 320,
                   height: 40,
                   margin: EdgeInsets.only(left: 22, top: 20),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      border: Border.all(color: Colors.grey)
-                  ),
                   child: Container( // COloca a porra de um container no meio dos dropdown items para que eles não bugem.
                     margin: EdgeInsets.only(left: 10),
-                    child: DropdownButton(
+                    child: DropdownButtonFormField(
                         items: [
                           DropdownMenuItem(child: Text('Mercafrutas'), value: "1"),
-                          DropdownMenuItem(child: Text('Betel'), value: "2"),
+                          DropdownMenuItem(child: Text('Gauchos'), value: "2"),
                           DropdownMenuItem(child: Text('Comperfrutas'), value: "3"),
                         ],
                         isExpanded: true,
                         elevation: 5,
-                        underline: Container( color: Colors.white),
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.only(bottom: 5, left: 10),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.grey
+                              )
+                          )
+                        ),
                         iconSize: 40,
                         value: supermarketValue,
                         onChanged: (supermarket) {
@@ -342,25 +346,25 @@ class _AppHomeState extends State<AppHome> {
                 icon: Icon(
                   Icons.home,
                 ),
-                label: 'Home',
+                label: '',
               ),
               BottomNavigationBarItem(
                 icon: Icon(
                   Icons.add_a_photo, 
                 ),
-                label: 'Add Product',
+                label: '',
               ),
               BottomNavigationBarItem(
                 icon: Icon(
                   Icons.shopping_cart, 
                 ),
-                label: 'list of products',
+                label: '',
               ),
               BottomNavigationBarItem(
                 icon: Icon(
                   Icons.person, 
                 ),
-                label: 'list of products',
+                label: '',
               )
           ],
           type: BottomNavigationBarType.fixed,

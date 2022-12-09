@@ -12,12 +12,12 @@ class smallDropDown extends StatelessWidget {
       children: [
         Container(
           width: 150,
-          margin: EdgeInsets.only(left: 28, bottom: 5),
+          margin: EdgeInsets.only(left: 18, bottom: 5),
           child: Text('Sexo*')
         ),
         Container(
           width: 160,
-          margin: EdgeInsets.only(left: 30),
+          margin: EdgeInsets.only(left: 28),
           child: DropdownButtonFormField(items: const [
             DropdownMenuItem(child: Text('Masculino'),value: "Masculino"),
             DropdownMenuItem(child: Text('Feminino'),value: "feminino"),

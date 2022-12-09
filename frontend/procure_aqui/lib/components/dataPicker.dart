@@ -12,13 +12,13 @@ class dataPicker extends StatelessWidget {
             children: [
               Container(
                 width: 150,
-                margin: EdgeInsets.only(left: 28, bottom: 5),
+                margin: EdgeInsets.only(left: 18, bottom: 5),
                 child: Text('data de nascimento*')
               ),
               Container(
                 width: 160,
                 height: 50,
-                margin: EdgeInsets.only(left: 30),
+                margin: EdgeInsets.only(left: 28),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.all(Radius.circular(4))

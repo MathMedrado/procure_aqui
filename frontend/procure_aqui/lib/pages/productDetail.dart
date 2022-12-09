@@ -128,7 +128,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       //print('id: 2 ${jsonDecode(responseUser.body)[0]['id']}');
       // int userid = jsonDecode(responseUser.body)[0]['id'];
       print('usuario $userId');
-      var url = Uri.parse('http://18.208.163.221/update_list_products/list/$listId/user/$userId/products/$listOfProductsId');
+      var url = Uri.parse('http://18.208.163.221/update_list_products/list/$listId/products/$listOfProductsId');
       print(url);
       print(listOfProductsId);
       // final sendbody = {
@@ -150,8 +150,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     print(listOfOneProduct);
     var url = Uri.parse('http://18.208.163.221/listOfProducts/');
     Response response = await http.post(url, body: {
-      "user" : userId,
-      "products" : listOfOneProduct
+      "user" : userId.toString(),
+      "products" : listOfOneProduct.toString()
     });
     print(response.statusCode);
     print(response.body);
@@ -267,7 +267,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         width: 330,
                         margin: EdgeInsets.only(left: 30, top: 7),
                         child: const Text(
-                          '_______________________________________',
+                          '__________________________________',
                           style: TextStyle(fontSize: 18),
                         ),
                       ),

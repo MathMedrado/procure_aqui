@@ -13,8 +13,11 @@ class userPhoto extends StatelessWidget {
           margin: EdgeInsets.only(top: 40),
           width: 150,
           height: 150,
-          child: Image.asset(
-            'lib/assets/images/userIcon.png',
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(75),
+            child: Image.asset(
+              'lib/assets/images/userIcon.png',
+            ),
           ),
         ),
         Container(

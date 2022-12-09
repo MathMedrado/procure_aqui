@@ -53,7 +53,19 @@ class _listOfProductsState extends State<listOfProducts> {
     if(response.statusCode == 200 && values.length != 0){
       if(values[0]['products'].length > 0){
         for(int i = 0; i < values[0]['products'].length; i++){
-          Product productToList = Product(id: values[0]['products'][i]['id'], nameProduct: values[0]['products'][i]['product_name'], barCode: values[0]['products'][i]['bar_code'], category: values[0]['products'][i]['category'], imageUrl: values[0]['products'][i]['image_url'], creationDate: DateTime.parse(values[0]['products'][i]['creation_date_product']), isVisible: values[0]['products'][i]['is_visible'], actualPrice: values[0]['products'][i]['price'], supermarket: Supermarket(id: values[0]['products'][i]['supermarket']['id'], nameSupermarket: values[0]['products'][i]['supermarket']['supermarket_name'], city: values[0]['products'][i]['supermarket']['city']['city_name'], street: values[0]['products'][i]['supermarket']['street'], district: values[0]['products'][i]['supermarket']['district'], complement: values[0]['products'][i]['supermarket']['complement']));
+          String utf8convert(String text) {
+            List<int> bytes = text.toString().codeUnits;
+            return utf8.decode(bytes);
+          }
+          String productNameConverted = utf8convert(values[0]['products'][i]['product_name']);
+          String categoryNameConverted = utf8convert(values[0]['products'][i]['category']);
+          String supermarketNameConverted = utf8convert(values[0]['products'][i]['supermarket']['supermarket_name']);
+          String supermarketStreet = utf8convert(values[0]['products'][i]['supermarket']['city']['city_name']);
+          String supermarketDistrict = utf8convert(values[0]['products'][i]['supermarket']['district']);
+          String supermarketCity= utf8convert(values[0]['products'][i]['supermarket']['city']['city_name']);
+          String supermarketComplement = utf8convert(values[0]['products'][i]['supermarket']['complement']);
+          
+          Product productToList = Product(id: values[0]['products'][i]['id'], nameProduct: productNameConverted, barCode: values[0]['products'][i]['bar_code'], category: categoryNameConverted, imageUrl: values[0]['products'][i]['image_url'], creationDate: DateTime.parse(values[0]['products'][i]['creation_date_product']), isVisible: values[0]['products'][i]['is_visible'], actualPrice: values[0]['products'][i]['price'], supermarket: Supermarket(id: values[0]['products'][i]['supermarket']['id'], nameSupermarket: supermarketNameConverted, city: supermarketCity, street: supermarketStreet, district: supermarketDistrict, complement: supermarketComplement));
           print(productToList.getNameProduct);
           listProducts.add(productToList);
           print(listProducts);
@@ -66,6 +78,42 @@ class _listOfProductsState extends State<listOfProducts> {
       return listProducts;
     }
   }
+
+  
+  // Future<List<Product>> fetchProductInfo() async {
+
+  //   var productUrl = Uri.parse('http://18.208.163.221/products/');
+  //   Response response = await http.get(productUrl);
+  //   var  values = jsonDecode(response.body) ;
+  //   print(values.length);
+  //   List<Product> listProducts = [];
+
+  //   if(response.statusCode == 200){
+  //     if(values.length > 0){
+  //       for(int i = 0; i < values.length; i++){
+  //         String utf8convert(String text) {
+  //           List<int> bytes = text.toString().codeUnits;
+  //           return utf8.decode(bytes);
+  //         }
+  //         String productNameConverted = utf8convert(values[i]['product_name']);
+  //         String categoryNameConverted = utf8convert(values[i]['category']);
+  //         String supermarketNameConverted = utf8convert(values[i]['supermarket']['supermarket_name']);
+  //         String supermarketStreet = utf8convert(values[i]['supermarket']['street']);
+  //         String supermarketDistrict = utf8convert(values[i]['supermarket']['district']);
+  //         String supermarketCity= utf8convert(values[i]['supermarket']['city']['city_name']);
+  //         String supermarketComplement = utf8convert(values[i]['supermarket']['complement']);
+  //         Product productToList = Product(id: values[i]['id'], nameProduct: productNameConverted, barCode: values[i]['bar_code'], category: categoryNameConverted, imageUrl: values[i]['image_url'], creationDate: DateTime.parse(values[i]['creation_date_product']), isVisible: values[i]['is_visible'], actualPrice: values[i]['price'], supermarket: Supermarket(id: values[i]['supermarket']['id'], nameSupermarket: supermarketNameConverted, city: supermarketCity, street: supermarketStreet, district: supermarketDistrict, complement: supermarketComplement));
+          
+  //         listProducts.add(productToList);
+  //       }
+  //       print(listProducts);
+  //     }
+  //     return listProducts;
+  //   }
+  //   else{
+  //     return listProducts;
+  //   }
+  // }
 
   deleteSelectProduct(int productId) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -91,7 +139,7 @@ class _listOfProductsState extends State<listOfProducts> {
     list.remove(productId);
     print(list);
     if(list.length > 0){
-      var urlPut = Uri.parse('http://18.208.163.221/update_list_products/list/$listId/user/$userId/products/$list');
+      var urlPut = Uri.parse('http://18.208.163.221/update_list_products/list/$listId/products/$list');
       Response responsePut = await http.put(urlPut);
     } else{
       deleteAllProducts();
@@ -110,7 +158,8 @@ class _listOfProductsState extends State<listOfProducts> {
     int userid = jsonDecode(responseUser.body)[0]['id'];
     var urlList = Uri.parse('http://18.208.163.221/listOfProducts/?user=$userid');
     Response responseList = await http.get(urlList);
-    var  values = jsonDecode(responseList.body) ;
+    var  values = jsonDecode(responseList.body);
+    print('Erro aqui heloo $values');
     int listId = values[0]['id'];
     var url = Uri.parse('http://18.208.163.221/listOfProducts/$listId/');
     print(url);

@@ -69,11 +69,19 @@ class _UserProfilePageState extends State<UserProfilePage> {
     print(jsonDecode(responseUser.body)[0]['birth_date']);
     print(responseUser.statusCode);
 
+    String utf8convert(String text) {
+      List<int> bytes = text.toString().codeUnits;
+      return utf8.decode(bytes);
+    }
+    String usernameConverted = utf8convert(jsonDecode(responseUser.body)[0]['username']);
+    String cityConverted = utf8convert(jsonDecode(responseUser.body)[0]['city']['city_name']);
+    String stateConverted = utf8convert(jsonDecode(responseUser.body)[0]['city']['state']);
+    String emailConverted = utf8convert(jsonDecode(responseUser.body)[0]['email']);
     // String userData = jsonDecode(responseUser.body)['username'];
     // print(userData);
 
     if(responseUser.statusCode == 200){
-      return User(id: jsonDecode(responseUser.body)[0]['id'], birthDate: DateTime.parse(jsonDecode(responseUser.body)[0]['birth_date']) , city: jsonDecode(responseUser.body)[0]['city']['city_name'], email: jsonDecode(responseUser.body)[0]['email'], password: jsonDecode(responseUser.body)[0]['password'], sex: jsonDecode(responseUser.body)[0]['sex'], state: jsonDecode(responseUser.body)[0]['city']['state'], username: jsonDecode(responseUser.body)[0]['username'] );
+      return User(id: jsonDecode(responseUser.body)[0]['id'], birthDate: DateTime.parse(jsonDecode(responseUser.body)[0]['birth_date']) , city: cityConverted, email: emailConverted, password: jsonDecode(responseUser.body)[0]['password'], sex: jsonDecode(responseUser.body)[0]['sex'], state: stateConverted, username: usernameConverted );
     }
     else{
       return User(id: jsonDecode(responseUser.body)[0]['id'], birthDate: DateTime.parse(jsonDecode(responseUser.body)[0]['birth_date']) , city: jsonDecode(responseUser.body)[0]['city']['city_name'], email: jsonDecode(responseUser.body)[0]['email'], password: jsonDecode(responseUser.body)[0]['password'], sex: jsonDecode(responseUser.body)[0]['sex'], state: jsonDecode(responseUser.body)[0]['city']['state'], username: jsonDecode(responseUser.body)[0]['username'] );

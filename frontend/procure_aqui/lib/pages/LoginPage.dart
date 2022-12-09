@@ -97,8 +97,10 @@ class _LoginState extends State<Login> {
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.fromLTRB(50, 250, 50, 50),
-                child: Image.asset('lib/assets/images/logo2.png')
+                margin: EdgeInsets.fromLTRB(50, 100, 50, 50),
+                //child: Image.asset('lib/assets/images/logo2.png')
+                child: Image.asset('lib/assets/images/novologo.png')
+
               ),
               Form(
                 key: _formkey,
