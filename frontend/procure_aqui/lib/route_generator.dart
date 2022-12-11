@@ -10,6 +10,7 @@ import 'package:procure_aqui/pages/UserProfile.dart';
 import 'package:procure_aqui/pages/UserProfileExclusion.dart';
 import 'package:procure_aqui/pages/productComparationPage.dart';
 import 'package:procure_aqui/pages/productDetail.dart';
+import 'package:procure_aqui/pages/productDetailWithPrice.dart';
 import 'package:procure_aqui/pages/productEditPage.dart';
 import 'package:procure_aqui/pages/productRegistrationPage.dart';
 import 'package:procure_aqui/pages/searchProduct.dart';
@@ -17,6 +18,7 @@ import 'package:procure_aqui/pages/start.dart';
 import 'package:procure_aqui/pages/userEditProfile.dart';
 import 'package:procure_aqui/pages/appHome.dart';
 import 'models/user.dart';
+import 'models/productWithPriceDetail.dart';
 
 import 'main.dart';
 
@@ -64,6 +66,11 @@ class routeGenerator{
       case '/ProductDetailPage':
         if(args is Product){
           return MaterialPageRoute(builder: (_) => ProductDetailPage(product: args));
+        }
+        return _errorRoute();
+      case '/ProductDetailWithPricePage':
+        if(args is ProductWithPrice){
+          return MaterialPageRoute(builder: (_) => ProductDetailWithPricePage(product: args));
         }
         return _errorRoute();
       case '/productComparationPage':

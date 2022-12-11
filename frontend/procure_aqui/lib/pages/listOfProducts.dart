@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/product.dart';
 import '../models/supermarket.dart';
+import '../models/productWithPriceDetail.dart';
 
 class listOfProducts extends StatefulWidget {
   const listOfProducts({super.key});
@@ -25,11 +26,11 @@ class _listOfProductsState extends State<listOfProducts> {
     productData = fetchProductInfo();
   }
 
-  late Future<List<Product>> productData;
+  late Future<List<ProductWithPrice>> productData;
   int restartPage = 0;
 
 
-  Future<List<Product>> fetchProductInfo() async {
+  Future<List<ProductWithPrice>> fetchProductInfo() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? userEmail = sharedPreferences.getString('email');
     var userUrl = Uri.parse('http://18.208.163.221/users/?search=$userEmail');
@@ -47,7 +48,7 @@ class _listOfProductsState extends State<listOfProducts> {
     print(response.body);
     var  values = jsonDecode(response.body) ;
 
-    List<Product> listProducts = [];
+    List<ProductWithPrice> listProducts = [];
     print(values.length);
 
     if(response.statusCode == 200 && values.length != 0){
@@ -64,10 +65,13 @@ class _listOfProductsState extends State<listOfProducts> {
           String supermarketDistrict = utf8convert(values[0]['products'][i]['supermarket']['district']);
           String supermarketCity= utf8convert(values[0]['products'][i]['supermarket']['city']['city_name']);
           String supermarketComplement = utf8convert(values[0]['products'][i]['supermarket']['complement']);
-          
-          Product productToList = Product(id: values[0]['products'][i]['id'], nameProduct: productNameConverted, barCode: values[0]['products'][i]['bar_code'], category: categoryNameConverted, imageUrl: values[0]['products'][i]['image_url'], creationDate: DateTime.parse(values[0]['products'][i]['creation_date_product']), isVisible: values[0]['products'][i]['is_visible'], actualPrice: values[0]['products'][i]['price'], supermarket: Supermarket(id: values[0]['products'][i]['supermarket']['id'], nameSupermarket: supermarketNameConverted, city: supermarketCity, street: supermarketStreet, district: supermarketDistrict, complement: supermarketComplement));
-          print(productToList.getNameProduct);
-          listProducts.add(productToList);
+          var priceUrl = Uri.parse('http://18.208.163.221/products/find_average_and_lowest_price/${values[0]['products'][i]['bar_code']}');
+          var priceResponse = await http.get(priceUrl);
+          var priceValues = jsonDecode(priceResponse.body);
+          // print("Olha aqui ${priceValues['average']}");
+          // print(priceValues['lowest_price']);
+          ProductWithPrice productWithPriceToList = ProductWithPrice(id: values[0]['products'][i]['id'], nameProduct: productNameConverted, barCode: values[0]['products'][i]['bar_code'], category: categoryNameConverted, imageUrl: values[0]['products'][i]['image_url'], creationDate: DateTime.parse(values[0]['products'][i]['creation_date_product']), isVisible: values[0]['products'][i]['is_visible'], actualPrice: values[0]['products'][i]['price'], supermarket: Supermarket(id: values[0]['products'][i]['supermarket']['id'], nameSupermarket: supermarketNameConverted, city: supermarketCity, street: supermarketStreet, district: supermarketDistrict, complement: supermarketComplement), avaragePrice: priceValues['average'], minimunPrice: priceValues['lowest_price']);
+          listProducts.add(productWithPriceToList);
           print(listProducts);
         }
         // print('Produtos: ${listProducts}');
@@ -192,9 +196,9 @@ class _listOfProductsState extends State<listOfProducts> {
                 userInputButton(Colors.blue, 'Limpar Lista', () async {
                   deleteAllProducts();
                 }),
-                userInputButton(Color(0xFF7B61FF), 'Comparar lista', () {
-                  Navigator.of(context).pushNamed('/productComparationPage');
-                })
+                // userInputButton(Color(0xFF7B61FF), 'Comparar lista', () {
+                //   Navigator.of(context).pushNamed('/productComparationPage');
+                // })
               ],
             ),
           ) : Column(

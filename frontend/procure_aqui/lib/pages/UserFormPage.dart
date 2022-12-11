@@ -293,8 +293,6 @@ Widget _buildStateField(){
           margin: EdgeInsets.only(left: 22),
           child: DropdownButtonFormField(items: const [
             DropdownMenuItem(child: Text('Goiás'),value: "Goiás"),
-            DropdownMenuItem(child: Text('São Paulo'),value: "São Paulo"),
-            DropdownMenuItem(child: Text('Rio De Janeiro'),value: "Rio de Janeiro"),
           ],
           // value: _sexDropDownValue,
           // onChanged: sexDropDownHandler,

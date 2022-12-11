@@ -124,16 +124,16 @@ class _LoginState extends State<Login> {
                               borderRadius: BorderRadius.circular(4),
                             )
                           ),
-                          validator: (email){
-                            if(email == null || email.isEmpty){
-                              return 'Digite o seu email!';
-                            }
-                            else if (!RegExp(
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                            .hasMatch(_emailController.text)) {
-                          return 'Digite um e-mail valido!';
-                          }
-                        }
+                        //   validator: (email){
+                        //     if(email == null || email.isEmpty){
+                        //       return 'Digite o seu email!';
+                        //     }
+                        //     else if (!RegExp(
+                        //       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        //     .hasMatch(_emailController.text)) {
+                        //   return 'Digite um e-mail valido!';
+                        //   }
+                        // }
                         ),
                     ),
                     Container(
@@ -155,14 +155,14 @@ class _LoginState extends State<Login> {
                               borderRadius: BorderRadius.circular(4),
                             )
                           ),
-                          validator: (password){
-                            if(password == null || password.isEmpty){
-                              return 'Você precisa informar a sua senha.';
-                              return '';
-                            }else if(password.length < 5){
-                              return 'A sua Senha precisa conter no minimo 10 caracteres';
-                            }
-                          },
+                          // validator: (password){
+                          //   if(password == null || password.isEmpty){
+                          //     return 'Você precisa informar a sua senha.';
+                          //     return '';
+                          //   }else if(password.length < 5){
+                          //     return 'A sua Senha precisa conter no minimo 10 caracteres';
+                          //   }
+                          // },
                         )
                     ),
                     Padding(

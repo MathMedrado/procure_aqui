@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:procure_aqui/models/product.dart';
+import 'package:procure_aqui/components/otherMarketCardWithPrice.dart';
+import 'package:procure_aqui/models/productWithPriceDetail.dart';
 import 'package:procure_aqui/components/appBarSearchFeature.dart';
 import 'package:procure_aqui/components/otherMarketCard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,16 +12,16 @@ import 'package:http/http.dart' as http;
 import '../models/supermarket.dart';
 
 
-class ProductDetailPage extends StatefulWidget {
-  const ProductDetailPage({ required this.product, super.key});
+class ProductDetailWithPricePage extends StatefulWidget {
+  const ProductDetailWithPricePage({ required this.product, super.key});
   
-  final Product product;
+  final ProductWithPrice product;
 
   @override
-  State<ProductDetailPage> createState() => _ProductDetailPageState();
+  State<ProductDetailWithPricePage> createState() => _ProductDetailWithPricePageState();
 }
 
-class _ProductDetailPageState extends State<ProductDetailPage> {
+class _ProductDetailWithPricePageState extends State<ProductDetailWithPricePage> {
 
   @override
   void initState(){
@@ -28,21 +29,52 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     productData = fetchProductInfo();
   }
 
-  late Future<List<Product>> productData;
+  late Future<List<ProductWithPrice>> productData;
+  Future<List<ProductWithPrice>> fetchProductInfo() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? userEmail = sharedPreferences.getString('email');
+    var userUrl = Uri.parse('http://18.208.163.221/users/?search=$userEmail');
+    print(userEmail);
+    Response responseUser = await http.get(userUrl);
+    print(responseUser.body);
+    print('id ${jsonDecode(responseUser.body)[0]['id']}');
+    int userid = jsonDecode(responseUser.body)[0]['id'];
+    await sharedPreferences.setInt('userId', userid);
 
-  Future<List<Product>> fetchProductInfo() async {
-    var url = Uri.parse('http://18.208.163.221/products/?bar_code=${widget.product.getBarCode}');
+
+
+    var url = Uri.parse('http://18.208.163.221/listOfProducts/?user=$userid');
     Response response = await http.get(url);
+    print(response.body);
     var  values = jsonDecode(response.body) ;
-    List<Product> listProducts = [];
 
-    if(response.statusCode == 200){
-      if(values.length > 0){
-        for(int i = 0; i < values.length; i++){
-          Product productToList = Product(id: values[i]['id'], nameProduct: values[i]['product_name'], barCode: values[i]['bar_code'], category: values[i]['category'], imageUrl: values[i]['image_url'], creationDate: DateTime.parse(values[i]['creation_date_product']), isVisible: values[i]['is_visible'], actualPrice: values[i]['price'], supermarket: Supermarket(id: values[i]['supermarket']['id'], nameSupermarket: values[i]['supermarket']['supermarket_name'], city: values[i]['supermarket']['city']['city_name'], street: values[i]['supermarket']['street'], district: values[i]['supermarket']['district'], complement: values[i]['supermarket']['complement']));
-          listProducts.add(productToList);
+    List<ProductWithPrice> listProducts = [];
+    print(values.length);
+
+    if(response.statusCode == 200 && values.length != 0){
+      if(values[0]['products'].length > 0){
+        for(int i = 0; i < values[0]['products'].length; i++){
+          String utf8convert(String text) {
+            List<int> bytes = text.toString().codeUnits;
+            return utf8.decode(bytes);
+          }
+          String productNameConverted = utf8convert(values[0]['products'][i]['product_name']);
+          String categoryNameConverted = utf8convert(values[0]['products'][i]['category']);
+          String supermarketNameConverted = utf8convert(values[0]['products'][i]['supermarket']['supermarket_name']);
+          String supermarketStreet = utf8convert(values[0]['products'][i]['supermarket']['city']['city_name']);
+          String supermarketDistrict = utf8convert(values[0]['products'][i]['supermarket']['district']);
+          String supermarketCity= utf8convert(values[0]['products'][i]['supermarket']['city']['city_name']);
+          String supermarketComplement = utf8convert(values[0]['products'][i]['supermarket']['complement']);
+          var priceUrl = Uri.parse('http://18.208.163.221/products/find_average_and_lowest_price/${values[0]['products'][i]['bar_code']}');
+          var priceResponse = await http.get(priceUrl);
+          var priceValues = jsonDecode(priceResponse.body);
+          // print("Olha aqui ${priceValues['average']}");
+          // print(priceValues['lowest_price']);
+          ProductWithPrice productWithPriceToList = ProductWithPrice(id: values[0]['products'][i]['id'], nameProduct: productNameConverted, barCode: values[0]['products'][i]['bar_code'], category: categoryNameConverted, imageUrl: values[0]['products'][i]['image_url'], creationDate: DateTime.parse(values[0]['products'][i]['creation_date_product']), isVisible: values[0]['products'][i]['is_visible'], actualPrice: values[0]['products'][i]['price'], supermarket: Supermarket(id: values[0]['products'][i]['supermarket']['id'], nameSupermarket: supermarketNameConverted, city: supermarketCity, street: supermarketStreet, district: supermarketDistrict, complement: supermarketComplement), avaragePrice: priceValues['average'], minimunPrice: priceValues['lowest_price']);
+          listProducts.add(productWithPriceToList);
+          print(listProducts);
         }
-        print('Produtos: ${listProducts}');
+        // print('Produtos: ${listProducts}');
       }
       return listProducts;
     }
@@ -289,7 +321,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, index){
-                          return snapshot.data![index].getId != widget.product.getId? otherMarketCard(product: snapshot.data![index]) : Container();
+                          return snapshot.data![index].getId != widget.product.getId? otherMarketCardWithPrice(product: snapshot.data![index]) : Container();
                         },
                       )
                     ],

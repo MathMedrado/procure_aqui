@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:procure_aqui/models/product.dart';
+import 'package:procure_aqui/models/productWithPriceDetail.dart';
 
-class otherMarketCard extends StatelessWidget {
-  const otherMarketCard({required this.product, super.key});
+class otherMarketCardWithPrice extends StatelessWidget {
+  const otherMarketCardWithPrice({required this.product, super.key});
 
-  final Product product;
+  final ProductWithPrice product;
   final String supermarket = 'Comperfrutas';
 
   @override

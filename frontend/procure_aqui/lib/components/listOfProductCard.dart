@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:procure_aqui/models/product.dart';
+import 'package:procure_aqui/models/productWithPriceDetail.dart';
 
 import '../models/supermarket.dart';
 
 class listOfProductcard extends StatelessWidget {
    listOfProductcard ({required this.product, required this.func, super.key});
-   Product product;
+   ProductWithPrice product;
    final void Function(int) func;
 
 
@@ -55,7 +55,7 @@ class listOfProductcard extends StatelessWidget {
                                   textAlign: TextAlign.start,
                                 ),
                                 Text(
-                                  ' R\$ ${product.getActualPrice}',
+                                  ' R\$ ${product.getAveragePrice.toStringAsFixed(2)}',
                                   textAlign: TextAlign.start,
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
@@ -71,7 +71,7 @@ class listOfProductcard extends StatelessWidget {
                                   textAlign: TextAlign.start,
                                 ),
                                 Text(
-                                  ' R\$ ${product.getActualPrice}',
+                                  ' R\$ ${product.getMinimunPrice.toStringAsFixed(2)}',
                                   textAlign: TextAlign.start,
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
@@ -96,7 +96,7 @@ class listOfProductcard extends StatelessWidget {
                                 ),
                               ),
                               onPressed: (){
-                                Navigator.of(context).pushNamed('/ProductDetailPage', arguments: product);
+                                Navigator.of(context).pushNamed('/ProductDetailWithPricePage', arguments: product);
                               },
                             ),
                           )

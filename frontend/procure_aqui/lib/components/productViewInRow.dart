@@ -58,7 +58,7 @@ class ProductViewInRow extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only( left: 20, top: 5),
                     child: Text(
-                      'R\$ ${product.getActualPrice.toString()}',
+                      'R\$ ${product.getActualPrice.toStringAsFixed(2)}',
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold

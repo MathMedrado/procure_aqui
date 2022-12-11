@@ -45,7 +45,19 @@ class _CategoryViewState extends State<CategoryView> {
     if(response.statusCode == 200){
       if(values.length > 0){
         for(int i = 0; i < values.length; i++){
-          Product productToList = Product(id: values[i]['id'], nameProduct: values[i]['product_name'], barCode: values[i]['bar_code'], category: values[i]['category'], imageUrl: values[i]['image_url'], creationDate: DateTime.parse(values[i]['creation_date_product']), isVisible: values[i]['is_visible'], actualPrice: values[i]['price'], supermarket: Supermarket(id: values[i]['supermarket']['id'], nameSupermarket: values[i]['supermarket']['supermarket_name'], city: values[i]['supermarket']['city']['city_name'], street: values[i]['supermarket']['street'], district: values[i]['supermarket']['district'], complement: values[i]['supermarket']['complement']));
+          String utf8convert(String text) {
+            List<int> bytes = text.toString().codeUnits;
+            return utf8.decode(bytes);
+          }
+          String productNameConverted = utf8convert(values[i]['product_name']);
+          String categoryNameConverted = utf8convert(values[i]['category']);
+          String supermarketNameConverted = utf8convert(values[i]['supermarket']['supermarket_name']);
+          String supermarketStreet = utf8convert(values[i]['supermarket']['street']);
+          String supermarketDistrict = utf8convert(values[i]['supermarket']['district']);
+          String supermarketCity= utf8convert(values[i]['supermarket']['city']['city_name']);
+          String supermarketComplement = utf8convert(values[i]['supermarket']['complement']);
+          Product productToList = Product(id: values[i]['id'], nameProduct: productNameConverted, barCode: values[i]['bar_code'], category: categoryNameConverted, imageUrl: values[i]['image_url'], creationDate: DateTime.parse(values[i]['creation_date_product']), isVisible: values[i]['is_visible'], actualPrice: values[i]['price'], supermarket: Supermarket(id: values[i]['supermarket']['id'], nameSupermarket: supermarketNameConverted, city: supermarketCity, street: supermarketStreet, district: supermarketDistrict, complement: supermarketComplement));
+
           listProducts.add(productToList);
         }
         print(listProducts);

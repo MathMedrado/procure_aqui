@@ -508,8 +508,20 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
                           "category": categoryIdValue.toString(),
                           "supermarket" : supermarket
                         });
-                        print(response.body);
                         print(response.statusCode);
+                        if(response.statusCode == 202){
+                            var values = jsonDecode(response.body);
+                            print(values);
+                            String utf8convert(String text) {
+                              List<int> bytes = text.toString().codeUnits;
+                              return utf8.decode(bytes);
+                            }
+                            String errorMessage = values["Error"];
+                            errorMessage = utf8convert(errorMessage);
+                            print(errorMessage);
+                            final snackBar = SnackBar(content: Text(errorMessage, textAlign: TextAlign.center), backgroundColor: Colors.red,);
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
                       }
                       Navigator.of(context).pushReplacementNamed('/AppHome');
                   },
