@@ -79,7 +79,7 @@ class _UserEditProfileState extends State<UserEditProfile> {
       context: context, 
 
       initialDate: DateTime.now(), 
-      firstDate: DateTime(2001), 
+      firstDate: DateTime(1950), 
       lastDate: DateTime(2099)
     ).then((date) {
       setState(() {
@@ -279,7 +279,9 @@ Widget _buildStateField(){
                       // "state" : _state
                   });
                   print(response.body);
-                  Navigator.pop(context);
+                  final snackBar = SnackBar(content: Text("Dados  alterados com sucesso!", textAlign: TextAlign.center), backgroundColor: Colors.green,);
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  Navigator.pushReplacementNamed(context, '/AppHome');
                   //resetar page?
 
                   },

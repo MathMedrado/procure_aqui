@@ -232,7 +232,7 @@ class _CategoryViewState extends State<CategoryView> {
             else {
               final error = snapshot.error;
               print(error);
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             }
           }
       ),

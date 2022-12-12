@@ -29,48 +29,41 @@ class _ProductDetailWithPricePageState extends State<ProductDetailWithPricePage>
     productData = fetchProductInfo();
   }
 
+
   late Future<List<ProductWithPrice>> productData;
   Future<List<ProductWithPrice>> fetchProductInfo() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String? userEmail = sharedPreferences.getString('email');
-    var userUrl = Uri.parse('http://18.208.163.221/users/?search=$userEmail');
-    print(userEmail);
-    Response responseUser = await http.get(userUrl);
-    print(responseUser.body);
-    print('id ${jsonDecode(responseUser.body)[0]['id']}');
-    int userid = jsonDecode(responseUser.body)[0]['id'];
-    await sharedPreferences.setInt('userId', userid);
-
-
-
-    var url = Uri.parse('http://18.208.163.221/listOfProducts/?user=$userid');
+    var url = Uri.parse('http://18.208.163.221/products/?bar_code=${widget.product.getBarCode}');
     Response response = await http.get(url);
-    print(response.body);
     var  values = jsonDecode(response.body) ;
-
     List<ProductWithPrice> listProducts = [];
-    print(values.length);
+    print(values[0]['bar_code']);
 
-    if(response.statusCode == 200 && values.length != 0){
-      if(values[0]['products'].length > 0){
-        for(int i = 0; i < values[0]['products'].length; i++){
+
+    if(response.statusCode == 200){
+      if(values.length > 0){
+        print('Entrou no if');
+        for(int i = 0; i < values.length; i++){
           String utf8convert(String text) {
             List<int> bytes = text.toString().codeUnits;
             return utf8.decode(bytes);
           }
-          String productNameConverted = utf8convert(values[0]['products'][i]['product_name']);
-          String categoryNameConverted = utf8convert(values[0]['products'][i]['category']);
-          String supermarketNameConverted = utf8convert(values[0]['products'][i]['supermarket']['supermarket_name']);
-          String supermarketStreet = utf8convert(values[0]['products'][i]['supermarket']['city']['city_name']);
-          String supermarketDistrict = utf8convert(values[0]['products'][i]['supermarket']['district']);
-          String supermarketCity= utf8convert(values[0]['products'][i]['supermarket']['city']['city_name']);
-          String supermarketComplement = utf8convert(values[0]['products'][i]['supermarket']['complement']);
-          var priceUrl = Uri.parse('http://18.208.163.221/products/find_average_and_lowest_price/${values[0]['products'][i]['bar_code']}');
+          String productNameConverted = utf8convert(values[i]['product_name']);
+          String categoryNameConverted = utf8convert(values[i]['category']);
+          String supermarketNameConverted = utf8convert(values[i]['supermarket']['supermarket_name']);
+          String supermarketStreet = utf8convert(values[i]['supermarket']['street']);
+          String supermarketDistrict = utf8convert(values[i]['supermarket']['district']);
+          String supermarketCity= utf8convert(values[i]['supermarket']['city']['city_name']);
+          String supermarketComplement = utf8convert(values[i]['supermarket']['complement']);
+          print(supermarketNameConverted);
+          print(values[i]['bar_code']);
+          
+          var priceUrl = Uri.parse('http://18.208.163.221/products/find_average_and_lowest_price/${values[i]['bar_code']}');
+          print(priceUrl);
           var priceResponse = await http.get(priceUrl);
           var priceValues = jsonDecode(priceResponse.body);
           // print("Olha aqui ${priceValues['average']}");
           // print(priceValues['lowest_price']);
-          ProductWithPrice productWithPriceToList = ProductWithPrice(id: values[0]['products'][i]['id'], nameProduct: productNameConverted, barCode: values[0]['products'][i]['bar_code'], category: categoryNameConverted, imageUrl: values[0]['products'][i]['image_url'], creationDate: DateTime.parse(values[0]['products'][i]['creation_date_product']), isVisible: values[0]['products'][i]['is_visible'], actualPrice: values[0]['products'][i]['price'], supermarket: Supermarket(id: values[0]['products'][i]['supermarket']['id'], nameSupermarket: supermarketNameConverted, city: supermarketCity, street: supermarketStreet, district: supermarketDistrict, complement: supermarketComplement), avaragePrice: priceValues['average'], minimunPrice: priceValues['lowest_price']);
+          ProductWithPrice productWithPriceToList = ProductWithPrice(id: values[i]['id'], nameProduct: productNameConverted, barCode: values[i]['bar_code'], category: categoryNameConverted, imageUrl: values[i]['image_url'], creationDate: DateTime.parse(values[i]['creation_date_product']), isVisible: values[i]['is_visible'], actualPrice: values[i]['price'], supermarket: Supermarket(id: values[i]['supermarket']['id'], nameSupermarket: supermarketNameConverted, city: supermarketCity, street: supermarketStreet, district: supermarketDistrict, complement: supermarketComplement), avaragePrice: priceValues['average'], minimunPrice: priceValues['lowest_price']);
           listProducts.add(productWithPriceToList);
           print(listProducts);
         }
@@ -169,6 +162,11 @@ class _ProductDetailWithPricePageState extends State<ProductDetailWithPricePage>
       Response response = await http.put(url);
       print(response.statusCode);
       print(response.body);
+      if(response.statusCode == 201){
+        final snackBar = SnackBar(content: Text("Produto adicionado para a lista de compras!", textAlign: TextAlign.center), backgroundColor: Colors.green,);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+
     }
   }
 
@@ -187,7 +185,9 @@ class _ProductDetailWithPricePageState extends State<ProductDetailWithPricePage>
     });
     print(response.statusCode);
     print(response.body);
-
+    final snackBar = SnackBar(content: Text("Produto adicionado para a lista de compras!", textAlign: TextAlign.center), backgroundColor: Colors.green,);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    
   }
 
 

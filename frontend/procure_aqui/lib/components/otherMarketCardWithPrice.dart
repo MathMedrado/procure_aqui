@@ -81,7 +81,7 @@ class otherMarketCardWithPrice extends StatelessWidget {
                                   ),
                                 ),
                                 onPressed: (){
-                                  Navigator.of(context).pushNamed('/ProductDetailPage',arguments: product);
+                                  Navigator.of(context).pushNamed('/ProductDetailWithPricePage',arguments: product);
                                 },
                               ),
                             )

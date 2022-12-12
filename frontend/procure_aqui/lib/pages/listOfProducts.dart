@@ -145,6 +145,8 @@ class _listOfProductsState extends State<listOfProducts> {
     if(list.length > 0){
       var urlPut = Uri.parse('http://18.208.163.221/update_list_products/list/$listId/products/$list');
       Response responsePut = await http.put(urlPut);
+      final snackBar = SnackBar(content: Text("Produto removido com sucesso!", textAlign: TextAlign.center), backgroundColor: Colors.red,);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else{
       deleteAllProducts();
     }
@@ -219,7 +221,7 @@ class _listOfProductsState extends State<listOfProducts> {
         else {
           final error = snapshot.error;
           print(error);
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         }
       }
     );

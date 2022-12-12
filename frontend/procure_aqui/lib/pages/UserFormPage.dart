@@ -63,7 +63,7 @@ class _UserFormPageState extends State<UserFormPage> {
       context: context, 
 
       initialDate: DateTime.now(), 
-      firstDate: DateTime(2001), 
+      firstDate: DateTime(1950), 
       lastDate: DateTime(2099)
     ).then((date) {
       setState(() {
@@ -362,6 +362,8 @@ Widget _buildStateField(){
 
                   if(response.statusCode == 201){
                     Navigator.of(context).popAndPushNamed('/');
+                      final snackBar = SnackBar(content: Text("Usuário criado com sucesso!", textAlign: TextAlign.center), backgroundColor: Colors.green,);
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
                   if(response.statusCode == 400){
                     print(values["email"]);

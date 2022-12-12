@@ -234,7 +234,7 @@ class _SearchProductState extends State<SearchProduct> {
             else {
               final error = snapshot.error;
               print(error);
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             }
           }
       ),

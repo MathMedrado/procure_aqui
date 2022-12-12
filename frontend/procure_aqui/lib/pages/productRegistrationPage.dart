@@ -380,6 +380,8 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
                       print(response.body);
                       print(response.statusCode);
                       Navigator.of(context).pushReplacementNamed('/AppHome');
+                      final snackBar = SnackBar(content: Text("Produto cadastrado com sucesso!", textAlign: TextAlign.center), backgroundColor: Colors.green,);
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
                   },
                   ),
@@ -498,6 +500,8 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
                         });
                         print(response.body);
                         print(response.statusCode);
+                          final snackBar = SnackBar(content: Text("Produto cadastrado com sucesso!", textAlign: TextAlign.center), backgroundColor: Colors.green,);
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }else{
                         var url = Uri.parse('http://18.208.163.221/products/$productId/');
                         print(url);
@@ -509,6 +513,11 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
                           "supermarket" : supermarket
                         });
                         print(response.statusCode);
+                        print(response.body);
+                        if(response.statusCode == 200){
+                          final snackBar = SnackBar(content: Text("Preço alterado com sucesso!", textAlign: TextAlign.center), backgroundColor: Colors.green,);
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
                         if(response.statusCode == 202){
                             var values = jsonDecode(response.body);
                             print(values);
@@ -519,7 +528,7 @@ class _productRegistrationPageState extends State<productRegistrationPage> {
                             String errorMessage = values["Error"];
                             errorMessage = utf8convert(errorMessage);
                             print(errorMessage);
-                            final snackBar = SnackBar(content: Text(errorMessage, textAlign: TextAlign.center), backgroundColor: Colors.red,);
+                          final snackBar = SnackBar(content: Text(errorMessage, textAlign: TextAlign.center), backgroundColor: Colors.red,);
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
                       }

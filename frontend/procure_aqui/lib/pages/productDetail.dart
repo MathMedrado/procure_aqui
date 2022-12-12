@@ -137,6 +137,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       Response response = await http.put(url);
       print(response.statusCode);
       print(response.body);
+      if(response.statusCode == 201){
+        final snackBar = SnackBar(content: Text("Produto adicionado para a lista de compras!", textAlign: TextAlign.center), backgroundColor: Colors.green,);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
     }
   }
 
@@ -155,6 +159,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     });
     print(response.statusCode);
     print(response.body);
+    final snackBar = SnackBar(content: Text("Produto adicionado para a lista de compras!", textAlign: TextAlign.center), backgroundColor: Colors.green,);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
   }
 

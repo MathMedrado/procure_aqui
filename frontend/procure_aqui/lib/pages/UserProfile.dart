@@ -139,7 +139,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
           else{
             final error = snapshot.error;
             print(error);
-            return  CircularProgressIndicator();
+            return  Center(child: CircularProgressIndicator());
           }
         }
     );

@@ -164,7 +164,10 @@ class _productHomePageState extends State<productHomePage> {
       Response response = await http.put(url);
       print(response.statusCode);
       print(response.body);
-
+      if(response.statusCode == 201){
+        final snackBar = SnackBar(content: Text("Produto adicionado para a lista de compras!", textAlign: TextAlign.center), backgroundColor: Colors.green,);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
     }
   }
   callFunctionPost(int productId) async {
@@ -182,6 +185,8 @@ class _productHomePageState extends State<productHomePage> {
     });
     print(response.statusCode);
     print(response.body);
+    final snackBar = SnackBar(content: Text("Produto adicionado para a lista de compras!", textAlign: TextAlign.center), backgroundColor: Colors.green,);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
   }
 
@@ -237,7 +242,7 @@ class _productHomePageState extends State<productHomePage> {
           else {
             final error = snapshot.error;
             print(error);
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
         }
     );
