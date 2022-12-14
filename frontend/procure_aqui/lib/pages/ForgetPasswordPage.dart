@@ -94,7 +94,12 @@ class _ForgetPasswordState extends State<ForgetPasswordPage> {
                       "email" : forgetEmailController.text
                     });
                     print(response.body);
-                    Navigator.of(context).pushNamed('/RestorePassword');
+                    if(response.statusCode == 502){
+                      final snackBar = SnackBar(content: Text("Ocorreu um erro de servidor, tente novamente mais tarde!", textAlign: TextAlign.center), backgroundColor: Colors.red,);
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }else{
+                      Navigator.of(context).pushNamed('/RestorePassword');
+                    }
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(98, 0, 238, 30.0)),
