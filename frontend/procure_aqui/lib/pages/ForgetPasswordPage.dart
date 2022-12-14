@@ -30,10 +30,13 @@ class _ForgetPasswordState extends State<ForgetPasswordPage> {
               ),
               margin: EdgeInsets.fromLTRB(50, 50, 50, 70),
               padding: EdgeInsets.all(20),
-              width: 330,
-              height: 171,
-              child: Image.asset(
-                'lib/assets/images/logo2.png',   
+              height: 200,
+              width: 400,
+              child: Container(
+                child: Image.asset(
+                  // 'lib/assets/images/logo2.png',
+                  'lib/assets/images/novologo.png',
+                ),
               ),
             ),
             Container(

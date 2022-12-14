@@ -32,10 +32,11 @@ class _RestorePasswordState extends State<RestorePasswordPage> {
               ),
               margin: EdgeInsets.fromLTRB(50, 50, 50, 70),
               padding: EdgeInsets.all(20),
-              width: 330,
-              height: 171,
+              width: 400,
+              height: 200,
               child: Image.asset(
-                'lib/assets/images/logo2.png',   
+                // 'lib/assets/images/logo2.png',
+                'lib/assets/images/novologo.png',   
               ),
             ),
             Form(
